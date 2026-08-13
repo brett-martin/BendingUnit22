@@ -1,0 +1,7 @@
+id,name,description
+0,BLINK,One normal blink
+1,DOUBLE_BLINK,Two quick blinks
+2,WINK_LEFT,Left eye wink relative to observer
+3,WINK_RIGHT,Right eye wink relative to observer
+4,LOOK_LEFT,Look left and return to Normal
+5,LOOK_RIGHT,Look right and return to Normal

@@ -1,0 +1,9 @@
+id,name,description
+0,NORMAL,Normal open Bender eyes
+1,CLOSED,Both eyes closed
+2,LOOK_LEFT,Pupils looking left relative to observer
+3,LOOK_RIGHT,Pupils looking right relative to observer
+4,ANGRY_1,Partially angry eyelids
+5,ANGRY_2,Fully angry eyelids
+6,BORED,Bored upper eyelids
+7,WORRIED,Worried lower eyelids
