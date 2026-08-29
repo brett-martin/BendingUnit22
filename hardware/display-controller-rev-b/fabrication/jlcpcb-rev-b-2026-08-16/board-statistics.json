@@ -1,0 +1,154 @@
+{
+  "metadata": {
+    "date": "2026-08-16T13:28:27",
+    "generator": "KiCad 10.0.5",
+    "project": "BU-22-Display-Controller-Rev-B",
+    "board_name": "BU-22-Display-Controller-Rev-B"
+  },
+  "board": {
+    "has_outline": true,
+    "width": "125.0000 mm",
+    "height": "55.0000 mm",
+    "area": "6866.952 mm²",
+    "front_component_density": "27.99",
+    "back_component_density": "5.03",
+    "front_copper_area": "487.309 mm²",
+    "back_copper_area": "255.858 mm²",
+    "min_track_clearance": "0.2016 mm",
+    "min_track_width": "0.2000 mm",
+    "min_drill_diameter": "0.3000 mm",
+    "board_thickness": "1.6000 mm",
+    "front_footprint_area": "1922.112 mm²",
+    "back_footprint_area": "345.182 mm²",
+    "front_footprint_density": "27.99",
+    "back_footprint_density": "5.03"
+  },
+  "pads": {
+    "through_hole": 81,
+    "smd": 100,
+    "connector": 0,
+    "npth": 4,
+    "castellated": 0,
+    "press_fit": 0
+  },
+  "vias": {
+    "through": 31,
+    "blind": 0,
+    "buried": 0,
+    "micro": 0
+  },
+  "components": {
+    "tht": {
+      "front": 19,
+      "back": 0,
+      "total": 19
+    },
+    "smd": {
+      "front": 28,
+      "back": 0,
+      "total": 28
+    },
+    "unspecified": {
+      "front": 4,
+      "back": 0,
+      "total": 4
+    },
+    "total": {
+      "front": 51,
+      "back": 0,
+      "total": 51
+    }
+  },
+  "drill_holes": [
+    {
+      "count": 32,
+      "shape": "Round",
+      "x_size": "1.0000 mm",
+      "y_size": "1.0000 mm",
+      "plated": true,
+      "source": "Pad",
+      "start_layer": "F.Cu",
+      "stop_layer": "B.Cu"
+    },
+    {
+      "count": 31,
+      "shape": "Round",
+      "x_size": "0.3000 mm",
+      "y_size": "0.3000 mm",
+      "plated": true,
+      "source": "Via",
+      "start_layer": "F.Cu",
+      "stop_layer": "B.Cu"
+    },
+    {
+      "count": 24,
+      "shape": "Round",
+      "x_size": "0.9500 mm",
+      "y_size": "0.9500 mm",
+      "plated": true,
+      "source": "Pad",
+      "start_layer": "F.Cu",
+      "stop_layer": "B.Cu"
+    },
+    {
+      "count": 9,
+      "shape": "Round",
+      "x_size": "0.7500 mm",
+      "y_size": "0.7500 mm",
+      "plated": true,
+      "source": "Pad",
+      "start_layer": "F.Cu",
+      "stop_layer": "B.Cu"
+    },
+    {
+      "count": 8,
+      "shape": "Round",
+      "x_size": "1.1000 mm",
+      "y_size": "1.1000 mm",
+      "plated": true,
+      "source": "Pad",
+      "start_layer": "F.Cu",
+      "stop_layer": "B.Cu"
+    },
+    {
+      "count": 4,
+      "shape": "Round",
+      "x_size": "0.9000 mm",
+      "y_size": "0.9000 mm",
+      "plated": true,
+      "source": "Pad",
+      "start_layer": "F.Cu",
+      "stop_layer": "B.Cu"
+    },
+    {
+      "count": 4,
+      "shape": "Round",
+      "x_size": "3.2000 mm",
+      "y_size": "3.2000 mm",
+      "plated": false,
+      "source": "Pad",
+      "start_layer": "F.Cu",
+      "stop_layer": "B.Cu"
+    },
+    {
+      "count": 2,
+      "shape": "Round",
+      "x_size": "0.8000 mm",
+      "y_size": "0.8000 mm",
+      "plated": true,
+      "source": "Pad",
+      "start_layer": "F.Cu",
+      "stop_layer": "B.Cu"
+    },
+    {
+      "count": 2,
+      "shape": "Round",
+      "x_size": "1.3000 mm",
+      "y_size": "1.3000 mm",
+      "plated": true,
+      "source": "Pad",
+      "start_layer": "F.Cu",
+      "stop_layer": "B.Cu"
+    }
+  ]
+}

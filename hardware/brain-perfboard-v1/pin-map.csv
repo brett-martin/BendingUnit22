@@ -1,0 +1,22 @@
+Function,Net,Feather label,RP2040 GPIO,Direction,Notes
+I2C data,SDA,SDA,GP2,Bidirectional,Feather Qwiic bus
+I2C clock,SCL,SCL,GP3,Output,Feather Qwiic bus
+Audio transmit,AUDIO_RX,TX,GP0,Output,Connect to Audio FX RX
+Audio receive,AUDIO_TX,RX,GP1,Input,Connect to Audio FX TX
+Audio activity,AUDIO_ACT,D24,GP24,Input,Audio FX ACT is active low
+Audio reset,AUDIO_RST,D25,GP25,Open-drain style output,Drive low then release
+RTC heartbeat,HEARTBEAT,D13,GP13,Input,DS3231 SQW open drain; optional 10k pull-up
+Motion/sensor,SENSOR,A3,GP29,Input/ADC,Sensor dependent
+Antenna red,ANT_R,A0,GP26,PWM output,Use external current limiting/driver as needed
+Antenna green,ANT_G,A1,GP27,PWM output,Use external current limiting/driver as needed
+Antenna blue/spare,ANT_B,A2,GP28,PWM output,May remain spare
+Button 1,BTN1,D4,GP6,Input pull-up,Shared button ground
+Button 2,BTN2,D5,GP7,Input pull-up,Shared button ground
+Button 3,BTN3,D6,GP8,Input pull-up,Shared button ground
+Button 4,BTN4,D9,GP9,Input pull-up,Shared button ground
+Button 5,BTN5,D10,GP10,Input pull-up,Shared button ground
+Button 6,BTN6,D11,GP11,Input pull-up,Shared button ground
+Button 7,BTN7,D12,GP12,Input pull-up,Shared button ground
+Spare SPI clock,SPARE_SCK,SCK,GP18,Bidirectional,Broken out
+Spare SPI data out,SPARE_MO,MO,GP19,Bidirectional,Broken out
+Spare SPI data in,SPARE_MI,MI,GP20,Bidirectional,Broken out

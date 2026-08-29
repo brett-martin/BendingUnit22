@@ -1,0 +1,27 @@
+Reference,Quantity,Value,Package,Assembly note
+U1-U3,3,SN74AHCT125N,DIP-14,Use sockets
+MCU1,1,Adafruit KB2040,2x 1x13 socket headers,Socketed with USB exposed at edge
+J1-J6,6,JST-XH 4-pin 2.50mm,B4B-XH-A or S4B-XH-A,Vertical or right-angle
+J7,1,5V input,2-pin 5.08mm screw terminal,Measure purchased part before order
+J8-J9,2,Qwiic JST-SH 4-pin,SMT horizontal,Only intentional SMT parts
+J10,1,I2C test,1x4 2.54mm pin header,All four Brain cable conductors exposed
+J11,1,Service IO JST-PH,4-pin 2.00mm vertical,GND heartbeat TEST and RESET
+JP1,1,Four-state address,2x2 2.54mm header,Two removable shunts select four addresses
+SW1,1,TEST,6mm tactile switch,Through-hole
+SW2,1,RESET,6mm tactile switch,Through-hole
+Q1,1,2N3904 E-B-C,TO-92 inline,Verify purchased transistor lead order before soldering
+R1-R12,12,100 ohm,Axial DIN0204,Output source termination
+R13,1,10k,Axial DIN0204,OE_N 5V pull-up
+R14,1,10k,Axial DIN0204,OE transistor base resistor
+R15,1,100k,Axial DIN0204,OE GPIO pull-down
+R16,1,10k,Axial DIN0204,Address ADC pull-up to local 3V3
+R17,1,10k,Axial DIN0204,Address shunt A0 resistor
+R18,1,20k,Axial DIN0204,Address shunt A1 resistor
+R19,1,1k,Axial DIN0204,Green power LED
+R20,1,2.2k,Axial DIN0204,Red heartbeat LED low-current drive
+C1-C3,3,100nF,Leaded ceramic 2.50mm,One per AHCT125
+C4,1,10uF 10V or greater,Radial electrolytic,Controller local bulk
+C5,1,470uF 10V or greater,Radial electrolytic,Display power input bulk
+D1,1,Green LED,3mm through-hole,Power status
+D2,1,Red LED,3mm through-hole,Heartbeat status driven directly at low current
+H1-H4,4,M3 mounting hole,3.2mm plated-free hole,5mm from corners

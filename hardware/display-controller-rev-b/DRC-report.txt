@@ -1,0 +1,71 @@
+** Drc report for BU-22-Display-Controller-Rev-B.kicad_pcb **
+** Created on 2026-08-16T13:03:59 **
+** Report includes: Errors, Warnings, Exclusions **
+
+** Found 15 DRC violations **
+[courtyards_overlap]: Courtyards overlap
+    Rule: board setup constraints courtyard; error
+    @(108.0000 mm, 36.0000 mm): Footprint D1
+    @(112.0000 mm, 39.0000 mm): Footprint R19
+[courtyards_overlap]: Courtyards overlap
+    Rule: board setup constraints courtyard; error
+    @(119.0000 mm, 20.0000 mm): Footprint J7
+    @(113.5000 mm, 14.0000 mm): Footprint R12
+[text_height]: Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6500 mm)
+    Rule: board setup constraints silk text height; warning
+    @(36.5000 mm, 48.0000 mm): PCB text 'EYES' on F.Silkscreen
+[text_height]: Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6500 mm)
+    Rule: board setup constraints silk text height; warning
+    @(51.5000 mm, 48.0000 mm): PCB text 'MOUTH' on F.Silkscreen
+[text_height]: Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)
+    Rule: board setup constraints silk text height; warning
+    @(15.0000 mm, 41.0000 mm): PCB text 'I2C' on F.Silkscreen
+[text_height]: Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)
+    Rule: board setup constraints silk text height; warning
+    @(22.5000 mm, 16.8000 mm): PCB text 'U1' on F.Silkscreen
+[text_height]: Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)
+    Rule: board setup constraints silk text height; warning
+    @(38.0000 mm, 41.0000 mm): PCB text 'HB' on F.Silkscreen
+[text_height]: Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)
+    Rule: board setup constraints silk text height; warning
+    @(60.5000 mm, 16.8000 mm): PCB text 'U2' on F.Silkscreen
+[text_height]: Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)
+    Rule: board setup constraints silk text height; warning
+    @(98.5000 mm, 16.8000 mm): PCB text 'U3' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(38.2650 mm, 41.2271 mm): Segment of R16 on F.Silkscreen
+    @(38.0000 mm, 41.0000 mm): PCB text 'HB' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(113.6800 mm, 22.6600 mm): Segment of J7 on F.Silkscreen
+    @(111.5000 mm, 22.7000 mm): PCB text '- GND' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(123.7200 mm, 22.6600 mm): Segment of J7 on F.Silkscreen
+    @(111.5000 mm, 22.7000 mm): PCB text '- GND' on F.Silkscreen
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(38.0000 mm, 41.0000 mm): PCB text 'HB' on F.Silkscreen
+    @(39.0000 mm, 40.0875 mm): Pad 2 [ADDRESS] of R16 on F.Cu
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(113.6800 mm, 22.6600 mm): Segment of J7 on F.Silkscreen
+    @(113.5000 mm, 14.9125 mm): Pad 1 [CH6_CLOCK_5V] of R12 on F.Cu
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(113.6800 mm, 22.6600 mm): Segment of J7 on F.Silkscreen
+    @(113.5000 mm, 13.0875 mm): Pad 2 [CH6_CLOCK_OUT] of R12 on F.Cu
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** Ignored checks **
+    - Footprint has no courtyard defined
+    - Track endpoint not centered on via
+    - Tuning profile track geometries
+    - Footprint doesn't match symbol's footprint filters
+    - Footprint component type doesn't match footprint pads
+
+** End of Report **

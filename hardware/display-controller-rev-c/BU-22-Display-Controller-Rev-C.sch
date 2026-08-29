@@ -1,0 +1,800 @@
+EESchema Schematic File Version 4
+LIBS:power
+LIBS:device
+LIBS:74xx
+LIBS:Connector_Generic
+EELAYER 29 0
+EELAYER END
+$Descr A3 16535 11693
+Sheet 1 1
+Title "BU-22 Display Controller Rev C"
+Date "2026-08-17"
+Rev "C"
+Comp "Bending Unit 22"
+Comment1 "SYSTEM_5V display rail; diode-isolated LOGIC_5V for KB2040 and AHCT"
+Comment2 "Channel pin order: GND, CLOCK, DATA, SYSTEM_5V"
+$EndDescr
+$Comp
+L Connector_Generic:Conn_01x02 J7
+U 1 1 61000001
+P 1200 1000
+F 0 "J7" H 1400 1100 50  0000 C CNN
+F 1 "5V INPUT" H 1500 900 50  0000 C CNN
+	1    1200 1000
+	1 0 0 -1
+$EndComp
+Text GLabel 1000 1000 2    40   BiDi ~ 0
+SYSTEM_5V
+Text GLabel 1000 1100 2    40   BiDi ~ 0
+GND
+$Comp
+L Connector_Generic:Conn_01x02 D3
+U 1 1 61000002
+P 2600 900
+F 0 "D3" H 2800 1000 50  0000 C CNN
+F 1 "1N5817" H 2900 800 50  0000 C CNN
+	1    2600 900
+	1 0 0 -1
+$EndComp
+Text GLabel 2400 900 2    40   BiDi ~ 0
+SYSTEM_5V
+Text GLabel 2400 1000 2    40   BiDi ~ 0
+LOGIC_5V
+$Comp
+L Connector_Generic:Conn_01x02 C5
+U 1 1 61000003
+P 2600 1200
+F 0 "C5" H 2800 1300 50  0000 C CNN
+F 1 "470uF" H 2900 1100 50  0000 C CNN
+	1    2600 1200
+	1 0 0 -1
+$EndComp
+Text GLabel 2400 1200 2    40   BiDi ~ 0
+SYSTEM_5V
+Text GLabel 2400 1300 2    40   BiDi ~ 0
+GND
+$Comp
+L Connector_Generic:Conn_01x02 C4
+U 1 1 61000004
+P 4100 1200
+F 0 "C4" H 4300 1300 50  0000 C CNN
+F 1 "10uF" H 4400 1100 50  0000 C CNN
+	1    4100 1200
+	1 0 0 -1
+$EndComp
+Text GLabel 3900 1200 2    40   BiDi ~ 0
+LOGIC_5V
+Text GLabel 3900 1300 2    40   BiDi ~ 0
+GND
+$Comp
+L Connector_Generic:Conn_01x02 R19
+U 1 1 61000005
+P 2600 1500
+F 0 "R19" H 2800 1600 50  0000 C CNN
+F 1 "1k" H 2900 1400 50  0000 C CNN
+	1    2600 1500
+	1 0 0 -1
+$EndComp
+Text GLabel 2400 1500 2    40   BiDi ~ 0
+SYSTEM_5V
+Text GLabel 2400 1600 2    40   BiDi ~ 0
+PWR_LED_A
+$Comp
+L Connector_Generic:Conn_01x02 D1
+U 1 1 61000006
+P 4100 1500
+F 0 "D1" H 4300 1600 50  0000 C CNN
+F 1 "GREEN POWER" H 4400 1400 50  0000 C CNN
+	1    4100 1500
+	1 0 0 -1
+$EndComp
+Text GLabel 3900 1500 2    40   BiDi ~ 0
+PWR_LED_A
+Text GLabel 3900 1600 2    40   BiDi ~ 0
+GND
+$Comp
+L Connector_Generic:Conn_01x13 MCU1A
+U 1 1 61000007
+P 6100 1500
+F 0 "MCU1A" H 6300 1600 50  0000 C CNN
+F 1 "ADAFRUIT KB2040 ROW A" H 6400 1400 50  0000 C CNN
+	1    6100 1500
+	1 0 0 -1
+$EndComp
+Text GLabel 5900 1500 2    40   BiDi ~ 0
+HEARTBEAT
+Text GLabel 5900 1600 2    40   BiDi ~ 0
+ENABLE_GPIO
+Text GLabel 5900 1700 2    40   BiDi ~ 0
+TEST
+Text GLabel 5900 1800 2    40   BiDi ~ 0
+CH5_DATA_3V3
+Text GLabel 5900 1900 2    40   BiDi ~ 0
+CH5_CLOCK_3V3
+Text GLabel 5900 2000 2    40   BiDi ~ 0
+CH6_DATA_3V3
+Text GLabel 5900 2100 2    40   BiDi ~ 0
+CH6_CLOCK_3V3
+Text GLabel 5900 2200 2    40   BiDi ~ 0
+ADDRESS
+Text GLabel 5900 2300 2    40   BiDi ~ 0
+3V3_LOCAL
+Text GLabel 5900 2400 2    40   BiDi ~ 0
+RESET
+Text GLabel 5900 2500 2    40   BiDi ~ 0
+GND
+Text GLabel 5900 2600 2    40   BiDi ~ 0
+LOGIC_5V
+NoConn ~ 5900 2700
+$Comp
+L Connector_Generic:Conn_01x13 MCU1B
+U 1 1 61000008
+P 8700 1500
+F 0 "MCU1B" H 8900 1600 50  0000 C CNN
+F 1 "ADAFRUIT KB2040 ROW B" H 9000 1400 50  0000 C CNN
+	1    8700 1500
+	1 0 0 -1
+$EndComp
+NoConn ~ 8500 1500
+Text GLabel 8500 1600 2    40   BiDi ~ 0
+SDA
+Text GLabel 8500 1700 2    40   BiDi ~ 0
+SCL
+Text GLabel 8500 1800 2    40   BiDi ~ 0
+GND
+Text GLabel 8500 1900 2    40   BiDi ~ 0
+GND
+Text GLabel 8500 2000 2    40   BiDi ~ 0
+CH1_DATA_3V3
+Text GLabel 8500 2100 2    40   BiDi ~ 0
+CH1_CLOCK_3V3
+Text GLabel 8500 2200 2    40   BiDi ~ 0
+CH2_DATA_3V3
+Text GLabel 8500 2300 2    40   BiDi ~ 0
+CH2_CLOCK_3V3
+Text GLabel 8500 2400 2    40   BiDi ~ 0
+CH3_DATA_3V3
+Text GLabel 8500 2500 2    40   BiDi ~ 0
+CH3_CLOCK_3V3
+Text GLabel 8500 2600 2    40   BiDi ~ 0
+CH4_DATA_3V3
+Text GLabel 8500 2700 2    40   BiDi ~ 0
+CH4_CLOCK_3V3
+$Comp
+L Connector_Generic:Conn_01x14 U1
+U 1 1 61000009
+P 2300 3500
+F 0 "U1" H 2500 3600 50  0000 C CNN
+F 1 "74AHCT125 SOIC-14" H 2600 3400 50  0000 C CNN
+	1    2300 3500
+	1 0 0 -1
+$EndComp
+Text GLabel 2100 3500 2    40   BiDi ~ 0
+OE_N
+Text GLabel 2100 3600 2    40   BiDi ~ 0
+CH1_DATA_3V3
+Text GLabel 2100 3700 2    40   BiDi ~ 0
+CH1_DATA_5V
+Text GLabel 2100 3800 2    40   BiDi ~ 0
+OE_N
+Text GLabel 2100 3900 2    40   BiDi ~ 0
+CH1_CLOCK_3V3
+Text GLabel 2100 4000 2    40   BiDi ~ 0
+CH1_CLOCK_5V
+Text GLabel 2100 4100 2    40   BiDi ~ 0
+GND
+Text GLabel 2100 4200 2    40   BiDi ~ 0
+CH2_CLOCK_5V
+Text GLabel 2100 4300 2    40   BiDi ~ 0
+CH2_CLOCK_3V3
+Text GLabel 2100 4400 2    40   BiDi ~ 0
+OE_N
+Text GLabel 2100 4500 2    40   BiDi ~ 0
+CH2_DATA_5V
+Text GLabel 2100 4600 2    40   BiDi ~ 0
+CH2_DATA_3V3
+Text GLabel 2100 4700 2    40   BiDi ~ 0
+OE_N
+Text GLabel 2100 4800 2    40   BiDi ~ 0
+LOGIC_5V
+$Comp
+L Connector_Generic:Conn_01x02 C1
+U 1 1 6100000A
+P 3800 3500
+F 0 "C1" H 4000 3600 50  0000 C CNN
+F 1 "100nF" H 4100 3400 50  0000 C CNN
+	1    3800 3500
+	1 0 0 -1
+$EndComp
+Text GLabel 3600 3500 2    40   BiDi ~ 0
+LOGIC_5V
+Text GLabel 3600 3600 2    40   BiDi ~ 0
+GND
+$Comp
+L Connector_Generic:Conn_01x14 U2
+U 1 1 6100000B
+P 6600 3500
+F 0 "U2" H 6800 3600 50  0000 C CNN
+F 1 "74AHCT125 SOIC-14" H 6900 3400 50  0000 C CNN
+	1    6600 3500
+	1 0 0 -1
+$EndComp
+Text GLabel 6400 3500 2    40   BiDi ~ 0
+OE_N
+Text GLabel 6400 3600 2    40   BiDi ~ 0
+CH3_DATA_3V3
+Text GLabel 6400 3700 2    40   BiDi ~ 0
+CH3_DATA_5V
+Text GLabel 6400 3800 2    40   BiDi ~ 0
+OE_N
+Text GLabel 6400 3900 2    40   BiDi ~ 0
+CH3_CLOCK_3V3
+Text GLabel 6400 4000 2    40   BiDi ~ 0
+CH3_CLOCK_5V
+Text GLabel 6400 4100 2    40   BiDi ~ 0
+GND
+Text GLabel 6400 4200 2    40   BiDi ~ 0
+CH4_CLOCK_5V
+Text GLabel 6400 4300 2    40   BiDi ~ 0
+CH4_CLOCK_3V3
+Text GLabel 6400 4400 2    40   BiDi ~ 0
+OE_N
+Text GLabel 6400 4500 2    40   BiDi ~ 0
+CH4_DATA_5V
+Text GLabel 6400 4600 2    40   BiDi ~ 0
+CH4_DATA_3V3
+Text GLabel 6400 4700 2    40   BiDi ~ 0
+OE_N
+Text GLabel 6400 4800 2    40   BiDi ~ 0
+LOGIC_5V
+$Comp
+L Connector_Generic:Conn_01x02 C2
+U 1 1 6100000C
+P 8100 3500
+F 0 "C2" H 8300 3600 50  0000 C CNN
+F 1 "100nF" H 8400 3400 50  0000 C CNN
+	1    8100 3500
+	1 0 0 -1
+$EndComp
+Text GLabel 7900 3500 2    40   BiDi ~ 0
+LOGIC_5V
+Text GLabel 7900 3600 2    40   BiDi ~ 0
+GND
+$Comp
+L Connector_Generic:Conn_01x14 U3
+U 1 1 6100000D
+P 10900 3500
+F 0 "U3" H 11100 3600 50  0000 C CNN
+F 1 "74AHCT125 SOIC-14" H 11200 3400 50  0000 C CNN
+	1    10900 3500
+	1 0 0 -1
+$EndComp
+Text GLabel 10700 3500 2    40   BiDi ~ 0
+OE_N
+Text GLabel 10700 3600 2    40   BiDi ~ 0
+CH5_DATA_3V3
+Text GLabel 10700 3700 2    40   BiDi ~ 0
+CH5_DATA_5V
+Text GLabel 10700 3800 2    40   BiDi ~ 0
+OE_N
+Text GLabel 10700 3900 2    40   BiDi ~ 0
+CH5_CLOCK_3V3
+Text GLabel 10700 4000 2    40   BiDi ~ 0
+CH5_CLOCK_5V
+Text GLabel 10700 4100 2    40   BiDi ~ 0
+GND
+Text GLabel 10700 4200 2    40   BiDi ~ 0
+CH6_CLOCK_5V
+Text GLabel 10700 4300 2    40   BiDi ~ 0
+CH6_CLOCK_3V3
+Text GLabel 10700 4400 2    40   BiDi ~ 0
+OE_N
+Text GLabel 10700 4500 2    40   BiDi ~ 0
+CH6_DATA_5V
+Text GLabel 10700 4600 2    40   BiDi ~ 0
+CH6_DATA_3V3
+Text GLabel 10700 4700 2    40   BiDi ~ 0
+OE_N
+Text GLabel 10700 4800 2    40   BiDi ~ 0
+LOGIC_5V
+$Comp
+L Connector_Generic:Conn_01x02 C3
+U 1 1 6100000E
+P 12400 3500
+F 0 "C3" H 12600 3600 50  0000 C CNN
+F 1 "100nF" H 12700 3400 50  0000 C CNN
+	1    12400 3500
+	1 0 0 -1
+$EndComp
+Text GLabel 12200 3500 2    40   BiDi ~ 0
+LOGIC_5V
+Text GLabel 12200 3600 2    40   BiDi ~ 0
+GND
+$Comp
+L Connector_Generic:Conn_01x02 R1
+U 1 1 6100000F
+P 1300 5700
+F 0 "R1" H 1500 5800 50  0000 C CNN
+F 1 "100R" H 1600 5600 50  0000 C CNN
+	1    1300 5700
+	1 0 0 -1
+$EndComp
+Text GLabel 1100 5700 2    40   BiDi ~ 0
+CH1_DATA_5V
+Text GLabel 1100 5800 2    40   BiDi ~ 0
+CH1_DATA_OUT
+$Comp
+L Connector_Generic:Conn_01x02 R2
+U 1 1 61000010
+P 1300 6000
+F 0 "R2" H 1500 6100 50  0000 C CNN
+F 1 "100R" H 1600 5900 50  0000 C CNN
+	1    1300 6000
+	1 0 0 -1
+$EndComp
+Text GLabel 1100 6000 2    40   BiDi ~ 0
+CH1_CLOCK_5V
+Text GLabel 1100 6100 2    40   BiDi ~ 0
+CH1_CLOCK_OUT
+$Comp
+L Connector_Generic:Conn_01x04 J1
+U 1 1 61000011
+P 1300 6600
+F 0 "J1" H 1500 6700 50  0000 C CNN
+F 1 "CH1 G-C-D-5V" H 1600 6500 50  0000 C CNN
+	1    1300 6600
+	1 0 0 -1
+$EndComp
+Text GLabel 1100 6600 2    40   BiDi ~ 0
+GND
+Text GLabel 1100 6700 2    40   BiDi ~ 0
+CH1_CLOCK_OUT
+Text GLabel 1100 6800 2    40   BiDi ~ 0
+CH1_DATA_OUT
+Text GLabel 1100 6900 2    40   BiDi ~ 0
+SYSTEM_5V
+$Comp
+L Connector_Generic:Conn_01x02 R3
+U 1 1 61000012
+P 3700 5700
+F 0 "R3" H 3900 5800 50  0000 C CNN
+F 1 "100R" H 4000 5600 50  0000 C CNN
+	1    3700 5700
+	1 0 0 -1
+$EndComp
+Text GLabel 3500 5700 2    40   BiDi ~ 0
+CH2_DATA_5V
+Text GLabel 3500 5800 2    40   BiDi ~ 0
+CH2_DATA_OUT
+$Comp
+L Connector_Generic:Conn_01x02 R4
+U 1 1 61000013
+P 3700 6000
+F 0 "R4" H 3900 6100 50  0000 C CNN
+F 1 "100R" H 4000 5900 50  0000 C CNN
+	1    3700 6000
+	1 0 0 -1
+$EndComp
+Text GLabel 3500 6000 2    40   BiDi ~ 0
+CH2_CLOCK_5V
+Text GLabel 3500 6100 2    40   BiDi ~ 0
+CH2_CLOCK_OUT
+$Comp
+L Connector_Generic:Conn_01x04 J2
+U 1 1 61000014
+P 3700 6600
+F 0 "J2" H 3900 6700 50  0000 C CNN
+F 1 "CH2 G-C-D-5V" H 4000 6500 50  0000 C CNN
+	1    3700 6600
+	1 0 0 -1
+$EndComp
+Text GLabel 3500 6600 2    40   BiDi ~ 0
+GND
+Text GLabel 3500 6700 2    40   BiDi ~ 0
+CH2_CLOCK_OUT
+Text GLabel 3500 6800 2    40   BiDi ~ 0
+CH2_DATA_OUT
+Text GLabel 3500 6900 2    40   BiDi ~ 0
+SYSTEM_5V
+$Comp
+L Connector_Generic:Conn_01x02 R5
+U 1 1 61000015
+P 6100 5700
+F 0 "R5" H 6300 5800 50  0000 C CNN
+F 1 "100R" H 6400 5600 50  0000 C CNN
+	1    6100 5700
+	1 0 0 -1
+$EndComp
+Text GLabel 5900 5700 2    40   BiDi ~ 0
+CH3_DATA_5V
+Text GLabel 5900 5800 2    40   BiDi ~ 0
+CH3_DATA_OUT
+$Comp
+L Connector_Generic:Conn_01x02 R6
+U 1 1 61000016
+P 6100 6000
+F 0 "R6" H 6300 6100 50  0000 C CNN
+F 1 "100R" H 6400 5900 50  0000 C CNN
+	1    6100 6000
+	1 0 0 -1
+$EndComp
+Text GLabel 5900 6000 2    40   BiDi ~ 0
+CH3_CLOCK_5V
+Text GLabel 5900 6100 2    40   BiDi ~ 0
+CH3_CLOCK_OUT
+$Comp
+L Connector_Generic:Conn_01x04 J3
+U 1 1 61000017
+P 6100 6600
+F 0 "J3" H 6300 6700 50  0000 C CNN
+F 1 "CH3 G-C-D-5V" H 6400 6500 50  0000 C CNN
+	1    6100 6600
+	1 0 0 -1
+$EndComp
+Text GLabel 5900 6600 2    40   BiDi ~ 0
+GND
+Text GLabel 5900 6700 2    40   BiDi ~ 0
+CH3_CLOCK_OUT
+Text GLabel 5900 6800 2    40   BiDi ~ 0
+CH3_DATA_OUT
+Text GLabel 5900 6900 2    40   BiDi ~ 0
+SYSTEM_5V
+$Comp
+L Connector_Generic:Conn_01x02 R7
+U 1 1 61000018
+P 8500 5700
+F 0 "R7" H 8700 5800 50  0000 C CNN
+F 1 "100R" H 8800 5600 50  0000 C CNN
+	1    8500 5700
+	1 0 0 -1
+$EndComp
+Text GLabel 8300 5700 2    40   BiDi ~ 0
+CH4_DATA_5V
+Text GLabel 8300 5800 2    40   BiDi ~ 0
+CH4_DATA_OUT
+$Comp
+L Connector_Generic:Conn_01x02 R8
+U 1 1 61000019
+P 8500 6000
+F 0 "R8" H 8700 6100 50  0000 C CNN
+F 1 "100R" H 8800 5900 50  0000 C CNN
+	1    8500 6000
+	1 0 0 -1
+$EndComp
+Text GLabel 8300 6000 2    40   BiDi ~ 0
+CH4_CLOCK_5V
+Text GLabel 8300 6100 2    40   BiDi ~ 0
+CH4_CLOCK_OUT
+$Comp
+L Connector_Generic:Conn_01x04 J4
+U 1 1 6100001A
+P 8500 6600
+F 0 "J4" H 8700 6700 50  0000 C CNN
+F 1 "CH4 G-C-D-5V" H 8800 6500 50  0000 C CNN
+	1    8500 6600
+	1 0 0 -1
+$EndComp
+Text GLabel 8300 6600 2    40   BiDi ~ 0
+GND
+Text GLabel 8300 6700 2    40   BiDi ~ 0
+CH4_CLOCK_OUT
+Text GLabel 8300 6800 2    40   BiDi ~ 0
+CH4_DATA_OUT
+Text GLabel 8300 6900 2    40   BiDi ~ 0
+SYSTEM_5V
+$Comp
+L Connector_Generic:Conn_01x02 R9
+U 1 1 6100001B
+P 10900 5700
+F 0 "R9" H 11100 5800 50  0000 C CNN
+F 1 "100R" H 11200 5600 50  0000 C CNN
+	1    10900 5700
+	1 0 0 -1
+$EndComp
+Text GLabel 10700 5700 2    40   BiDi ~ 0
+CH5_DATA_5V
+Text GLabel 10700 5800 2    40   BiDi ~ 0
+CH5_DATA_OUT
+$Comp
+L Connector_Generic:Conn_01x02 R10
+U 1 1 6100001C
+P 10900 6000
+F 0 "R10" H 11100 6100 50  0000 C CNN
+F 1 "100R" H 11200 5900 50  0000 C CNN
+	1    10900 6000
+	1 0 0 -1
+$EndComp
+Text GLabel 10700 6000 2    40   BiDi ~ 0
+CH5_CLOCK_5V
+Text GLabel 10700 6100 2    40   BiDi ~ 0
+CH5_CLOCK_OUT
+$Comp
+L Connector_Generic:Conn_01x04 J5
+U 1 1 6100001D
+P 10900 6600
+F 0 "J5" H 11100 6700 50  0000 C CNN
+F 1 "CH5 G-C-D-5V" H 11200 6500 50  0000 C CNN
+	1    10900 6600
+	1 0 0 -1
+$EndComp
+Text GLabel 10700 6600 2    40   BiDi ~ 0
+GND
+Text GLabel 10700 6700 2    40   BiDi ~ 0
+CH5_CLOCK_OUT
+Text GLabel 10700 6800 2    40   BiDi ~ 0
+CH5_DATA_OUT
+Text GLabel 10700 6900 2    40   BiDi ~ 0
+SYSTEM_5V
+$Comp
+L Connector_Generic:Conn_01x02 R11
+U 1 1 6100001E
+P 13300 5700
+F 0 "R11" H 13500 5800 50  0000 C CNN
+F 1 "100R" H 13600 5600 50  0000 C CNN
+	1    13300 5700
+	1 0 0 -1
+$EndComp
+Text GLabel 13100 5700 2    40   BiDi ~ 0
+CH6_DATA_5V
+Text GLabel 13100 5800 2    40   BiDi ~ 0
+CH6_DATA_OUT
+$Comp
+L Connector_Generic:Conn_01x02 R12
+U 1 1 6100001F
+P 13300 6000
+F 0 "R12" H 13500 6100 50  0000 C CNN
+F 1 "100R" H 13600 5900 50  0000 C CNN
+	1    13300 6000
+	1 0 0 -1
+$EndComp
+Text GLabel 13100 6000 2    40   BiDi ~ 0
+CH6_CLOCK_5V
+Text GLabel 13100 6100 2    40   BiDi ~ 0
+CH6_CLOCK_OUT
+$Comp
+L Connector_Generic:Conn_01x04 J6
+U 1 1 61000020
+P 13300 6600
+F 0 "J6" H 13500 6700 50  0000 C CNN
+F 1 "CH6 G-C-D-5V" H 13600 6500 50  0000 C CNN
+	1    13300 6600
+	1 0 0 -1
+$EndComp
+Text GLabel 13100 6600 2    40   BiDi ~ 0
+GND
+Text GLabel 13100 6700 2    40   BiDi ~ 0
+CH6_CLOCK_OUT
+Text GLabel 13100 6800 2    40   BiDi ~ 0
+CH6_DATA_OUT
+Text GLabel 13100 6900 2    40   BiDi ~ 0
+SYSTEM_5V
+$Comp
+L Connector_Generic:Conn_01x02 R13
+U 1 1 61000021
+P 1300 7900
+F 0 "R13" H 1500 8000 50  0000 C CNN
+F 1 "10k" H 1600 7800 50  0000 C CNN
+	1    1300 7900
+	1 0 0 -1
+$EndComp
+Text GLabel 1100 7900 2    40   BiDi ~ 0
+LOGIC_5V
+Text GLabel 1100 8000 2    40   BiDi ~ 0
+OE_N
+$Comp
+L Connector_Generic:Conn_01x02 R14
+U 1 1 61000022
+P 3700 7900
+F 0 "R14" H 3900 8000 50  0000 C CNN
+F 1 "10k" H 4000 7800 50  0000 C CNN
+	1    3700 7900
+	1 0 0 -1
+$EndComp
+Text GLabel 3500 7900 2    40   BiDi ~ 0
+ENABLE_GPIO
+Text GLabel 3500 8000 2    40   BiDi ~ 0
+ENABLE_BASE
+$Comp
+L Connector_Generic:Conn_01x02 R15
+U 1 1 61000023
+P 6100 7900
+F 0 "R15" H 6300 8000 50  0000 C CNN
+F 1 "100k" H 6400 7800 50  0000 C CNN
+	1    6100 7900
+	1 0 0 -1
+$EndComp
+Text GLabel 5900 7900 2    40   BiDi ~ 0
+ENABLE_GPIO
+Text GLabel 5900 8000 2    40   BiDi ~ 0
+GND
+$Comp
+L Connector_Generic:Conn_01x02 R16
+U 1 1 61000024
+P 8500 7900
+F 0 "R16" H 8700 8000 50  0000 C CNN
+F 1 "10k" H 8800 7800 50  0000 C CNN
+	1    8500 7900
+	1 0 0 -1
+$EndComp
+Text GLabel 8300 7900 2    40   BiDi ~ 0
+3V3_LOCAL
+Text GLabel 8300 8000 2    40   BiDi ~ 0
+ADDRESS
+$Comp
+L Connector_Generic:Conn_01x02 R17
+U 1 1 61000025
+P 1300 8300
+F 0 "R17" H 1500 8400 50  0000 C CNN
+F 1 "10k" H 1600 8200 50  0000 C CNN
+	1    1300 8300
+	1 0 0 -1
+$EndComp
+Text GLabel 1100 8300 2    40   BiDi ~ 0
+ADDR_A0
+Text GLabel 1100 8400 2    40   BiDi ~ 0
+GND
+$Comp
+L Connector_Generic:Conn_01x02 R18
+U 1 1 61000026
+P 3700 8300
+F 0 "R18" H 3900 8400 50  0000 C CNN
+F 1 "20k" H 4000 8200 50  0000 C CNN
+	1    3700 8300
+	1 0 0 -1
+$EndComp
+Text GLabel 3500 8300 2    40   BiDi ~ 0
+ADDR_A1
+Text GLabel 3500 8400 2    40   BiDi ~ 0
+GND
+$Comp
+L Connector_Generic:Conn_01x02 R20
+U 1 1 61000027
+P 6100 8300
+F 0 "R20" H 6300 8400 50  0000 C CNN
+F 1 "2k2" H 6400 8200 50  0000 C CNN
+	1    6100 8300
+	1 0 0 -1
+$EndComp
+Text GLabel 5900 8300 2    40   BiDi ~ 0
+HEARTBEAT
+Text GLabel 5900 8400 2    40   BiDi ~ 0
+HEART_LED_A
+$Comp
+L Connector_Generic:Conn_01x03 Q1
+U 1 1 61000028
+P 11200 7900
+F 0 "Q1" H 11400 8000 50  0000 C CNN
+F 1 "2N3904 E-B-C" H 11500 7800 50  0000 C CNN
+	1    11200 7900
+	1 0 0 -1
+$EndComp
+Text GLabel 11000 7900 2    40   BiDi ~ 0
+GND
+Text GLabel 11000 8000 2    40   BiDi ~ 0
+ENABLE_BASE
+Text GLabel 11000 8100 2    40   BiDi ~ 0
+OE_N
+$Comp
+L Connector_Generic:Conn_01x02 D2
+U 1 1 61000029
+P 13600 7900
+F 0 "D2" H 13800 8000 50  0000 C CNN
+F 1 "RED HEARTBEAT" H 13900 7800 50  0000 C CNN
+	1    13600 7900
+	1 0 0 -1
+$EndComp
+Text GLabel 13400 7900 2    40   BiDi ~ 0
+HEART_LED_A
+Text GLabel 13400 8000 2    40   BiDi ~ 0
+GND
+$Comp
+L Connector_Generic:Conn_01x04 JP1
+U 1 1 6100002A
+P 11200 8500
+F 0 "JP1" H 11400 8600 50  0000 C CNN
+F 1 "ADDRESS EYES/MOUTH" H 11500 8400 50  0000 C CNN
+	1    11200 8500
+	1 0 0 -1
+$EndComp
+Text GLabel 11000 8500 2    40   BiDi ~ 0
+ADDRESS
+Text GLabel 11000 8600 2    40   BiDi ~ 0
+ADDR_A0
+Text GLabel 11000 8700 2    40   BiDi ~ 0
+ADDRESS
+Text GLabel 11000 8800 2    40   BiDi ~ 0
+ADDR_A1
+$Comp
+L Connector_Generic:Conn_01x02 SW1
+U 1 1 6100002B
+P 13600 8400
+F 0 "SW1" H 13800 8500 50  0000 C CNN
+F 1 "TEST" H 13900 8300 50  0000 C CNN
+	1    13600 8400
+	1 0 0 -1
+$EndComp
+Text GLabel 13400 8400 2    40   BiDi ~ 0
+TEST
+Text GLabel 13400 8500 2    40   BiDi ~ 0
+GND
+$Comp
+L Connector_Generic:Conn_01x02 SW2
+U 1 1 6100002C
+P 14800 8400
+F 0 "SW2" H 15000 8500 50  0000 C CNN
+F 1 "RESET" H 15100 8300 50  0000 C CNN
+	1    14800 8400
+	1 0 0 -1
+$EndComp
+Text GLabel 14600 8400 2    40   BiDi ~ 0
+RESET
+Text GLabel 14600 8500 2    40   BiDi ~ 0
+GND
+$Comp
+L Connector_Generic:Conn_01x04 J8
+U 1 1 6100002D
+P 11200 9300
+F 0 "J8" H 11400 9400 50  0000 C CNN
+F 1 "I2C TO BRAIN" H 11500 9200 50  0000 C CNN
+	1    11200 9300
+	1 0 0 -1
+$EndComp
+Text GLabel 11000 9300 2    40   BiDi ~ 0
+GND
+Text GLabel 11000 9400 2    40   BiDi ~ 0
+3V3_BRAIN
+Text GLabel 11000 9500 2    40   BiDi ~ 0
+SDA
+Text GLabel 11000 9600 2    40   BiDi ~ 0
+SCL
+$Comp
+L Connector_Generic:Conn_01x04 J9
+U 1 1 6100002E
+P 12800 9300
+F 0 "J9" H 13000 9400 50  0000 C CNN
+F 1 "I2C PASS-THRU UNPOWERED" H 13100 9200 50  0000 C CNN
+	1    12800 9300
+	1 0 0 -1
+$EndComp
+Text GLabel 12600 9300 2    40   BiDi ~ 0
+GND
+NoConn ~ 12600 9400
+Text GLabel 12600 9500 2    40   BiDi ~ 0
+SDA
+Text GLabel 12600 9600 2    40   BiDi ~ 0
+SCL
+$Comp
+L Connector_Generic:Conn_01x04 J10
+U 1 1 6100002F
+P 14400 9300
+F 0 "J10" H 14600 9400 50  0000 C CNN
+F 1 "I2C TEST" H 14700 9200 50  0000 C CNN
+	1    14400 9300
+	1 0 0 -1
+$EndComp
+Text GLabel 14200 9300 2    40   BiDi ~ 0
+GND
+Text GLabel 14200 9400 2    40   BiDi ~ 0
+3V3_BRAIN
+Text GLabel 14200 9500 2    40   BiDi ~ 0
+SDA
+Text GLabel 14200 9600 2    40   BiDi ~ 0
+SCL
+$Comp
+L Connector_Generic:Conn_01x02 J11
+U 1 1 61000030
+P 11200 10100
+F 0 "J11" H 11400 10200 50  0000 C CNN
+F 1 "HEARTBEAT" H 11500 10000 50  0000 C CNN
+	1    11200 10100
+	1 0 0 -1
+$EndComp
+Text GLabel 11000 10100 2    40   BiDi ~ 0
+GND
+Text GLabel 11000 10200 2    40   BiDi ~ 0
+HEARTBEAT
+Text Notes 900 10600 0    60   ~ 12
+POWER BEHAVIOR: USB powers LOGIC_5V only. External 5V powers SYSTEM_5V and, through D3, LOGIC_5V.
+Text Notes 900 10800 0    60   ~ 0
+D3 striped cathode (K) faces LOGIC_5V. AHCT devices operate at 4.5-5.5V and accept 3.3V TTL-level inputs.
+$EndSCHEMATC

@@ -1,3 +1,2 @@
-adafruit-circuitpython-dotstar
 adafruit-circuitpython-ds3231
 adafruit-circuitpython-neopixel
