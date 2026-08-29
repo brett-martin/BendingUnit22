@@ -41,7 +41,10 @@ It remains solid red when the RTC is unavailable.
 The `v` sensor monitor prints readings about five times per second and stops
 when any serial-console key is pressed. Move a hand toward and away from the
 sensor while watching raw `proximity` and `white` values. `lux` is the driver's
-calculated ambient-light value; `INT` is the level observed on A3.
+calculated ambient-light value; `INT` is the level observed on A3. The monitor
+configures an active-low proximity interrupt with an away threshold of 5, a
+close threshold of 10, and two-reading persistence. When A3 is low, it reads
+and prints the sensor interrupt flags, which clears the handled event.
 
 ## Install
 

@@ -12,6 +12,8 @@ AUDIO_RESET = board.D25   # Active low; released as an input
 
 RTC_SQW = board.D13       # DS3231 open-drain 1 Hz output
 SENSOR_SIGNAL = board.A3  # Generic sensor/VCNL4200 INT input
+SENSOR_PROX_AWAY = 5
+SENSOR_PROX_CLOSE = 10
 
 ANTENNA_PINS = (board.A0, board.A1, board.A2)
 ANTENNA_NAMES = ("RED", "GREEN", "BLUE/SPARE")

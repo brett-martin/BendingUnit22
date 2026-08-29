@@ -39,11 +39,15 @@ Last updated: 2026-08-29
 - Button operation, named-button reporting, numbered Audio FX playback, and
   audible speaker output have been reported as passing. Specific functions
   for the remaining unnamed button inputs have not been recorded.
+- Raw VCNL4200 monitoring passed. Reported proximity was approximately 1–3
+  with nothing present or at about one foot, and 10 or higher at one foot or
+  closer. The sensor INT output has not yet been physically wired to Brain A3.
 
 ## Planned checks
 
 - External 5 V versus USB power isolation
 - I2C pull-up electrical measurements
 - Antenna output
-- Sensor input transition
+- Wire VCNL4200 INT to A3 and verify the configured active-low close/away
+  interrupt using thresholds 10 and 5
 - Eyes and Mouth controller discovery after their standalone tests pass

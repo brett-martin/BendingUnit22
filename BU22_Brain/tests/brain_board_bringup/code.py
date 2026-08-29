@@ -15,7 +15,7 @@ import supervisor
 import config
 
 
-VERSION = "0.4"
+VERSION = "0.5"
 RTC_CONTROL_REGISTER = 0x0E
 RTC_SQW_1HZ_MASK = 0x1C
 
@@ -199,6 +199,11 @@ def sensor_monitor(i2c, interrupt_pin):
     try:
         import adafruit_vcnl4200
         vcnl = adafruit_vcnl4200.Adafruit_VCNL4200(i2c)
+        vcnl.prox_int_threshold_low = config.SENSOR_PROX_AWAY
+        vcnl.prox_int_threshold_high = config.SENSOR_PROX_CLOSE
+        vcnl.prox_persistence = adafruit_vcnl4200.PS_PERS["2"]
+        vcnl.prox_interrupt_logic_mode = False
+        vcnl.prox_interrupt = adafruit_vcnl4200.PS_INT["BOTH"]
     except ImportError:
         print("Sensor monitor: adafruit_vcnl4200 library is not installed")
         return
@@ -206,17 +211,24 @@ def sensor_monitor(i2c, interrupt_pin):
         print("Sensor monitor ERROR:", repr(error))
         return
 
+    print(
+        "Sensor interrupt: active-low, away<=%d, close>=%d, persistence=2"
+        % (config.SENSOR_PROX_AWAY, config.SENSOR_PROX_CLOSE)
+    )
     # Discard the newline that completed the command before watching for a key.
     read_command_tail(timeout=0.2)
     while True:
         try:
+            interrupt_level = interrupt_pin.value
+            flags = vcnl.interrupt_flags if not interrupt_level else None
             print(
-                "proximity=%d white=%d lux=%.2f INT=%s"
+                "proximity=%d white=%d lux=%.2f INT=%s flags=%s"
                 % (
                     vcnl.proximity,
                     vcnl.white_light,
                     vcnl.lux,
-                    "LOW" if not interrupt_pin.value else "high",
+                    "LOW" if not interrupt_level else "high",
+                    flags if flags is not None else "-",
                 )
             )
         except Exception as error:
