@@ -15,7 +15,7 @@ import supervisor
 import config
 
 
-VERSION = "0.6"
+VERSION = "0.7"
 RTC_CONTROL_REGISTER = 0x0E
 RTC_SQW_1HZ_MASK = 0x1C
 
@@ -249,6 +249,17 @@ def sensor_monitor(i2c, interrupt_pin):
             time.sleep(0.01)
 
 
+def clear_sensor_interrupt(i2c):
+    try:
+        import adafruit_vcnl4200
+        vcnl = adafruit_vcnl4200.Adafruit_VCNL4200(i2c)
+        print("Sensor interrupt flags (read/cleared):", vcnl.interrupt_flags)
+    except ImportError:
+        print("Sensor interrupt: adafruit_vcnl4200 library is not installed")
+    except Exception as error:
+        print("Sensor interrupt clear ERROR:", repr(error))
+
+
 def antenna_test(outputs):
     print("Antenna: each output goes high for 0.5 seconds")
     for index, output in enumerate(outputs):
@@ -331,6 +342,7 @@ def print_help():
     print("  h  verify RTC SQW heartbeat")
     print("  i  print buttons, Audio ACT, and sensor/INT")
     print("  v  stream VCNL4200 proximity/light data; any key stops")
+    print("  f  read and clear latched VCNL4200 interrupt flags")
     print("  a  cycle antenna outputs")
     print("  l  request Audio FX track list")
     print("  p NUMBER  play Txx.WAV (for example, p 3 plays T03.WAV)")
@@ -426,6 +438,8 @@ while True:
             print_inputs(button_states, audio_act, sensor)
         elif command == "v":
             sensor_monitor(i2c, sensor)
+        elif command == "f":
+            clear_sensor_interrupt(i2c)
         elif command == "a":
             antenna_test(antenna)
         elif command == "l":

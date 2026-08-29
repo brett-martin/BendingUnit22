@@ -48,13 +48,17 @@ Last updated: 2026-08-29
   initial away event latching while INT is disconnected from A3 and therefore
   not handled, but the cause has not yet been physically confirmed. v0.6 uses
   close-only mode and clears prior flags for the next direct-pin test.
+- The v0.6 close-only test passed: INT asserted at 0 V after the proximity
+  threshold was crossed. INT remained low after proximity dropped, confirming
+  its expected latched behavior; explicit interrupt-flag acknowledgement is
+  required to release it.
 
 ## Planned checks
 
 - External 5 V versus USB power isolation
 - I2C pull-up electrical measurements
 - Antenna output
-- With v0.6 running, verify that the directly measured VCNL4200 INT pin is high
-  when far and asserts low only after proximity exceeds 10; then wire INT to A3
-  before adding and testing away-event handling
+- Move away, use the v0.7 `f` command to acknowledge the close event, and verify
+  that the directly measured INT pin returns high; then wire INT to A3 before
+  adding and testing away-event handling
 - Eyes and Mouth controller discovery after their standalone tests pass
