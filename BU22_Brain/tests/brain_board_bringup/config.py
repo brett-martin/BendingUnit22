@@ -17,11 +17,11 @@ ANTENNA_PINS = (board.A0, board.A1, board.A2)
 ANTENNA_NAMES = ("RED", "GREEN", "BLUE/SPARE")
 
 BUTTON_PINS = (
-    board.D9,   # Mode: physical J_BUTTONS pin 5
-    board.D6,   # Enter: physical J_BUTTONS pin 4
-    board.D5,   # Up: physical J_BUTTONS pin 3
-    board.D4,   # Down: physical J_BUTTONS pin 2
-    board.D10,
+    board.D10,  # Mode: observed as the prior logical Button 5 input
+    board.D9,   # Enter: observed as the prior logical Mode input
+    board.D6,   # Up: observed as the prior logical Enter input
+    board.D5,   # Down: observed as the prior logical Up input
+    board.D4,   # Function not yet identified at the bench
     board.D11,
     board.D12,
 )

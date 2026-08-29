@@ -23,9 +23,11 @@ Last updated: 2026-08-29
 - All seven buttons reported released, Audio FX ACT reported idle/high, and the
   sensor input reported high during the static input-state check. Button
   press/release operation has not yet been observed.
-- The first four button connections are physically ordered Down, Up, Enter,
-  Mode on J_BUTTONS pins 2 through 5. Firmware presents them in logical order
-  Mode, Enter, Up, Down as buttons 1 through 4.
+- Initial named-button testing showed a one-position firmware offset: the
+  physical Mode control reported as Button 5, Enter reported as Mode, Up
+  reported as Enter, and Down reported as Up. Firmware was reordered from
+  those observations so Mode, Enter, Up, and Down use D10, D9, D6, and D5,
+  respectively. The function connected to D4 has not yet been identified.
 - The Audio FX board returned a list of 14 WAV files, `T00` through `T13`. It
   accepted the play-track-0 command and replied that it started `T00.WAV`.
   Audible speaker output has not yet been confirmed.

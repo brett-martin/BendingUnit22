@@ -105,11 +105,11 @@ firmware uses internal pull-ups.
 | Pin | Signal | Feather |
 |---:|---|---|
 | 1 | Ground | GND |
-| 2 | Down / logical button 4 | D4 / GP6 |
-| 3 | Up / logical button 3 | D5 / GP7 |
-| 4 | Enter / logical button 2 | D6 / GP8 |
-| 5 | Mode / logical button 1 | D9 / GP9 |
-| 6 | Button 5 | D10 / GP10 |
+| 2 | Button 5; function not yet identified | D4 / GP6 |
+| 3 | Down / logical button 4 | D5 / GP7 |
+| 4 | Up / logical button 3 | D6 / GP8 |
+| 5 | Enter / logical button 2 | D9 / GP9 |
+| 6 | Mode / logical button 1 | D10 / GP10 |
 | 7 | Button 6 | D11 / GP11 |
 | 8 | Button 7 | D12 / GP12 |
 
