@@ -5,9 +5,10 @@ Last updated: 2026-08-29
 ## Active hardware
 
 - `CTRL-RD-01`: first hand-assembled Display Controller Rev D. Passive power
-  distribution and the five-second output-enable transition have passed.
-  U1's local supply measurement remains unresolved; do not attach LED arrays
-  until it is corrected. See `hardware/bringup/CTRL-RD-01.md`.
+  distribution and the five-second output-enable transition have passed. Slow
+  output exercising passed CH3, CH5, and CH6 but failed both clock/data outputs
+  on CH1, CH2, and CH4. U1's local supply remains unresolved; do not attach LED
+  arrays until these faults are corrected. See `hardware/bringup/CTRL-RD-01.md`.
 - `CTRL-RD-02`: PCB and parts available; assembly has not been recorded yet.
 - `BRAIN-PERF-01`: prototype Brain perfboard assembled. I2C discovery, RTC
   read/set, configured 1 Hz SQW heartbeat, and Audio FX UART/list/play-command
@@ -34,7 +35,7 @@ Confirm that this corrected source is deployed before interpreting the LED.
 
 ## Immediate next steps
 
-1. Resolve the missing U1 pin-14 `LOGIC_5V` measurement on `CTRL-RD-01`.
+1. Diagnose U1 power/CH1/CH2 and the second half of U2/CH4 on `CTRL-RD-01`.
 2. Deploy the corrected controller test to its KB2040.
 3. Test one known-good four-pixel strip sequentially on CH1 through CH6.
 4. Record channel identity, RGB order, direction, brightness, and current.

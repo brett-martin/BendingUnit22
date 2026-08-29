@@ -45,8 +45,10 @@ All-channel output exerciser currently deployed:
 It keeps the buffers disabled for five seconds, initializes all Rev D clock and
 data GPIOs low, enables the buffers, and repeats four two-second phases across
 all six channels: low/low, high/low, low/high, and high/high. Deployment to the
-controller KB2040 was confirmed; connector measurements have not yet been
-reported.
+controller KB2040 was confirmed. Connector testing found both clock and data
+outputs working on CH3, CH5, and CH6. Both outputs failed the exercise on CH1,
+CH2, and CH4. Exact failed-channel voltages and whether they were stuck low,
+stuck high, or intermediate were not reported.
 
 The scan-only target test remains available at:
 `BU22_Eyes/tests/display_controller_rev_d_i2c_target/`
@@ -62,8 +64,9 @@ unconfirmed.
 ## Next test
 
 1. Resolve and record U1 pin-14 supply voltage.
-2. Measure and record clock/data low and high levels for CH1 through CH6 with
-   the output exerciser and no LED arrays connected.
+2. Diagnose CH1/CH2 failure at U1 and CH4 failure at the second half of U2 by
+   comparing each 3.3 V input, OE pin, AHCT output, and post-100-ohm connector
+   node during the output exerciser.
 3. Record the target test's remaining A1/both-shunts ADC levels.
 4. With independently powered boards and shared GND/SDA/SCL only, scan for the
    selected controller address from the Brain.
