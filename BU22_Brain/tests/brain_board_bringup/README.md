@@ -42,9 +42,12 @@ The `v` sensor monitor prints readings about five times per second and stops
 when any serial-console key is pressed. Move a hand toward and away from the
 sensor while watching raw `proximity` and `white` values. `lux` is the driver's
 calculated ambient-light value; `INT` is the level observed on A3. The monitor
-configures an active-low proximity interrupt with an away threshold of 5, a
-close threshold of 10, and two-reading persistence. When A3 is low, it reads
-and prints the sensor interrupt flags, which clears the handled event.
+configures an active-low, close-only proximity interrupt with a threshold of
+10 and two-reading persistence. It clears prior interrupt flags when the
+monitor starts. Close-only mode is intentional while INT is tested directly
+and remains disconnected from A3; it prevents the idle reading below 5 from
+immediately latching an away event. When A3 is later connected and low, the
+monitor reads and prints the sensor interrupt flags, clearing the event.
 
 ## Install
 

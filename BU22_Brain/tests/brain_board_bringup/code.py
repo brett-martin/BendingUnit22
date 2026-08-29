@@ -15,7 +15,7 @@ import supervisor
 import config
 
 
-VERSION = "0.5"
+VERSION = "0.6"
 RTC_CONTROL_REGISTER = 0x0E
 RTC_SQW_1HZ_MASK = 0x1C
 
@@ -203,7 +203,10 @@ def sensor_monitor(i2c, interrupt_pin):
         vcnl.prox_int_threshold_high = config.SENSOR_PROX_CLOSE
         vcnl.prox_persistence = adafruit_vcnl4200.PS_PERS["2"]
         vcnl.prox_interrupt_logic_mode = False
-        vcnl.prox_interrupt = adafruit_vcnl4200.PS_INT["BOTH"]
+        # Close-only avoids immediately latching an away event while INT is
+        # being tested directly and is not yet connected to A3.
+        vcnl.prox_interrupt = adafruit_vcnl4200.PS_INT["CLOSE"]
+        cleared_flags = vcnl.interrupt_flags
     except ImportError:
         print("Sensor monitor: adafruit_vcnl4200 library is not installed")
         return
@@ -212,9 +215,10 @@ def sensor_monitor(i2c, interrupt_pin):
         return
 
     print(
-        "Sensor interrupt: active-low, away<=%d, close>=%d, persistence=2"
-        % (config.SENSOR_PROX_AWAY, config.SENSOR_PROX_CLOSE)
+        "Sensor interrupt: active-low CLOSE-only, close>%d, persistence=2"
+        % config.SENSOR_PROX_CLOSE
     )
+    print("Sensor interrupt: cleared prior flags:", cleared_flags)
     # Discard the newline that completed the command before watching for a key.
     read_command_tail(timeout=0.2)
     while True:
