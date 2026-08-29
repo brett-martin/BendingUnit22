@@ -60,10 +60,12 @@ Last updated: 2026-08-29
 - The physical red antenna was connected and the v0.9 three-second red-output
   test passed. The green and blue/spare antenna output tests were subsequently
   reported as passing as well.
+- The unpowered D1 direction check, USB-only isolation test, and external-5 V-
+  only power test were reported as passing. Exact voltage, diode-drop, and
+  supply-current measurements were not provided and are not inferred here.
 
 ## Planned checks
 
-- External 5 V versus USB power isolation
 - I2C pull-up electrical measurements
 - Sensor INT-to-A3 integration and away-event handling are deferred
 - Eyes and Mouth controller discovery after their standalone tests pass
