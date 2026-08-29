@@ -39,11 +39,20 @@ Last updated: 2026-08-29
 
 ## Current firmware source
 
-`BU22_Eyes/tests/display_controller_rev_d_bringup/`
+Scan-only target test currently deployed:
+`BU22_Eyes/tests/display_controller_rev_d_i2c_target/`
+
+The test keeps all AHCT outputs disabled, uses the Rev D RX/TX I2C routing,
+and selects `0x30` through `0x33` from the A3 address network. Deployment to
+the controller KB2040 was confirmed, but Brain discovery and the assembled
+board's ADC address levels have not yet been observed.
 
 ## Next test
 
 1. Resolve and record U1 pin-14 supply voltage.
-2. Deploy the corrected heartbeat-input firmware.
-3. Connect one known-good four-pixel strip to CH1 and run the suite.
-4. Move the same strip through CH2–CH6, powering down between connectors.
+2. Record the target test's raw address ADC value and selected role.
+3. With independently powered boards and shared GND/SDA/SCL only, scan for the
+   selected controller address from the Brain.
+4. Redeploy the corrected standalone heartbeat-input firmware.
+5. Connect one known-good four-pixel strip to CH1 and run the suite.
+6. Move the same strip through CH2–CH6, powering down between connectors.
