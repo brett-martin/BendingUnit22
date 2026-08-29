@@ -15,7 +15,9 @@ import supervisor
 import config
 
 
-VERSION = "0.1"
+VERSION = "0.2"
+RTC_CONTROL_REGISTER = 0x0E
+RTC_SQW_1HZ_MASK = 0x1C
 
 
 def status_pixel():
@@ -95,13 +97,78 @@ def print_rtc(i2c):
     return False
 
 
-def heartbeat_test(sqw, seconds=4.5):
+def rtc_device(i2c):
+    import adafruit_ds3231
+    return adafruit_ds3231.DS3231(i2c)
+
+
+def configure_rtc_sqw_1hz(rtc):
+    """Select the powered 1 Hz square-wave output without changing other bits."""
+    register = bytearray((RTC_CONTROL_REGISTER,))
+    control = bytearray(1)
+    with rtc.i2c_device as device:
+        device.write_then_readinto(register, control)
+        control[0] &= ~RTC_SQW_1HZ_MASK
+        device.write(bytearray((RTC_CONTROL_REGISTER, control[0])))
+    print("RTC SQW: configured for 1 Hz")
+
+
+def weekday(year, month, day):
+    """Return Monday=0 through Sunday=6 for a Gregorian calendar date."""
+    if month < 3:
+        year -= 1
+        month += 12
+    sunday_zero = (
+        day + (13 * (month + 1)) // 5 + year + year // 4 - year // 100
+        + year // 400
+    ) % 7
+    return (sunday_zero + 5) % 7
+
+
+def read_command_tail(timeout=1.0):
+    characters = []
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        if supervisor.runtime.serial_bytes_available:
+            character = sys.stdin.read(1)
+            if character in ("\r", "\n"):
+                if characters:
+                    break
+                continue
+            characters.append(character)
+        else:
+            time.sleep(0.01)
+    return "".join(characters).strip()
+
+
+def set_rtc_from_text(i2c, value):
+    try:
+        date_text, time_text = value.split(" ")
+        year, month, day = (int(item) for item in date_text.split("-"))
+        hour, minute, second = (int(item) for item in time_text.split(":"))
+        new_time = time.struct_time(
+            (year, month, day, hour, minute, second,
+             weekday(year, month, day), -1, -1)
+        )
+        rtc = rtc_device(i2c)
+        rtc.datetime = new_time
+        print("RTC set from local wall clock:", value)
+        print_rtc(i2c)
+        return True
+    except (ValueError, TypeError) as error:
+        print("RTC set ERROR:", repr(error))
+        print("Use: t YYYY-MM-DD HH:MM:SS")
+        return False
+
+
+def heartbeat_test(sqw, pixel=None, seconds=4.5):
     print("Heartbeat: watching D13 for %.1f seconds" % seconds)
     edges = []
     previous = sqw.value
     started = time.monotonic()
     while time.monotonic() - started < seconds:
         value = sqw.value
+        set_pixel(pixel, (0, 25, 0) if value else (0, 0, 0))
         if value != previous:
             edges.append(time.monotonic())
             previous = value
@@ -159,6 +226,26 @@ def audio_list(uart):
         print("Audio FX: no UART response; check power, UG ground, TX/RX crossover")
 
 
+def audio_play_first(uart):
+    print("Audio FX: playing first listed track (track 0)")
+    uart.reset_input_buffer()
+    uart.write(b"#0\n")
+    deadline = time.monotonic() + 2.0
+    response = bytearray()
+    while time.monotonic() < deadline:
+        waiting = uart.in_waiting
+        if waiting:
+            data = uart.read(waiting)
+            if data:
+                response.extend(data)
+        time.sleep(0.01)
+    if response:
+        print("Audio FX response:")
+        print(bytes(response).decode("utf-8", "replace"))
+    else:
+        print("Audio FX: no UART response; check power, UG ground, TX/RX crossover")
+
+
 def audio_reset(reset_pin):
     print("Audio FX: pulsing reset low")
     reset_pin.switch_to_output(value=False)
@@ -172,10 +259,12 @@ def print_help():
     print("\nCommands")
     print("  s  scan I2C")
     print("  r  read RTC")
+    print("  t YYYY-MM-DD HH:MM:SS  set RTC to local wall-clock time")
     print("  h  verify RTC SQW heartbeat")
     print("  i  print buttons, Audio ACT, and sensor/INT")
     print("  a  cycle antenna outputs")
     print("  l  request Audio FX track list")
+    print("  p  play first listed Audio FX track (track 0)")
     print("  x  reset Audio FX board")
     print("  ?  show this help\n")
 
@@ -219,9 +308,16 @@ buttons = keypad.Keys(
 button_states = [False] * len(config.BUTTON_PINS)
 
 addresses = print_scan(i2c)
-rtc_ok = print_rtc(i2c) if config.RTC_ADDRESS in addresses else False
+rtc_ok = False
+if config.RTC_ADDRESS in addresses:
+    rtc_ok = print_rtc(i2c)
+    if rtc_ok:
+        try:
+            configure_rtc_sqw_1hz(rtc_device(i2c))
+        except Exception as error:
+            print("RTC SQW CONFIG ERROR:", repr(error))
 print_inputs(button_states, audio_act, sensor)
-heartbeat_ok = heartbeat_test(sqw) if rtc_ok else False
+heartbeat_ok = heartbeat_test(sqw, pixel) if rtc_ok else False
 
 if rtc_ok and heartbeat_ok:
     set_pixel(pixel, (0, 25, 0))
@@ -231,6 +327,9 @@ else:
 print_help()
 
 while True:
+    if rtc_ok:
+        set_pixel(pixel, (0, 25, 0) if sqw.value else (0, 0, 0))
+
     event = buttons.events.get()
     if event is not None:
         button_states[event.key_number] = event.pressed
@@ -244,14 +343,18 @@ while True:
             print_scan(i2c)
         elif command == "r":
             print_rtc(i2c)
+        elif command == "t":
+            set_rtc_from_text(i2c, read_command_tail())
         elif command == "h":
-            heartbeat_test(sqw)
+            heartbeat_test(sqw, pixel)
         elif command == "i":
             print_inputs(button_states, audio_act, sensor)
         elif command == "a":
             antenna_test(antenna)
         elif command == "l":
             audio_list(uart)
+        elif command == "p":
+            audio_play_first(uart)
         elif command == "x":
             audio_reset(audio_reset_pin)
         else:

@@ -9,8 +9,10 @@ Last updated: 2026-08-29
   U1's local supply measurement remains unresolved; do not attach LED arrays
   until it is corrected. See `hardware/bringup/CTRL-RD-01.md`.
 - `CTRL-RD-02`: PCB and parts available; assembly has not been recorded yet.
-- `BRAIN-PERF-01`: prototype Brain perfboard assembled and basic continuity
-  checked. Full I/O bring-up remains to be recorded. See
+- `BRAIN-PERF-01`: prototype Brain perfboard assembled. I2C discovery, RTC
+  read/set, configured 1 Hz SQW heartbeat, and Audio FX UART/list/play-command
+  tests have passed. Physical NeoPixel/audio confirmation, power isolation,
+  buttons, antenna outputs, and sensor transition remain. See
   `hardware/bringup/BRAIN-PERF-01.md`.
 
 ## Active firmware
@@ -31,7 +33,8 @@ Confirm that this corrected source is deployed before interpreting the LED.
 3. Test one known-good four-pixel strip sequentially on CH1 through CH6.
 4. Record channel identity, RGB order, direction, brightness, and current.
 5. Assemble and repeat the same bring-up on `CTRL-RD-02`.
-6. Run the complete Brain perfboard I/O test.
+6. Complete the remaining Brain perfboard physical I/O tests: power isolation,
+   visible heartbeat, audible audio, buttons, antenna, and sensor transition.
 7. Connect Brain and both display controllers only after standalone tests pass.
 
 ## Two-Mac workflow

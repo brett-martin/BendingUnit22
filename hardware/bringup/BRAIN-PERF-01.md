@@ -12,15 +12,30 @@ Last updated: 2026-08-29
 
 - Board assembly has been reported complete.
 - Basic continuity checks have been reported as passing.
-- Full powered I/O results have not yet been recorded in this repository.
+- The Feather identifies as `adafruit_feather_rp2040`, UID
+  `DF6548405F63432D`, under CircuitPython 10.2.1.
+- The powered I2C scan found the VCNL4200 at `0x51` and DS3231 at `0x68`.
+- Configuring the DS3231 SQW output for 1 Hz produced nine transitions in 4.5
+  seconds, with measured edge intervals of approximately 0.498–0.501 seconds.
+- The RTC was set once from the Mac's local wall clock to
+  `2026-08-29 11:24:03`, with no timezone or DST conversion. The subsequent
+  read matched, and the RTC lost-power flag cleared.
+- All seven buttons reported released, Audio FX ACT reported idle/high, and the
+  sensor input reported high during the static input-state check. Button
+  press/release operation has not yet been observed.
+- The Audio FX board returned a list of 14 WAV files, `T00` through `T13`. It
+  accepted the play-track-0 command and replied that it started `T00.WAV`.
+  Audible speaker output has not yet been confirmed.
+- The test firmware now mirrors the RTC SQW level on the Feather NeoPixel.
+  Visible synchronized blinking has not yet been confirmed at the bench.
 
 ## Planned checks
 
 - External 5 V versus USB power isolation
-- I2C scan and pull-ups
-- DS3231 RTC and 1 Hz SQW heartbeat
-- Buttons
+- I2C pull-up electrical measurements
+- Visible NeoPixel synchronization with the DS3231 SQW heartbeat
+- Button press/release operation for all seven buttons
 - Antenna output
-- Audio FX interface
-- Sensor input
+- Audible Audio FX speaker output
+- Sensor input transition
 - Eyes and Mouth controller discovery after their standalone tests pass
