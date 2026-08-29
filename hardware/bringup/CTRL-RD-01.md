@@ -46,7 +46,10 @@ Last updated: 2026-08-29
 It sends identical 55-pixel frames to all six channels, with a sequential
 path chase, column sweep, row sweep, conservative all-on colors, and blackout.
 The test was deployed to the controller KB2040 for initial use with only the
-tooth module connected to CH6. No visual result has yet been reported.
+same tooth module moved between channels. CH5 and CH6 passed visually. CH3 and
+CH4 powered the module and showed expected slow/static signal voltages but
+produced no visible DotStar output. This localizes the visual/high-speed failure
+to the U2 channel group; the specific waveform or hardware cause is unresolved.
 
 The all-channel electrical output exerciser remains available at:
 `BU22_Eyes/tests/display_controller_rev_d_output_exerciser/`
@@ -82,9 +85,10 @@ unconfirmed.
 
 1. During the exerciser, record U1 pin 14/VCC, pin 7/GND, OE pins 1/4/10/13,
    and representative input/output pairs to diagnose the 0-to-1.5 V swing.
-2. Record the target test's remaining A1/both-shunts ADC levels.
-3. With independently powered boards and shared GND/SDA/SCL only, scan for the
+2. Compare U2 and U3 package markings, supply/ground, and C2/C3 decoupling;
+   then test U2 with deliberately slow DotStar traffic or an oscilloscope.
+3. Record the target test's remaining A1/both-shunts ADC levels.
+4. With independently powered boards and shared GND/SDA/SCL only, scan for the
    selected controller address from the Brain.
-4. Redeploy the corrected standalone heartbeat-input firmware.
-5. Connect one known-good four-pixel strip to CH1 only after all outputs pass.
-6. Move the same strip through CH2–CH6, powering down between connectors.
+5. Redeploy the corrected standalone heartbeat-input firmware.
+6. Connect additional LED modules only after all channel faults pass.

@@ -7,8 +7,10 @@ Last updated: 2026-08-29
 - `CTRL-RD-01`: first hand-assembled Display Controller Rev D. Passive power
   distribution and the five-second output-enable transition have passed. Slow
   output exercising now passes CH3 through CH6 after reflow. U1 pin 14 now has
-  supply voltage, but CH1/CH2 outputs swing only from about 0 to 1.5 V. Do not
-  attach LED arrays until U1 is corrected and all outputs pass. See
+  supply voltage, but CH1/CH2 outputs swing only from about 0 to 1.5 V. A 5x11
+  module visually passes CH5/CH6 but produces no output on the U2-driven
+  CH3/CH4 despite slow/static voltage checks passing. Do not attach additional
+  LED arrays until U1 and U2 are corrected. See
   `hardware/bringup/CTRL-RD-01.md`.
 - `CTRL-RD-02`: PCB and parts available; assembly has not been recorded yet.
 - `BRAIN-PERF-01`: prototype Brain perfboard assembled. I2C discovery, RTC
