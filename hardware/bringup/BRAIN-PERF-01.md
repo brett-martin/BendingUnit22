@@ -23,10 +23,14 @@ Last updated: 2026-08-29
 - All seven buttons reported released, Audio FX ACT reported idle/high, and the
   sensor input reported high during the static input-state check. Button
   press/release operation has not yet been observed.
+- The first four button connections are physically ordered Down, Up, Enter,
+  Mode on J_BUTTONS pins 2 through 5. Firmware presents them in logical order
+  Mode, Enter, Up, Down as buttons 1 through 4.
 - The Audio FX board returned a list of 14 WAV files, `T00` through `T13`. It
   accepted the play-track-0 command and replied that it started `T00.WAV`.
   Audible speaker output has not yet been confirmed.
-- The test firmware now mirrors the RTC SQW level on the Feather NeoPixel.
+- The test firmware now mirrors the RTC SQW level in red on the Feather
+  NeoPixel.
   Visible synchronized blinking has not yet been confirmed at the bench.
 
 ## Planned checks

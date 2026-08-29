@@ -168,7 +168,7 @@ def heartbeat_test(sqw, pixel=None, seconds=4.5):
     started = time.monotonic()
     while time.monotonic() - started < seconds:
         value = sqw.value
-        set_pixel(pixel, (0, 25, 0) if value else (0, 0, 0))
+        set_pixel(pixel, (25, 0, 0) if value else (0, 0, 0))
         if value != previous:
             edges.append(time.monotonic())
             previous = value
@@ -186,7 +186,8 @@ def print_inputs(button_states, audio_act, sensor):
     states = []
     for index in range(len(config.BUTTON_PINS)):
         states.append(
-            "B%d=%s" % (index + 1, "DOWN" if button_states[index] else "up")
+            "%s=%s"
+            % (config.BUTTON_NAMES[index], "DOWN" if button_states[index] else "up")
         )
     print("Buttons:", " ".join(states))
     print("Audio ACT:", "PLAYING/LOW" if not audio_act.value else "idle/high")
@@ -320,7 +321,7 @@ print_inputs(button_states, audio_act, sensor)
 heartbeat_ok = heartbeat_test(sqw, pixel) if rtc_ok else False
 
 if rtc_ok and heartbeat_ok:
-    set_pixel(pixel, (0, 25, 0))
+    set_pixel(pixel, (25, 0, 0))
 else:
     set_pixel(pixel, (30, 0, 0))
 
@@ -328,12 +329,18 @@ print_help()
 
 while True:
     if rtc_ok:
-        set_pixel(pixel, (0, 25, 0) if sqw.value else (0, 0, 0))
+        set_pixel(pixel, (25, 0, 0) if sqw.value else (0, 0, 0))
 
     event = buttons.events.get()
     if event is not None:
         button_states[event.key_number] = event.pressed
-        print("Button %d %s" % (event.key_number + 1, "PRESSED" if event.pressed else "released"))
+        print(
+            "%s %s"
+            % (
+                config.BUTTON_NAMES[event.key_number],
+                "PRESSED" if event.pressed else "released",
+            )
+        )
 
     if supervisor.runtime.serial_bytes_available:
         command = sys.stdin.read(1).lower()
