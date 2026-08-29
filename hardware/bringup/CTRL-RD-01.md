@@ -53,10 +53,11 @@ stuck high, or intermediate were not reported.
   side. Subsequent measurements found the CH4 signals failing across the R7
   and R8 series-resistor paths. Additional path testing indicates an open
   solder-pad connection between U2's CH4 outputs and the U2-side pads of R7/R8;
-  reflow is planned but has not yet been reported or verified. U1 failed its
-  IC-level check, and U1 pin 14 has now been reported as having no supply
-  voltage. Whether this is an open pin/pad/plane connection, a local short, or
-  a damaged U1 has not yet been determined.
+  reflow restored the R7/CH4-data path from U2 pin 8. The R8/CH4-clock path from
+  U2 pin 11 remains unconfirmed. U1 failed its IC-level check, and U1 pin 14 has
+  now been reported as having no supply voltage. Whether this is an open
+  pin/pad/plane connection, a local short, or a damaged U1 has not yet been
+  determined.
 - C1's left pad showed continuity to the known `LOGIC_5V` reference, while the
   C1-left-to-U1-pin-14-lead measurement was approximately 3 MOhm. This confirms
   an effectively open path to the U1 VCC lead; the distinction between an
