@@ -15,7 +15,7 @@ import supervisor
 import config
 
 
-VERSION = "0.8"
+VERSION = "0.9"
 RTC_CONTROL_REGISTER = 0x0E
 RTC_SQW_1HZ_MASK = 0x1C
 
@@ -125,7 +125,7 @@ def weekday(year, month, day):
     return (sunday_zero + 5) % 7
 
 
-def read_command_tail(timeout=1.0):
+def read_command_tail(timeout=10.0):
     characters = []
     deadline = time.monotonic() + timeout
     while time.monotonic() < deadline:

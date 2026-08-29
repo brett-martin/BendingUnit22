@@ -44,6 +44,9 @@ The antenna command accepts full names or first letters, such as `a red` or
 GPIO high for three seconds, and then returns it low. Use an appropriate
 resistor or transistor driver for the physical antenna load.
 
+Commands that take an argument (`a`, `p`, and `t`) wait up to ten seconds for
+the remainder of the line so they can be typed interactively.
+
 The `v` sensor monitor prints readings about five times per second and stops
 when any serial-console key is pressed. Move a hand toward and away from the
 sensor while watching raw `proximity` and `white` values. `lux` is the driver's
