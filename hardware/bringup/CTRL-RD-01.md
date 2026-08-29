@@ -44,8 +44,10 @@ Scan-only target test currently deployed:
 
 The test keeps all AHCT outputs disabled, uses the Rev D RX/TX I2C routing,
 and selects `0x30` through `0x33` from the A3 address network. Deployment to
-the controller KB2040 was confirmed, but Brain discovery and the assembled
-board's ADC address levels have not yet been observed.
+the controller KB2040 was confirmed. Initial jumper changes continued to
+decode as Eyes; raw ADC values for each attempted position have not yet been
+provided. Brain discovery and the assembled board's four ADC address levels
+remain unconfirmed.
 
 ## Next test
 
