@@ -49,6 +49,11 @@ controller KB2040 was confirmed. Connector testing found both clock and data
 outputs working on CH3, CH5, and CH6. Both outputs failed the exercise on CH1,
 CH2, and CH4. Exact failed-channel voltages and whether they were stuck low,
 stuck high, or intermediate were not reported.
+- Follow-up probing reported U2 itself working correctly, including the CH4
+  side. The CH4 failure is therefore downstream of the U2 outputs, in the
+  R7/R8, trace, solder-joint, or J4 connector paths. U1 failed its IC-level
+  check, but the specific supply, input, OE, and output measurements have not
+  yet been provided.
 
 The scan-only target test remains available at:
 `BU22_Eyes/tests/display_controller_rev_d_i2c_target/`
@@ -64,9 +69,9 @@ unconfirmed.
 ## Next test
 
 1. Resolve and record U1 pin-14 supply voltage.
-2. Diagnose CH1/CH2 failure at U1 and CH4 failure at the second half of U2 by
-   comparing each 3.3 V input, OE pin, AHCT output, and post-100-ohm connector
-   node during the output exerciser.
+2. Diagnose U1 by recording pin-14 supply, representative input, OE, and output
+   levels during the exerciser.
+3. For CH4, compare both sides of R7 and R8 and then J4 pins 3/data and 2/clock.
 3. Record the target test's remaining A1/both-shunts ADC levels.
 4. With independently powered boards and shared GND/SDA/SCL only, scan for the
    selected controller address from the Brain.
