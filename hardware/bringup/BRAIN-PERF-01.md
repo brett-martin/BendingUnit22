@@ -35,15 +35,15 @@ Last updated: 2026-08-29
   Audible speaker output has not yet been confirmed.
 - The test firmware now mirrors the RTC SQW level in red on the Feather
   NeoPixel.
-  Visible synchronized blinking has not yet been confirmed at the bench.
+  Visible synchronized blinking has been confirmed at the bench.
+- Button operation, named-button reporting, numbered Audio FX playback, and
+  audible speaker output have been reported as passing. Specific functions
+  for the remaining unnamed button inputs have not been recorded.
 
 ## Planned checks
 
 - External 5 V versus USB power isolation
 - I2C pull-up electrical measurements
-- Visible NeoPixel synchronization with the DS3231 SQW heartbeat
-- Button press/release operation for all seven buttons
 - Antenna output
-- Audible Audio FX speaker output
 - Sensor input transition
 - Eyes and Mouth controller discovery after their standalone tests pass

@@ -22,6 +22,7 @@ Use the USB serial console for output tests:
 | `t YYYY-MM-DD HH:MM:SS` | Set RTC from a local wall-clock value |
 | `h` | Measure SQW heartbeat |
 | `i` | Print input states |
+| `v` | Stream VCNL4200 proximity, white-light, lux, and interrupt readings |
 | `a` | Cycle the three antenna outputs |
 | `l` | Request the Audio FX track list without playing audio |
 | `p NUMBER` | Play `Txx.WAV`; for example, `p 3` plays `T03.WAV` |
@@ -36,6 +37,11 @@ the corresponding two-digit filename, `T00.WAV` through `T99.WAV`.
 Each button press/release is printed automatically. The onboard NeoPixel is
 amber during startup and then blinks red in sync with the RTC SQW heartbeat.
 It remains solid red when the RTC is unavailable.
+
+The `v` sensor monitor prints readings about five times per second and stops
+when any serial-console key is pressed. Move a hand toward and away from the
+sensor while watching raw `proximity` and `white` values. `lux` is the driver's
+calculated ambient-light value; `INT` is the level observed on A3.
 
 ## Install
 

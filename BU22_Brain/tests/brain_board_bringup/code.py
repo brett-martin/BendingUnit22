@@ -15,7 +15,7 @@ import supervisor
 import config
 
 
-VERSION = "0.3"
+VERSION = "0.4"
 RTC_CONTROL_REGISTER = 0x0E
 RTC_SQW_1HZ_MASK = 0x1C
 
@@ -194,6 +194,45 @@ def print_inputs(button_states, audio_act, sensor):
     print("Sensor/INT A3:", "LOW" if not sensor.value else "high")
 
 
+def sensor_monitor(i2c, interrupt_pin):
+    print("Sensor monitor: starting; press any key to stop")
+    try:
+        import adafruit_vcnl4200
+        vcnl = adafruit_vcnl4200.Adafruit_VCNL4200(i2c)
+    except ImportError:
+        print("Sensor monitor: adafruit_vcnl4200 library is not installed")
+        return
+    except Exception as error:
+        print("Sensor monitor ERROR:", repr(error))
+        return
+
+    # Discard the newline that completed the command before watching for a key.
+    read_command_tail(timeout=0.2)
+    while True:
+        try:
+            print(
+                "proximity=%d white=%d lux=%.2f INT=%s"
+                % (
+                    vcnl.proximity,
+                    vcnl.white_light,
+                    vcnl.lux,
+                    "LOW" if not interrupt_pin.value else "high",
+                )
+            )
+        except Exception as error:
+            print("Sensor read ERROR:", repr(error))
+            break
+
+        deadline = time.monotonic() + 0.2
+        while time.monotonic() < deadline:
+            if supervisor.runtime.serial_bytes_available:
+                sys.stdin.read(1)
+                read_command_tail(timeout=0.1)
+                print("Sensor monitor: stopped")
+                return
+            time.sleep(0.01)
+
+
 def antenna_test(outputs):
     print("Antenna: each output goes high for 0.5 seconds")
     for index, output in enumerate(outputs):
@@ -275,6 +314,7 @@ def print_help():
     print("  t YYYY-MM-DD HH:MM:SS  set RTC to local wall-clock time")
     print("  h  verify RTC SQW heartbeat")
     print("  i  print buttons, Audio ACT, and sensor/INT")
+    print("  v  stream VCNL4200 proximity/light data; any key stops")
     print("  a  cycle antenna outputs")
     print("  l  request Audio FX track list")
     print("  p NUMBER  play Txx.WAV (for example, p 3 plays T03.WAV)")
@@ -368,6 +408,8 @@ while True:
             heartbeat_test(sqw, pixel)
         elif command == "i":
             print_inputs(button_states, audio_act, sensor)
+        elif command == "v":
+            sensor_monitor(i2c, sensor)
         elif command == "a":
             antenna_test(antenna)
         elif command == "l":
