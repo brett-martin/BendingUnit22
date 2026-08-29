@@ -40,7 +40,15 @@ Last updated: 2026-08-29
 
 ## Current firmware source
 
-All-channel output exerciser currently deployed:
+5x11 tooth-module visual test currently deployed:
+`BU22_Mouth/tests/display_controller_rev_d_tooth_module/`
+
+It sends identical 55-pixel frames to all six channels, with a sequential
+path chase, column sweep, row sweep, conservative all-on colors, and blackout.
+The test was deployed to the controller KB2040 for initial use with only the
+tooth module connected to CH6. No visual result has yet been reported.
+
+The all-channel electrical output exerciser remains available at:
 `BU22_Eyes/tests/display_controller_rev_d_output_exerciser/`
 
 It keeps the buffers disabled for five seconds, initializes all Rev D clock and
