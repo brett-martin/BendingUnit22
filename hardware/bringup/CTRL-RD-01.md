@@ -31,8 +31,9 @@ Last updated: 2026-08-29
 
 ## Open issues
 
-- U1 did not measure `LOGIC_5V` where expected. Recheck the exact pin-14
-  location, solder joint, C1 area, and local connection before attaching LEDs.
+- Reflow restored supply voltage at U1 pin 14, but all four U1-buffered outputs
+  currently swing only between approximately 0 and 1.5 V instead of reaching
+  `LOGIC_5V`. U1 power, ground, OE, and input levels remain to be isolated.
 - The heartbeat LED appeared solid because the deployed temporary firmware used
   the KB2040 internal pull-up. Repository source has been corrected but its
   deployment has not yet been recorded.
@@ -45,19 +46,14 @@ All-channel output exerciser currently deployed:
 It keeps the buffers disabled for five seconds, initializes all Rev D clock and
 data GPIOs low, enables the buffers, and repeats four two-second phases across
 all six channels: low/low, high/low, low/high, and high/high. Deployment to the
-controller KB2040 was confirmed. Connector testing found both clock and data
-outputs working on CH3, CH5, and CH6. Both outputs failed the exercise on CH1,
-CH2, and CH4. Exact failed-channel voltages and whether they were stuck low,
-stuck high, or intermediate were not reported.
+controller KB2040 was confirmed. After reflow work, both clock and data outputs
+are now reported working on CH3 through CH6. CH1 and CH2 remain faulty because
+all four U1 outputs swing only from approximately 0 to 1.5 V.
 - Follow-up probing reported U2 itself working correctly, including the CH4
   side. Subsequent measurements found the CH4 signals failing across the R7
   and R8 series-resistor paths. Additional path testing indicates an open
-  solder-pad connection between U2's CH4 outputs and the U2-side pads of R7/R8;
-  reflow restored the R7/CH4-data path from U2 pin 8. The R8/CH4-clock path from
-  U2 pin 11 remains unconfirmed. U1 failed its IC-level check, and U1 pin 14 has
-  now been reported as having no supply voltage. Whether this is an open
-  pin/pad/plane connection, a local short, or a damaged U1 has not yet been
-  determined.
+  solder-pad connection between U2's CH4 outputs and the U2-side pads of R7/R8.
+  Reflow restored CH4, and CH3 through CH6 now pass.
 - C1's left pad showed continuity to the known `LOGIC_5V` reference, while the
   C1-left-to-U1-pin-14-lead measurement was approximately 3 MOhm. This confirms
   an effectively open path to the U1 VCC lead; the distinction between an
@@ -76,18 +72,11 @@ unconfirmed.
 
 ## Next test
 
-1. Resolve and record U1 pin-14 supply voltage.
-2. With power removed, compare U1 pin-14 continuity to a known `LOGIC_5V` point
-   and resistance to GND against U2/U3; then distinguish the U1 lead from its
-   PCB pad during a powered voltage check.
-3. With power removed, reflow the suspected U2-to-R7/R8 solder connections and
-   inspect for adjacent-pin bridges.
-4. Verify continuity from U2 pin 8 to R7's U2-side pad and U2 pin 11 to R8's
-   U2-side pad, then verify each resistor is approximately 100 ohms end-to-end.
-5. Rerun the exerciser and confirm CH4 at J4 pins 3/data and 2/clock.
-3. Record the target test's remaining A1/both-shunts ADC levels.
-4. With independently powered boards and shared GND/SDA/SCL only, scan for the
+1. During the exerciser, record U1 pin 14/VCC, pin 7/GND, OE pins 1/4/10/13,
+   and representative input/output pairs to diagnose the 0-to-1.5 V swing.
+2. Record the target test's remaining A1/both-shunts ADC levels.
+3. With independently powered boards and shared GND/SDA/SCL only, scan for the
    selected controller address from the Brain.
-5. Redeploy the corrected standalone heartbeat-input firmware.
-6. Connect one known-good four-pixel strip to CH1 and run the suite.
-7. Move the same strip through CH2–CH6, powering down between connectors.
+4. Redeploy the corrected standalone heartbeat-input firmware.
+5. Connect one known-good four-pixel strip to CH1 only after all outputs pass.
+6. Move the same strip through CH2–CH6, powering down between connectors.
