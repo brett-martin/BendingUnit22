@@ -32,6 +32,8 @@ Last updated: 2026-08-29
 - The Audio FX board returned a list of 14 WAV files, `T00` through `T13`. It
   accepted numbered playback commands, and audible speaker output was
   subsequently reported as passing.
+- Pulsing Audio FX reset with the `x` command while a track was playing stopped
+  playback as expected, confirming the reset-control path.
 - The test firmware now mirrors the RTC SQW level in red on the Feather
   NeoPixel.
   Visible synchronized blinking has been confirmed at the bench.
