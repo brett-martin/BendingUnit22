@@ -54,8 +54,9 @@ stuck high, or intermediate were not reported.
   and R8 series-resistor paths. Additional path testing indicates an open
   solder-pad connection between U2's CH4 outputs and the U2-side pads of R7/R8;
   reflow is planned but has not yet been reported or verified. U1 failed its
-  IC-level check, but the specific supply, input, OE, and output measurements
-  have not yet been provided.
+  IC-level check, and U1 pin 14 has now been reported as having no supply
+  voltage. Whether this is an open pin/pad/plane connection, a local short, or
+  a damaged U1 has not yet been determined.
 
 The scan-only target test remains available at:
 `BU22_Eyes/tests/display_controller_rev_d_i2c_target/`
@@ -71,8 +72,9 @@ unconfirmed.
 ## Next test
 
 1. Resolve and record U1 pin-14 supply voltage.
-2. Diagnose U1 by recording pin-14 supply, representative input, OE, and output
-   levels during the exerciser.
+2. With power removed, compare U1 pin-14 continuity to a known `LOGIC_5V` point
+   and resistance to GND against U2/U3; then distinguish the U1 lead from its
+   PCB pad during a powered voltage check.
 3. With power removed, reflow the suspected U2-to-R7/R8 solder connections and
    inspect for adjacent-pin bridges.
 4. Verify continuity from U2 pin 8 to R7's U2-side pad and U2 pin 11 to R8's
