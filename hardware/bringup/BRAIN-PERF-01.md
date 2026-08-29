@@ -52,15 +52,16 @@ Last updated: 2026-08-29
   threshold was crossed. INT remained low after proximity dropped, confirming
   its expected latched behavior; explicit interrupt-flag acknowledgement is
   required to release it.
+- Reading/clearing the latched sensor interrupt with the v0.7 `f` command was
+  confirmed to release INT back high. Wiring INT to Brain A3 is intentionally
+  deferred.
 - The physical red antenna was connected and the v0.9 three-second red-output
-  test passed. Green and blue/spare remain unconnected.
+  test passed. The green and blue/spare antenna output tests were subsequently
+  reported as passing as well.
 
 ## Planned checks
 
 - External 5 V versus USB power isolation
 - I2C pull-up electrical measurements
-- Green and blue/spare antenna outputs after physical loads are connected
-- Move away, use the v0.7 `f` command to acknowledge the close event, and verify
-  that the directly measured INT pin returns high; then wire INT to A3 before
-  adding and testing away-event handling
+- Sensor INT-to-A3 integration and away-event handling are deferred
 - Eyes and Mouth controller discovery after their standalone tests pass
