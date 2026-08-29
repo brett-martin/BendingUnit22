@@ -42,12 +42,16 @@ Last updated: 2026-08-29
 - Raw VCNL4200 monitoring passed. Reported proximity was approximately 1–3
   with nothing present or at about one foot, and 10 or higher at one foot or
   closer. The sensor INT output has not yet been physically wired to Brain A3.
+- With the v0.5 active-low proximity interrupt configuration running, the
+  VCNL4200 INT pin was measured directly at 0 V after the close threshold was
+  crossed. Return-high/away behavior has not yet been observed, and INT remains
+  unwired from Brain A3.
 
 ## Planned checks
 
 - External 5 V versus USB power isolation
 - I2C pull-up electrical measurements
 - Antenna output
-- Wire VCNL4200 INT to A3 and verify the configured active-low close/away
-  interrupt using thresholds 10 and 5
+- Clear the VCNL4200 close event and verify return-high/away behavior, then wire
+  INT to A3 and repeat the configured close/away interrupt test
 - Eyes and Mouth controller discovery after their standalone tests pass
