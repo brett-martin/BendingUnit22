@@ -23,6 +23,8 @@ Last updated: 2026-08-29
   `BU22_Eyes/tests/display_controller_rev_d_bringup/`
 - Rev D fail-dark, jumper-addressed I2C target scan test:
   `BU22_Eyes/tests/display_controller_rev_d_i2c_target/`
+- Rev D all-channel clock/data output exerciser:
+  `BU22_Eyes/tests/display_controller_rev_d_output_exerciser/`
 - Brain perfboard bring-up test:
   `BU22_Brain/tests/brain_board_bringup/`
 

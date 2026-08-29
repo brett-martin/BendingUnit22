@@ -39,7 +39,16 @@ Last updated: 2026-08-29
 
 ## Current firmware source
 
-Scan-only target test currently deployed:
+All-channel output exerciser currently deployed:
+`BU22_Eyes/tests/display_controller_rev_d_output_exerciser/`
+
+It keeps the buffers disabled for five seconds, initializes all Rev D clock and
+data GPIOs low, enables the buffers, and repeats four two-second phases across
+all six channels: low/low, high/low, low/high, and high/high. Deployment to the
+controller KB2040 was confirmed; connector measurements have not yet been
+reported.
+
+The scan-only target test remains available at:
 `BU22_Eyes/tests/display_controller_rev_d_i2c_target/`
 
 The test keeps all AHCT outputs disabled, uses the Rev D RX/TX I2C routing,
@@ -53,9 +62,11 @@ unconfirmed.
 ## Next test
 
 1. Resolve and record U1 pin-14 supply voltage.
-2. Record the target test's raw address ADC value and selected role.
-3. With independently powered boards and shared GND/SDA/SCL only, scan for the
+2. Measure and record clock/data low and high levels for CH1 through CH6 with
+   the output exerciser and no LED arrays connected.
+3. Record the target test's remaining A1/both-shunts ADC levels.
+4. With independently powered boards and shared GND/SDA/SCL only, scan for the
    selected controller address from the Brain.
-4. Redeploy the corrected standalone heartbeat-input firmware.
-5. Connect one known-good four-pixel strip to CH1 and run the suite.
-6. Move the same strip through CH2–CH6, powering down between connectors.
+5. Redeploy the corrected standalone heartbeat-input firmware.
+6. Connect one known-good four-pixel strip to CH1 and run the suite.
+7. Move the same strip through CH2–CH6, powering down between connectors.
