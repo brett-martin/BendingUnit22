@@ -15,7 +15,7 @@ import supervisor
 import config
 
 
-VERSION = "0.2"
+VERSION = "0.3"
 RTC_CONTROL_REGISTER = 0x0E
 RTC_SQW_1HZ_MASK = 0x1C
 
@@ -227,10 +227,20 @@ def audio_list(uart):
         print("Audio FX: no UART response; check power, UG ground, TX/RX crossover")
 
 
-def audio_play_first(uart):
-    print("Audio FX: playing first listed track (track 0)")
+def audio_play_track(uart, value):
+    try:
+        track = int(value)
+        if not 0 <= track <= 99:
+            raise ValueError("track must be from 0 through 99")
+    except ValueError as error:
+        print("Audio FX track ERROR:", repr(error))
+        print("Use: p NUMBER  (for example, p 0 plays T00.WAV)")
+        return False
+
+    filename = "T%02d     WAV" % track
+    print("Audio FX: requesting T%02d.WAV" % track)
     uart.reset_input_buffer()
-    uart.write(b"#0\n")
+    uart.write(("P%s\n" % filename).encode("ascii"))
     deadline = time.monotonic() + 2.0
     response = bytearray()
     while time.monotonic() < deadline:
@@ -243,8 +253,10 @@ def audio_play_first(uart):
     if response:
         print("Audio FX response:")
         print(bytes(response).decode("utf-8", "replace"))
+        return True
     else:
         print("Audio FX: no UART response; check power, UG ground, TX/RX crossover")
+        return False
 
 
 def audio_reset(reset_pin):
@@ -265,7 +277,7 @@ def print_help():
     print("  i  print buttons, Audio ACT, and sensor/INT")
     print("  a  cycle antenna outputs")
     print("  l  request Audio FX track list")
-    print("  p  play first listed Audio FX track (track 0)")
+    print("  p NUMBER  play Txx.WAV (for example, p 3 plays T03.WAV)")
     print("  x  reset Audio FX board")
     print("  ?  show this help\n")
 
@@ -361,7 +373,7 @@ while True:
         elif command == "l":
             audio_list(uart)
         elif command == "p":
-            audio_play_first(uart)
+            audio_play_track(uart, read_command_tail())
         elif command == "x":
             audio_reset(audio_reset_pin)
         else:

@@ -24,13 +24,14 @@ Use the USB serial console for output tests:
 | `i` | Print input states |
 | `a` | Cycle the three antenna outputs |
 | `l` | Request the Audio FX track list without playing audio |
-| `p` | Play the first listed Audio FX track (track 0) |
+| `p NUMBER` | Play `Txx.WAV`; for example, `p 3` plays `T03.WAV` |
 | `x` | Pulse the Audio FX reset line |
 | `?` | Print help |
 
 The `t` command stores the supplied fields exactly as entered. It performs no
 timezone or daylight-saving conversion. Audio playback is explicit because it
-drives the attached speakers; the Audio FX board numbers its first track as 0.
+drives the attached speakers. Track numbers from 0 through 99 map directly to
+the corresponding two-digit filename, `T00.WAV` through `T99.WAV`.
 
 Each button press/release is printed automatically. The onboard NeoPixel is
 amber during startup and then blinks red in sync with the RTC SQW heartbeat.

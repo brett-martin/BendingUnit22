@@ -28,6 +28,8 @@ Last updated: 2026-08-29
   reported as Enter, and Down reported as Up. Firmware was reordered from
   those observations so Mode, Enter, Up, and Down use D10, D9, D6, and D5,
   respectively. The function connected to D4 has not yet been identified.
+- Retesting confirmed that Mode, Enter, Up, and Down now report their correct
+  names in the serial console.
 - The Audio FX board returned a list of 14 WAV files, `T00` through `T13`. It
   accepted the play-track-0 command and replied that it started `T00.WAV`.
   Audible speaker output has not yet been confirmed.
