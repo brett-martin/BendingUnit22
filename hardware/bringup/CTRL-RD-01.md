@@ -51,8 +51,11 @@ CH2, and CH4. Exact failed-channel voltages and whether they were stuck low,
 stuck high, or intermediate were not reported.
 - Follow-up probing reported U2 itself working correctly, including the CH4
   side. Subsequent measurements found the CH4 signals failing across the R7
-  and R8 series-resistor paths. U1 failed its IC-level check, but the specific
-  supply, input, OE, and output measurements have not yet been provided.
+  and R8 series-resistor paths. Additional path testing indicates an open
+  solder-pad connection between U2's CH4 outputs and the U2-side pads of R7/R8;
+  reflow is planned but has not yet been reported or verified. U1 failed its
+  IC-level check, but the specific supply, input, OE, and output measurements
+  have not yet been provided.
 
 The scan-only target test remains available at:
 `BU22_Eyes/tests/display_controller_rev_d_i2c_target/`
@@ -70,9 +73,11 @@ unconfirmed.
 1. Resolve and record U1 pin-14 supply voltage.
 2. Diagnose U1 by recording pin-14 supply, representative input, OE, and output
    levels during the exerciser.
-3. With power removed, verify R7 and R8 are approximately 100 ohms end-to-end;
-   inspect/reflow their pads and replace either resistor if it remains open.
-4. Rerun the exerciser and confirm CH4 at J4 pins 3/data and 2/clock.
+3. With power removed, reflow the suspected U2-to-R7/R8 solder connections and
+   inspect for adjacent-pin bridges.
+4. Verify continuity from U2 pin 8 to R7's U2-side pad and U2 pin 11 to R8's
+   U2-side pad, then verify each resistor is approximately 100 ohms end-to-end.
+5. Rerun the exerciser and confirm CH4 at J4 pins 3/data and 2/clock.
 3. Record the target test's remaining A1/both-shunts ADC levels.
 4. With independently powered boards and shared GND/SDA/SCL only, scan for the
    selected controller address from the Brain.
