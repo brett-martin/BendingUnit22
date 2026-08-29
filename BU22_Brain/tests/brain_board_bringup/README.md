@@ -24,7 +24,7 @@ Use the USB serial console for output tests:
 | `i` | Print input states |
 | `v` | Stream VCNL4200 proximity, white-light, lux, and interrupt readings |
 | `f` | Read and clear latched VCNL4200 interrupt flags |
-| `a` | Cycle the three antenna outputs |
+| `a COLOR` | Hold only the requested red, green, or blue output high for 3 seconds |
 | `l` | Request the Audio FX track list without playing audio |
 | `p NUMBER` | Play `Txx.WAV`; for example, `p 3` plays `T03.WAV` |
 | `x` | Pulse the Audio FX reset line |
@@ -38,6 +38,11 @@ the corresponding two-digit filename, `T00.WAV` through `T99.WAV`.
 Each button press/release is printed automatically. The onboard NeoPixel is
 amber during startup and then blinks red in sync with the RTC SQW heartbeat.
 It remains solid red when the RTC is unavailable.
+
+The antenna command accepts full names or first letters, such as `a red` or
+`a r`. It holds all unrequested antenna outputs low, drives the requested 3.3 V
+GPIO high for three seconds, and then returns it low. Use an appropriate
+resistor or transistor driver for the physical antenna load.
 
 The `v` sensor monitor prints readings about five times per second and stops
 when any serial-console key is pressed. Move a hand toward and away from the

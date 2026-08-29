@@ -36,6 +36,7 @@ Last updated: 2026-08-29
 - The test firmware now mirrors the RTC SQW level in red on the Feather
   NeoPixel.
   Visible synchronized blinking has been confirmed at the bench.
+- The heartbeat output has been reported as working.
 - Button operation, named-button reporting, numbered Audio FX playback, and
   audible speaker output have been reported as passing. Specific functions
   for the remaining unnamed button inputs have not been recorded.
@@ -57,7 +58,8 @@ Last updated: 2026-08-29
 
 - External 5 V versus USB power isolation
 - I2C pull-up electrical measurements
-- Antenna output
+- Red antenna output with a physical antenna; green and blue/spare remain
+  unconnected
 - Move away, use the v0.7 `f` command to acknowledge the close event, and verify
   that the directly measured INT pin returns high; then wire INT to A3 before
   adding and testing away-event handling

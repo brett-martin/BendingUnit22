@@ -15,7 +15,7 @@ import supervisor
 import config
 
 
-VERSION = "0.7"
+VERSION = "0.8"
 RTC_CONTROL_REGISTER = 0x0E
 RTC_SQW_1HZ_MASK = 0x1C
 
@@ -260,15 +260,29 @@ def clear_sensor_interrupt(i2c):
         print("Sensor interrupt clear ERROR:", repr(error))
 
 
-def antenna_test(outputs):
-    print("Antenna: each output goes high for 0.5 seconds")
-    for index, output in enumerate(outputs):
-        print("  ", config.ANTENNA_NAMES[index])
-        output.value = True
-        time.sleep(0.5)
+def antenna_test(outputs, value):
+    names = {
+        "r": 0,
+        "red": 0,
+        "g": 1,
+        "green": 1,
+        "b": 2,
+        "blue": 2,
+    }
+    index = names.get(value.lower())
+    if index is None:
+        print("Use: a red, a green, or a blue")
+        return False
+
+    # Explicitly hold every unrequested antenna output low.
+    for output in outputs:
         output.value = False
-        time.sleep(0.2)
-    print("Antenna: all outputs low")
+    print("Antenna %s: HIGH for 3 seconds" % config.ANTENNA_NAMES[index])
+    outputs[index].value = True
+    time.sleep(3.0)
+    outputs[index].value = False
+    print("Antenna %s: LOW" % config.ANTENNA_NAMES[index])
+    return True
 
 
 def audio_list(uart):
@@ -343,7 +357,7 @@ def print_help():
     print("  i  print buttons, Audio ACT, and sensor/INT")
     print("  v  stream VCNL4200 proximity/light data; any key stops")
     print("  f  read and clear latched VCNL4200 interrupt flags")
-    print("  a  cycle antenna outputs")
+    print("  a COLOR  hold red, green, or blue antenna output high for 3 seconds")
     print("  l  request Audio FX track list")
     print("  p NUMBER  play Txx.WAV (for example, p 3 plays T03.WAV)")
     print("  x  reset Audio FX board")
@@ -441,7 +455,7 @@ while True:
         elif command == "f":
             clear_sensor_interrupt(i2c)
         elif command == "a":
-            antenna_test(antenna)
+            antenna_test(antenna, read_command_tail())
         elif command == "l":
             audio_list(uart)
         elif command == "p":
