@@ -12,7 +12,9 @@ Last updated: 2026-08-29
 - `BRAIN-PERF-01`: prototype Brain perfboard assembled. I2C discovery, RTC
   read/set, configured 1 Hz SQW heartbeat, and Audio FX UART/list/play-command
   tests have passed. Physical NeoPixel, button, and audible Audio FX tests also
-  pass; power isolation, antenna outputs, and sensor response remain. See
+  pass. Raw sensor response, close interrupt assertion, and the physical red
+  antenna output also pass; power isolation, sensor interrupt integration, and
+  unconnected antenna colors remain. See
   `hardware/bringup/BRAIN-PERF-01.md`.
 
 ## Active firmware
@@ -33,8 +35,8 @@ Confirm that this corrected source is deployed before interpreting the LED.
 3. Test one known-good four-pixel strip sequentially on CH1 through CH6.
 4. Record channel identity, RGB order, direction, brightness, and current.
 5. Assemble and repeat the same bring-up on `CTRL-RD-02`.
-6. Complete the remaining Brain perfboard physical I/O tests: sensor response,
-   antenna outputs, and power isolation.
+6. Complete the remaining Brain perfboard physical I/O tests: sensor interrupt
+   integration, unconnected antenna colors, and power isolation.
 7. Connect Brain and both display controllers only after standalone tests pass.
 
 ## Two-Mac workflow

@@ -21,8 +21,7 @@ Last updated: 2026-08-29
   `2026-08-29 11:24:03`, with no timezone or DST conversion. The subsequent
   read matched, and the RTC lost-power flag cleared.
 - All seven buttons reported released, Audio FX ACT reported idle/high, and the
-  sensor input reported high during the static input-state check. Button
-  press/release operation has not yet been observed.
+  sensor input reported high during the static input-state check.
 - Initial named-button testing showed a one-position firmware offset: the
   physical Mode control reported as Button 5, Enter reported as Mode, Up
   reported as Enter, and Down reported as Up. Firmware was reordered from
@@ -31,8 +30,8 @@ Last updated: 2026-08-29
 - Retesting confirmed that Mode, Enter, Up, and Down now report their correct
   names in the serial console.
 - The Audio FX board returned a list of 14 WAV files, `T00` through `T13`. It
-  accepted the play-track-0 command and replied that it started `T00.WAV`.
-  Audible speaker output has not yet been confirmed.
+  accepted numbered playback commands, and audible speaker output was
+  subsequently reported as passing.
 - The test firmware now mirrors the RTC SQW level in red on the Feather
   NeoPixel.
   Visible synchronized blinking has been confirmed at the bench.
@@ -53,13 +52,14 @@ Last updated: 2026-08-29
   threshold was crossed. INT remained low after proximity dropped, confirming
   its expected latched behavior; explicit interrupt-flag acknowledgement is
   required to release it.
+- The physical red antenna was connected and the v0.9 three-second red-output
+  test passed. Green and blue/spare remain unconnected.
 
 ## Planned checks
 
 - External 5 V versus USB power isolation
 - I2C pull-up electrical measurements
-- Red antenna output with a physical antenna; green and blue/spare remain
-  unconnected
+- Green and blue/spare antenna outputs after physical loads are connected
 - Move away, use the v0.7 `f` command to acknowledge the close event, and verify
   that the directly measured INT pin returns high; then wire INT to A3 before
   adding and testing away-event handling
