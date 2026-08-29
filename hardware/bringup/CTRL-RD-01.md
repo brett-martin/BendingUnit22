@@ -57,6 +57,10 @@ stuck high, or intermediate were not reported.
   IC-level check, and U1 pin 14 has now been reported as having no supply
   voltage. Whether this is an open pin/pad/plane connection, a local short, or
   a damaged U1 has not yet been determined.
+- C1's left pad showed continuity to the known `LOGIC_5V` reference, while the
+  C1-left-to-U1-pin-14-lead measurement was approximately 3 MOhm. This confirms
+  an effectively open path to the U1 VCC lead; the distinction between an
+  unsoldered lead and an open PCB pad/feed remains to be verified after reflow.
 
 The scan-only target test remains available at:
 `BU22_Eyes/tests/display_controller_rev_d_i2c_target/`
