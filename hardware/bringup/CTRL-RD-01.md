@@ -81,6 +81,12 @@ not produce its expected Spare selection. Raw ADC values have not yet been
 provided. Brain discovery and the remaining A1/both-shunts address levels are
 unconfirmed.
 
+JP1 was confirmed to have a Rev D copper/label orientation error. The intended
+interface is one vertical left-column shunt for Eyes and one vertical
+right-column shunt for Mouth, with none and both reserved for extra states.
+Fabricated Rev D boards only select their resistor paths with horizontal row
+shunts. See `hardware/display-controller-rev-d/ERRATA.md` E2.
+
 ## Next test
 
 1. During the exerciser, record U1 pin 14/VCC, pin 7/GND, OE pins 1/4/10/13,

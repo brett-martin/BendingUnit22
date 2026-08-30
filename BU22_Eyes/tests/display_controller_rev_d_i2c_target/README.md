@@ -4,7 +4,13 @@ Minimal fail-dark target test for confirming that a Brain can discover a Rev D
 controller over I2C. It does not initialize any SK9822/APA102 clock or data pin
 and holds the AHCT buffers disabled for the entire run.
 
-## Address selection
+## Address selection — Rev D workaround
+
+Rev D has a known JP1 copper/label orientation error. Its `EYES` and `MOUTH`
+labels imply vertical column shunts, but fabricated boards only select resistor
+levels with horizontal row shunts. See
+`hardware/display-controller-rev-d/ERRATA.md` E2. The mapping below is only the
+Rev D test workaround; it is not the desired next-revision user interface.
 
 The A3 resistor network is decoded at startup:
 

@@ -111,16 +111,20 @@ This preserves the six-channel wiring proven on the breadboard.
 
 ### Address selection
 
-A 2x2 address header provides two independent shunt positions while consuming
-only the analog-capable A3 pin. A resistor network produces four distinct ADC
-levels for firmware to decode.
+A 2x2 address header provides two independent vertical shunt columns while
+consuming only the analog-capable A3 pin. A resistor network produces four
+distinct ADC levels for firmware to decode. The physical user interface is:
 
-| A1 shunt | A0 shunt | Intended role/address |
+| Left/Eyes column | Right/Mouth column | Intended role/address |
 |---|---|---|
-| Open | Open | Eyes `0x30` |
+| Closed | Open | Eyes `0x30` |
 | Open | Closed | Mouth `0x31` |
-| Closed | Open | Spare display `0x32` |
+| Open | Open | Spare display `0x32` |
 | Closed | Closed | Development `0x33` |
+
+Display Controller Rev D does not implement this orientation correctly; its
+fabricated copper requires horizontal-row shunts as a temporary workaround.
+See `hardware/display-controller-rev-d/ERRATA.md` E2.
 
 The ADC thresholds must be verified on assembled hardware before this becomes
 the production address scheme.
