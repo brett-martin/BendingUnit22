@@ -8,7 +8,7 @@ import i2ctarget
 import config
 
 
-VERSION = "0.1"
+VERSION = "0.2"
 
 
 def read_address_adc(pin, samples=16):
@@ -20,13 +20,13 @@ def read_address_adc(pin, samples=16):
 
 
 def decode_address(value):
-    if value < config.DEVELOPMENT_MOUTH_THRESHOLD:
-        return config.DEVELOPMENT_ADDRESS, "Development (both shunts)"
-    if value < config.MOUTH_SPARE_THRESHOLD:
+    if value < config.BOTH_A0_THRESHOLD:
+        return config.SPARE_ADDRESS, "Spare display (both shunts)"
+    if value < config.A0_A1_THRESHOLD:
         return config.MOUTH_ADDRESS, "Mouth (A0 shunt)"
-    if value < config.SPARE_EYES_THRESHOLD:
-        return config.SPARE_ADDRESS, "Spare display (A1 shunt)"
-    return config.EYES_ADDRESS, "Eyes (open/open)"
+    if value < config.A1_OPEN_THRESHOLD:
+        return config.EYES_ADDRESS, "Eyes (A1 shunt)"
+    return config.DEVELOPMENT_ADDRESS, "Development (open/open)"
 
 
 print("\nBU-22 DISPLAY CONTROLLER REV D I2C TARGET", VERSION)

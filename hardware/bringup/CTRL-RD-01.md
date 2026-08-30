@@ -81,6 +81,11 @@ not produce its expected Spare selection. Raw ADC values have not yet been
 provided. Brain discovery and the remaining A1/both-shunts address levels are
 unconfirmed.
 
+Target test v0.2 changes the intended state mapping: one A1/left-role shunt is
+Eyes `0x30`, one A0/right-role shunt is Mouth `0x31`, no shunts is Development
+`0x33`, and both shunts is Spare `0x32`. These v0.2 selections have not yet
+been observed on the physical board.
+
 JP1 was confirmed to have a Rev D copper/label orientation error. The intended
 interface is one vertical left-column shunt for Eyes and one vertical
 right-column shunt for Mouth, with none and both reserved for extra states.

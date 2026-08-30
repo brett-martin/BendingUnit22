@@ -52,10 +52,10 @@ Use the horizontal rows for electrical testing despite the role labels:
 
 | Shunts | Temporary Rev D test role/address |
 |---|---|
-| None | Eyes `0x30` |
+| None | Development `0x33` |
 | Top horizontal row | Mouth `0x31` |
-| Bottom horizontal row | Spare `0x32` |
-| Both horizontal rows | Development `0x33` |
+| Bottom horizontal row | Eyes `0x30` |
+| Both horizontal rows | Spare `0x32` |
 
 ### Required next-revision correction
 
@@ -64,8 +64,8 @@ path:
 
 - Left vertical column: Eyes `0x30`
 - Right vertical column: Mouth `0x31`
-- No shunt: reserved Spare `0x32`
-- Both vertical shunts: reserved Development `0x33`
+- No shunt: Development `0x33`
+- Both vertical shunts: Spare `0x32`
 
 One implementation is to connect pads 1 and 2 to `ADDRESS`, pad 3 to one
 address pull-down, and pad 4 to the other. Confirm the final footprint

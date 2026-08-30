@@ -17,6 +17,6 @@ DEVELOPMENT_ADDRESS = 0x33
 
 # Midpoints between the nominal ADC values produced by the 10k pull-up and
 # selectable 10k/20k pull-downs. Startup prints the raw value for bench audit.
-DEVELOPMENT_MOUTH_THRESHOLD = 29_500
-MOUTH_SPARE_THRESHOLD = 38_200
-SPARE_EYES_THRESHOLD = 54_600
+BOTH_A0_THRESHOLD = 29_500
+A0_A1_THRESHOLD = 38_200
+A1_OPEN_THRESHOLD = 54_600

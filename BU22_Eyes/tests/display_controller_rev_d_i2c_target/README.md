@@ -16,10 +16,10 @@ The A3 resistor network is decoded at startup:
 
 | A1 shunt | A0 shunt | Role | Address | Nominal ADC |
 |---|---|---|---:|---:|
-| Open | Open | Eyes | `0x30` | 65535 |
+| Open | Open | Development | `0x33` | 65535 |
 | Open | Closed | Mouth | `0x31` | 32768 |
-| Closed | Open | Spare display | `0x32` | 43690 |
-| Closed | Closed | Development | `0x33` | 26214 |
+| Closed | Open | Eyes | `0x30` | 43690 |
+| Closed | Closed | Spare display | `0x32` | 26214 |
 
 Thresholds are midpoints between nominal levels. Confirm the printed raw ADC
 value on assembled hardware before treating all four selections as validated.

@@ -119,8 +119,8 @@ distinct ADC levels for firmware to decode. The physical user interface is:
 |---|---|---|
 | Closed | Open | Eyes `0x30` |
 | Open | Closed | Mouth `0x31` |
-| Open | Open | Spare display `0x32` |
-| Closed | Closed | Development `0x33` |
+| Open | Open | Development `0x33` |
+| Closed | Closed | Spare display `0x32` |
 
 Display Controller Rev D does not implement this orientation correctly; its
 fabricated copper requires horizontal-row shunts as a temporary workaround.
