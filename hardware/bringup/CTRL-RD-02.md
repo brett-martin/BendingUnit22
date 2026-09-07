@@ -56,13 +56,15 @@ dynamic CH1–CH6 results remain pending.
 - LED-array operation passes on U3/CH5 and CH6.
 - With the slow four-phase output exerciser, all six channels cycle between
   approximately 0 V and 4.7 V as commanded for both clock and data.
+- With the corrected Rev D clock/data mapping, the known-good `9 x 16` eye tile
+  visually operates across CH1 through CH6. This confirms dynamic LED-array
+  operation through U1, U2, and U3 on the second assembly.
 
 ## Open issues
 
-- LED arrays do not operate on U1/CH1 and CH2 or U2/CH3 and CH4.
-- The identical U3-only pass pattern on CTRL-RD-01 and CTRL-RD-02 suggests a
-  repeatable hardware or interface condition, but does not yet identify the
-  cause.
+- CircuitPython's six-channel software DotStar output does not sustain the
+  intended 10 FPS animation rate. This is a firmware-performance issue and is
+  separate from the now-passed channel hardware and corrected pin mapping.
 
 ## Open observations
 
@@ -76,5 +78,6 @@ dynamic CH1–CH6 results remain pending.
 
 ## Next test
 
-Move the known-good eye tile through CH1–CH6 with the corrected visual test and
-record the dynamic result for every channel.
+Proceed to controller/Brain I2C integration when desired. Address the
+six-channel animation-rate requirement separately with compiled or
+hardware-assisted LED output firmware.

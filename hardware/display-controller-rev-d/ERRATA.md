@@ -96,8 +96,8 @@ same mouth tile work on all six channels. The observed functional mapping is:
 This result identifies a firmware-to-physical-pin mapping error; it does not
 show defective U1/U2 buffers or failed PCB traces. All repository Rev D
 firmware configurations have been updated to the observed functional mapping.
-Repeat the dynamic test on `CTRL-RD-02` before marking the correction validated
-on both assemblies.
+Dynamic LED-array testing has now passed CH1 through CH6 on both `CTRL-RD-01`
+and `CTRL-RD-02` with this corrected mapping.
 
 ### Required next-revision correction
 

@@ -5,22 +5,16 @@ Last updated: 2026-09-06
 ## Active hardware
 
 - `CTRL-RD-01`: first hand-assembled Display Controller Rev D. Passive power
-  distribution and the five-second output-enable transition have passed. Slow
-  output exercising now passes CH3 through CH6 after reflow. U1 pin 14 now has
-  supply voltage, but CH1/CH2 outputs swing only from about 0 to 1.5 V. A 5x11
-  module visually passes CH5/CH6 but produces no output on the U2-driven
-  CH3/CH4 despite slow/static voltage checks passing. Microscope inspection
-  and reflow found no remaining obvious flaw. All six channels pass both the
-  slow 0/4.7 V static exerciser and valid 1 kHz mouth-tile traffic after
-  correcting the reversed CH1–4 firmware clock/data mapping. Its KB2040 UID is
+  distribution, five-second output-enable transition, static output levels,
+  and dynamic mouth-tile operation pass across CH1–CH6 after correcting the
+  reversed CH1–CH4 firmware clock/data mapping. Its KB2040 UID is
   `DF63CC284F66402B` and its current development role is Mouth. See
   `hardware/bringup/CTRL-RD-01.md`.
 - `CTRL-RD-02`: second Display Controller Rev D assembled and connected to one
-  `9 x 16` eye tile. Its static eye display passed. As on CTRL-RD-01, only
-  U3/CH5–6 drive LED arrays; CH1–4 do not. No obvious board or solder flaw was
-  visible under microscope inspection. All six outputs pass the slow 0/4.7 V
-  static exerciser on its KB2040, UID `DF63CC284F214629`. The corrected eye-tile
-  visual test is deployed; its six-channel dynamic retest is pending. See
+  `9 x 16` eye tile. Static levels and dynamic eye-tile operation pass across
+  CH1–CH6 with the corrected mapping. No obvious board or solder flaw was
+  visible under microscope inspection. Its KB2040 UID is
+  `DF63CC284F214629`. See
   `hardware/bringup/CTRL-RD-02.md`.
 - `BRAIN-PERF-01`: prototype Brain perfboard assembled. I2C discovery, RTC
   read/set, configured 1 Hz SQW heartbeat, and Audio FX UART/list/play-command
@@ -55,16 +49,13 @@ Confirm that this corrected source is deployed before interpreting the LED.
 
 ## Immediate next steps
 
-1. Deploy the corrected Rev D mapping to CTRL-RD-02 and repeat dynamic
-   LED-array testing across CH1–CH6.
-2. Deploy the corrected controller test to its KB2040.
-3. Test one known-good four-pixel strip sequentially on CH1 through CH6.
-4. Record channel identity, RGB order, direction, brightness, and current.
-5. Observe the `9 x 16` eye-tile test on `CTRL-RD-02` and record the connected
-   channel, chase direction, row/column mapping, RGB order, and any bad pixels.
-6. Optionally measure Brain I2C pull-up strength. Sensor interrupt integration
+1. Proceed to Brain/controller I2C integration when desired.
+2. Develop compiled or hardware-assisted controller output to meet the
+   six-channel 10 FPS animation target; this is separate from hardware
+   validation.
+3. Optionally measure Brain I2C pull-up strength. Sensor interrupt integration
    is intentionally deferred.
-7. Connect Brain and both display controllers only after standalone tests pass.
+4. Connect Brain and both display controllers for integrated testing.
 
 ## Two-Mac workflow
 
