@@ -28,9 +28,15 @@ column-serpentine tile, runs a sequential chain chase, logical column and row
 sweeps, conservative solid-color fills, and blackout, and retains the
 five-second fail-dark startup interval.
 
+The tile's static Bender-eye pattern was physically reported to look good. A
+dedicated 10 FPS repeating blink test was subsequently deployed from
+`BU22_Eyes/tests/display_controller_rev_d_eye_blink/`; its physical animation
+result remains pending.
+
 ## Tests passed
 
-- None recorded yet.
+- The centered Bender-style eye pattern looks good on the temporary `9 x 16`
+  strip-built eye tile.
 
 ## Open observations
 
