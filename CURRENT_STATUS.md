@@ -9,12 +9,14 @@ Last updated: 2026-09-06
   output exercising now passes CH3 through CH6 after reflow. U1 pin 14 now has
   supply voltage, but CH1/CH2 outputs swing only from about 0 to 1.5 V. A 5x11
   module visually passes CH5/CH6 but produces no output on the U2-driven
-  CH3/CH4 despite slow/static voltage checks passing. Do not attach additional
-  LED arrays until U1 and U2 are corrected. See
+  CH3/CH4 despite slow/static voltage checks passing. Microscope inspection
+  and reflow found no remaining obvious flaw, but only U3/CH5–6 drive LED
+  arrays. See
   `hardware/bringup/CTRL-RD-01.md`.
 - `CTRL-RD-02`: second Display Controller Rev D assembled and connected to one
-  `9 x 16` eye tile. The dedicated eye-tile visual test has been deployed;
-  physical visual results remain pending. See
+  `9 x 16` eye tile. Its static eye display passed. As on CTRL-RD-01, only
+  U3/CH5–6 drive LED arrays; CH1–4 do not. No obvious board or solder flaw was
+  visible under microscope inspection. See
   `hardware/bringup/CTRL-RD-02.md`.
 - `BRAIN-PERF-01`: prototype Brain perfboard assembled. I2C discovery, RTC
   read/set, configured 1 Hz SQW heartbeat, and Audio FX UART/list/play-command
@@ -47,7 +49,9 @@ Confirm that this corrected source is deployed before interpreting the LED.
 
 ## Immediate next steps
 
-1. Diagnose U1 power/CH1/CH2 and the second half of U2/CH4 on `CTRL-RD-01`.
+1. Compare MCU1B/U1/U2 input, buffer-output, and connector signals against the
+   working MCU1A/U3/CH5 path on both controllers. CH1–4 share MCU1B while CH5–6
+   share MCU1A.
 2. Deploy the corrected controller test to its KB2040.
 3. Test one known-good four-pixel strip sequentially on CH1 through CH6.
 4. Record channel identity, RGB order, direction, brightness, and current.

@@ -1,6 +1,6 @@
 # CTRL-RD-01 bring-up record
 
-Last updated: 2026-08-29
+Last updated: 2026-09-06
 
 ## Identity
 
@@ -37,6 +37,10 @@ Last updated: 2026-08-29
 - The heartbeat LED appeared solid because the deployed temporary firmware used
   the KB2040 internal pull-up. Repository source has been corrected but its
   deployment has not yet been recorded.
+- After microscope inspection and hot-air/liquid-flux reflow of visible trace
+  and solder connections, no obvious remaining physical PCB flaw was observed.
+  LED-array testing still passes only U3/CH5 and CH6; U1/CH1 and CH2 and
+  U2/CH3 and CH4 do not drive the tested arrays.
 
 ## Current firmware source
 
@@ -94,12 +98,16 @@ shunts. See `hardware/display-controller-rev-d/ERRATA.md` E2.
 
 ## Next test
 
-1. During the exerciser, record U1 pin 14/VCC, pin 7/GND, OE pins 1/4/10/13,
-   and representative input/output pairs to diagnose the 0-to-1.5 V swing.
-2. Compare U2 and U3 package markings, supply/ground, and C2/C3 decoupling;
-   then test U2 with deliberately slow DotStar traffic or an oscilloscope.
-3. Record the target test's remaining A1/both-shunts ADC levels.
-4. With independently powered boards and shared GND/SDA/SCL only, scan for the
+1. Compare one failing channel with CH5 during the same slow exerciser phase:
+   measure its KB2040-side 3.3 V data/clock nets at the buffer input pins, then
+   the corresponding 5 V buffer output pins and connector pins.
+2. Check continuity from the MCU1B socket pads to the U1/U2 input pins and
+   compare it with MCU1A-to-U3. All four failing channels originate on MCU1B;
+   both working channels originate on MCU1A.
+3. Compare U1/U2 and U3 package markings, pin-1 orientation, pin 14/VCC, pin
+   7/GND, and OE pins 1/4/10/13 without assuming the cause.
+4. Record the target test's remaining A1/both-shunts ADC levels.
+5. With independently powered boards and shared GND/SDA/SCL only, scan for the
    selected controller address from the Brain.
-5. Redeploy the corrected standalone heartbeat-input firmware.
-6. Connect additional LED modules only after all channel faults pass.
+6. Redeploy the corrected standalone heartbeat-input firmware.
+7. Connect additional LED modules only after all channel faults pass.

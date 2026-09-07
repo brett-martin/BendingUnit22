@@ -16,6 +16,12 @@ Last updated: 2026-09-06
 - The previous controller remains associated with one mouth tile; no result
   for that board is inferred by this test.
 
+## Assembly notes
+
+- Assembly used a hot-air rework station, liquid flux, and microscope
+  inspection.
+- No obvious board, trace, or soldering flaw was visible under the microscope.
+
 ## Firmware deployed
 
 The dedicated eye-tile visual test was deployed from:
@@ -37,6 +43,14 @@ result remains pending.
 
 - The centered Bender-style eye pattern looks good on the temporary `9 x 16`
   strip-built eye tile.
+- LED-array operation passes on U3/CH5 and CH6.
+
+## Open issues
+
+- LED arrays do not operate on U1/CH1 and CH2 or U2/CH3 and CH4.
+- The identical U3-only pass pattern on CTRL-RD-01 and CTRL-RD-02 suggests a
+  repeatable hardware or interface condition, but does not yet identify the
+  cause.
 
 ## Open observations
 
@@ -50,6 +64,7 @@ result remains pending.
 
 ## Next test
 
-Observe one complete visual-test cycle and report the connected channel plus
-the physical behavior of the chase, column sweep, row sweep, colors, and
-blackout.
+Compare one failing channel with CH5 during the same slow output-exerciser
+phase. Measure the 3.3 V clock/data signals at their buffer inputs, the 5 V
+signals at their buffer outputs, and the signals at their output connectors.
+Then check MCU1B-to-U1/U2 continuity and compare it with MCU1A-to-U3.
