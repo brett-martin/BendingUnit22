@@ -30,6 +30,9 @@ Last updated: 2026-09-06
 - Q1 output-enable behavior passed with the KB2040 and temporary test firmware:
   the collector/OE voltage remained high during the five-second fail-dark
   interval and changed correctly when firmware enabled the buffers.
+- With the slow four-phase output exerciser, all six channels on the completed
+  board cycle between approximately 0 V and 4.7 V as commanded for both clock
+  and data.
 
 ## Open issues
 
@@ -101,14 +104,12 @@ shunts. See `hardware/display-controller-rev-d/ERRATA.md` E2.
 
 ## Next test
 
-1. Compare one failing channel with CH5 during the same slow exerciser phase:
-   measure its KB2040-side 3.3 V data/clock nets at the buffer input pins, then
-   the corresponding 5 V buffer output pins and connector pins.
-2. Check continuity from the MCU1B socket pads to the U1/U2 input pins and
-   compare it with MCU1A-to-U3. All four failing channels originate on MCU1B;
-   both working channels originate on MCU1A.
-3. Compare U1/U2 and U3 package markings, pin-1 orientation, pin 14/VCC, pin
-   7/GND, and OE pins 1/4/10/13 without assuming the cause.
+1. Send a deliberately slow, valid DotStar frame on all channels. Determine
+   whether CH1–4 begin operating when clock rate is reduced substantially.
+2. If CH1–4 still fail, compare clock/data identity and their timing at CH1 and
+   CH5. If they pass slowly, compare edge quality and timing at increasing
+   clock rates.
+3. Do not treat the 0/4.7 V static pass as a dynamic LED-array pass.
 4. Record the target test's remaining A1/both-shunts ADC levels.
 5. With independently powered boards and shared GND/SDA/SCL only, scan for the
    selected controller address from the Brain.

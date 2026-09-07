@@ -12,13 +12,13 @@ Last updated: 2026-09-06
   CH3/CH4 despite slow/static voltage checks passing. Microscope inspection
   and reflow found no remaining obvious flaw, but only U3/CH5–6 drive LED
   arrays. Its KB2040 UID is `DF63CC284F66402B`, its current development role is
-  Mouth, and the slow output exerciser is deployed. See
+  Mouth, and all six outputs now pass the slow 0/4.7 V static exerciser. See
   `hardware/bringup/CTRL-RD-01.md`.
 - `CTRL-RD-02`: second Display Controller Rev D assembled and connected to one
   `9 x 16` eye tile. Its static eye display passed. As on CTRL-RD-01, only
   U3/CH5–6 drive LED arrays; CH1–4 do not. No obvious board or solder flaw was
-  visible under microscope inspection. The slow output exerciser is deployed
-  to its KB2040, UID `DF63CC284F214629`. See
+  visible under microscope inspection. All six outputs pass the slow 0/4.7 V
+  static exerciser on its KB2040, UID `DF63CC284F214629`. See
   `hardware/bringup/CTRL-RD-02.md`.
 - `BRAIN-PERF-01`: prototype Brain perfboard assembled. I2C discovery, RTC
   read/set, configured 1 Hz SQW heartbeat, and Audio FX UART/list/play-command
@@ -51,9 +51,8 @@ Confirm that this corrected source is deployed before interpreting the LED.
 
 ## Immediate next steps
 
-1. Compare MCU1B/U1/U2 input, buffer-output, and connector signals against the
-   working MCU1A/U3/CH5 path on both controllers. CH1–4 share MCU1B while CH5–6
-   share MCU1A.
+1. Run deliberately slow valid DotStar traffic on all channels to distinguish
+   a dynamic timing/edge problem from clock/data identity or firmware behavior.
 2. Deploy the corrected controller test to its KB2040.
 3. Test one known-good four-pixel strip sequentially on CH1 through CH6.
 4. Record channel identity, RGB order, direction, brightness, and current.

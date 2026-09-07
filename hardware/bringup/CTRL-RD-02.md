@@ -49,6 +49,8 @@ repository copies. New electrical measurements remain pending.
 - The centered Bender-style eye pattern looks good on the temporary `9 x 16`
   strip-built eye tile.
 - LED-array operation passes on U3/CH5 and CH6.
+- With the slow four-phase output exerciser, all six channels cycle between
+  approximately 0 V and 4.7 V as commanded for both clock and data.
 
 ## Open issues
 
@@ -69,7 +71,7 @@ repository copies. New electrical measurements remain pending.
 
 ## Next test
 
-Compare one failing channel with CH5 during the same slow output-exerciser
-phase. Measure the 3.3 V clock/data signals at their buffer inputs, the 5 V
-signals at their buffer outputs, and the signals at their output connectors.
-Then check MCU1B-to-U1/U2 continuity and compare it with MCU1A-to-U3.
+Send a deliberately slow, valid DotStar frame on all six channels. Determine
+whether CH1–4 begin operating at the reduced clock rate. If they do, compare
+edge quality and behavior while increasing clock rate; if they do not, verify
+clock/data identity and relative timing against working CH5.
