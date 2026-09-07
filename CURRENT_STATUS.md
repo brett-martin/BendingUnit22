@@ -11,7 +11,8 @@ Last updated: 2026-09-06
   module visually passes CH5/CH6 but produces no output on the U2-driven
   CH3/CH4 despite slow/static voltage checks passing. Microscope inspection
   and reflow found no remaining obvious flaw, but only U3/CH5–6 drive LED
-  arrays. See
+  arrays. Its KB2040 UID is `DF63CC284F66402B`, its current development role is
+  Mouth, and the slow output exerciser is deployed. See
   `hardware/bringup/CTRL-RD-01.md`.
 - `CTRL-RD-02`: second Display Controller Rev D assembled and connected to one
   `9 x 16` eye tile. Its static eye display passed. As on CTRL-RD-01, only

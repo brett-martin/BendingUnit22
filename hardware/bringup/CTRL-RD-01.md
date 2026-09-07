@@ -7,6 +7,8 @@ Last updated: 2026-09-06
 - Assembly: first hand-assembled universal display controller
 - PCB: BU-22 Display Controller Rev D
 - MCU: socketed Adafruit KB2040
+- KB2040 UID observed over USB: `DF63CC284F66402B`
+- Current development role: Mouth controller
 - Intended initial role: standalone controller hardware validation
 
 ## Assembly notes
@@ -44,7 +46,7 @@ Last updated: 2026-09-06
 
 ## Current firmware source
 
-5x11 tooth-module visual test currently deployed:
+5x11 tooth-module visual test previously deployed:
 `BU22_Mouth/tests/display_controller_rev_d_tooth_module/`
 
 It sends identical 55-pixel frames to all six channels, with a sequential
@@ -55,13 +57,14 @@ CH4 powered the module and showed expected slow/static signal voltages but
 produced no visible DotStar output. This localizes the visual/high-speed failure
 to the U2 channel group; the specific waveform or hardware cause is unresolved.
 
-The all-channel electrical output exerciser remains available at:
+The all-channel electrical output exerciser is currently deployed from:
 `BU22_Eyes/tests/display_controller_rev_d_output_exerciser/`
 
 It keeps the buffers disabled for five seconds, initializes all Rev D clock and
 data GPIOs low, enables the buffers, and repeats four two-second phases across
-all six channels: low/low, high/low, low/high, and high/high. Deployment to the
-controller KB2040 was confirmed. After reflow work, both clock and data outputs
+all six channels: low/low, high/low, low/high, and high/high. Deployment to
+KB2040 UID `DF63CC284F66402B` was reconfirmed on 2026-09-06. After reflow work,
+both clock and data outputs
 are now reported working on CH3 through CH6. CH1 and CH2 remain faulty because
 all four U1 outputs swing only from approximately 0 to 1.5 V.
 - Follow-up probing reported U2 itself working correctly, including the CH4
