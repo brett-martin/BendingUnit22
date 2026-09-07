@@ -19,7 +19,8 @@ Last updated: 2026-09-06
   `9 x 16` eye tile. Its static eye display passed. As on CTRL-RD-01, only
   U3/CH5–6 drive LED arrays; CH1–4 do not. No obvious board or solder flaw was
   visible under microscope inspection. All six outputs pass the slow 0/4.7 V
-  static exerciser on its KB2040, UID `DF63CC284F214629`. See
+  static exerciser on its KB2040, UID `DF63CC284F214629`. The corrected eye-tile
+  visual test is deployed; its six-channel dynamic retest is pending. See
   `hardware/bringup/CTRL-RD-02.md`.
 - `BRAIN-PERF-01`: prototype Brain perfboard assembled. I2C discovery, RTC
   read/set, configured 1 Hz SQW heartbeat, and Audio FX UART/list/play-command

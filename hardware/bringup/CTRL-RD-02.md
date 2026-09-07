@@ -44,6 +44,11 @@ The slow all-channel electrical output exerciser was deployed afterward from
 `DF63CC284F214629`. The deployed files were verified byte-for-byte against the
 repository copies. New electrical measurements remain pending.
 
+After the CH1–CH4 clock/data mapping correction was validated on CTRL-RD-01,
+the corrected `9 x 16` eye-tile visual test was deployed to this controller.
+The deployed `code.py` and corrected `config.py` were verified byte-for-byte;
+dynamic CH1–CH6 results remain pending.
+
 ## Tests passed
 
 - The centered Bender-style eye pattern looks good on the temporary `9 x 16`
@@ -71,7 +76,5 @@ repository copies. New electrical measurements remain pending.
 
 ## Next test
 
-Send a deliberately slow, valid DotStar frame on all six channels. Determine
-whether CH1–4 begin operating at the reduced clock rate. If they do, compare
-edge quality and behavior while increasing clock rate; if they do not, verify
-clock/data identity and relative timing against working CH5.
+Move the known-good eye tile through CH1–CH6 with the corrected visual test and
+record the dynamic result for every channel.
