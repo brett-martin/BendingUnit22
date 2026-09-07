@@ -53,8 +53,9 @@ Confirm that this corrected source is deployed before interpreting the LED.
 
 ## Immediate next steps
 
-1. Run deliberately slow valid DotStar traffic on all channels to distinguish
-   a dynamic timing/edge problem from clock/data identity or firmware behavior.
+1. Test the mouth tile with deliberately slow DotStar diagnostic version
+   `0.2-swap-ch1-4`, which swaps clock/data only on CH1–4 while retaining
+   normal CH5–6 controls.
 2. Deploy the corrected controller test to its KB2040.
 3. Test one known-good four-pixel strip sequentially on CH1 through CH6.
 4. Record channel identity, RGB order, direction, brightness, and current.
