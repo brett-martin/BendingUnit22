@@ -8,7 +8,7 @@ import adafruit_dotstar
 import config
 
 
-VERSION = "0.1"
+VERSION = "0.2"
 BLACK = (0, 0, 0)
 CHASE_COLOR = (255, 80, 0)
 COLUMN_COLOR = (0, 100, 255)
@@ -65,6 +65,7 @@ def path_chase(channels):
         "pixel path chase",
     )
     clear(channels)
+    started = time.monotonic()
     previous_index = None
     for index in range(config.PIXELS_PER_CHANNEL):
         if previous_index is not None:
@@ -75,6 +76,10 @@ def path_chase(channels):
             print(" Starting physical column", index // config.MODULE_HEIGHT + 1)
         time.sleep(config.CHASE_SECONDS)
         previous_index = index
+    elapsed = time.monotonic() - started
+    print(" Chase: %.2f seconds, %.1f frames/sec" % (
+        elapsed, config.PIXELS_PER_CHANNEL / elapsed
+    ))
     clear(channels, 0.5)
 
 
@@ -115,6 +120,70 @@ def all_on(channels):
     clear(channels, config.BLACKOUT_SECONDS)
 
 
+def render_performance_frame(channels, frame):
+    """Render a moving vertical bar on every channel."""
+    active_column = frame % config.MODULE_WIDTH
+    for channel in channels:
+        channel.fill(BLACK)
+    for row in range(config.MODULE_HEIGHT):
+        set_identical_pixel(
+            channels,
+            serpentine_index(active_column, row),
+            COLUMN_COLOR,
+        )
+
+
+def timed_animation(channels):
+    print(
+        "PATTERN 5:",
+        config.PERFORMANCE_FRAMES,
+        "frame six-channel animation at",
+        config.TARGET_FPS,
+        "FPS",
+    )
+    frame_period = 1.0 / config.TARGET_FPS
+    started = time.monotonic()
+    missed_deadlines = 0
+    slowest_work = 0.0
+
+    for frame in range(config.PERFORMANCE_FRAMES):
+        deadline = started + (frame + 1) * frame_period
+        work_started = time.monotonic()
+        render_performance_frame(channels, frame)
+        show(channels)
+        work_time = time.monotonic() - work_started
+        slowest_work = max(slowest_work, work_time)
+
+        remaining = deadline - time.monotonic()
+        if remaining > 0:
+            time.sleep(remaining)
+        else:
+            missed_deadlines += 1
+
+    elapsed = time.monotonic() - started
+    print(" Timed result: %.2f FPS" % (config.PERFORMANCE_FRAMES / elapsed))
+    print(" Slowest render/transmit: %.1f ms" % (slowest_work * 1000))
+    print(" Missed frame deadlines:", missed_deadlines)
+    clear(channels, 0.5)
+
+
+def maximum_rate(channels):
+    print(
+        "PATTERN 6:",
+        config.PERFORMANCE_FRAMES,
+        "frame unrestricted six-channel benchmark",
+    )
+    started = time.monotonic()
+    for frame in range(config.PERFORMANCE_FRAMES):
+        render_performance_frame(channels, frame)
+        show(channels)
+    elapsed = time.monotonic() - started
+    print(" Maximum measured rate: %.1f FPS" % (
+        config.PERFORMANCE_FRAMES / elapsed
+    ))
+    clear(channels, 0.5)
+
+
 print("\nBU-22 REV D 9x16 EYE TILE TEST", VERSION)
 print("Identical frames on CH1 through CH6")
 print("Pixels/channel:", config.PIXELS_PER_CHANNEL)
@@ -141,3 +210,5 @@ while True:
     column_sweep(channels)
     row_sweep(channels)
     all_on(channels)
+    timed_animation(channels)
+    maximum_rate(channels)
