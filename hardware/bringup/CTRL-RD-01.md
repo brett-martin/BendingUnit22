@@ -49,6 +49,13 @@ Last updated: 2026-09-06
 
 ## Current firmware source
 
+The deliberately slow valid-DotStar mouth test is being deployed from:
+`BU22_Mouth/tests/display_controller_rev_d_slow_dotstar/`
+
+It bypasses `adafruit_dotstar`, sends identical valid 55-pixel frames to all
+six channels at a nominal 1 kHz clock, and cycles red, green, blue, dim white,
+and black. Physical LED-array results remain pending.
+
 5x11 tooth-module visual test previously deployed:
 `BU22_Mouth/tests/display_controller_rev_d_tooth_module/`
 

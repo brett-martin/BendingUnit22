@@ -38,6 +38,8 @@ Last updated: 2026-09-06
   `BU22_Eyes/tests/display_controller_rev_d_output_exerciser/`
 - Rev D 5x11 tooth-module visual test:
   `BU22_Mouth/tests/display_controller_rev_d_tooth_module/`
+- Rev D deliberately slow valid-DotStar mouth test:
+  `BU22_Mouth/tests/display_controller_rev_d_slow_dotstar/`
 - Rev D 9x16 eye-tile visual test:
   `BU22_Eyes/tests/display_controller_rev_d_eye_tile/`
 - Rev D 9x16 repeating eye-blink animation test:
