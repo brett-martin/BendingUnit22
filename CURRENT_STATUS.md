@@ -40,6 +40,8 @@ Last updated: 2026-09-06
   `BU22_Eyes/tests/display_controller_rev_d_eye_tile/`
 - Rev D 9x16 repeating eye-blink animation test:
   `BU22_Eyes/tests/display_controller_rev_d_eye_blink/`
+- Rev D six-channel CircuitPython DotStar performance benchmark:
+  `BU22_Eyes/tests/display_controller_rev_d_dotstar_benchmark/`
 - Brain perfboard bring-up test:
   `BU22_Brain/tests/brain_board_bringup/`
 
