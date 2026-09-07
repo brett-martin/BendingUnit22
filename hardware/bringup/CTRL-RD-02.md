@@ -39,6 +39,11 @@ dedicated 10 FPS repeating blink test was subsequently deployed from
 `BU22_Eyes/tests/display_controller_rev_d_eye_blink/`; its physical animation
 result remains pending.
 
+The slow all-channel electrical output exerciser was deployed afterward from
+`BU22_Eyes/tests/display_controller_rev_d_output_exerciser/` to KB2040 UID
+`DF63CC284F214629`. The deployed files were verified byte-for-byte against the
+repository copies. New electrical measurements remain pending.
+
 ## Tests passed
 
 - The centered Bender-style eye pattern looks good on the temporary `9 x 16`

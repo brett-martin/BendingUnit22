@@ -17,7 +17,8 @@ Last updated: 2026-09-06
 - `CTRL-RD-02`: second Display Controller Rev D assembled and connected to one
   `9 x 16` eye tile. Its static eye display passed. As on CTRL-RD-01, only
   U3/CH5–6 drive LED arrays; CH1–4 do not. No obvious board or solder flaw was
-  visible under microscope inspection. See
+  visible under microscope inspection. The slow output exerciser is deployed
+  to its KB2040, UID `DF63CC284F214629`. See
   `hardware/bringup/CTRL-RD-02.md`.
 - `BRAIN-PERF-01`: prototype Brain perfboard assembled. I2C discovery, RTC
   read/set, configured 1 Hz SQW heartbeat, and Audio FX UART/list/play-command
