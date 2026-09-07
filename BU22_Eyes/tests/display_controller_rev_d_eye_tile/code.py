@@ -8,7 +8,7 @@ import adafruit_dotstar
 import config
 
 
-VERSION = "0.2"
+VERSION = "0.3"
 BLACK = (0, 0, 0)
 CHASE_COLOR = (255, 80, 0)
 COLUMN_COLOR = (0, 100, 255)
@@ -18,6 +18,29 @@ ALL_ON_COLORS = (
     ("GREEN", (0, 160, 0)),
     ("BLUE", (0, 0, 160)),
     ("DIM WHITE", (48, 48, 48)),
+)
+EYE_COLOR = (255, 110, 0)
+
+# Nine characters per row, top to bottom. The LED columns have wider physical
+# spacing than the pixels within each strip, so this 9x16 logical mask appears
+# approximately square on the temporary strip-built tile.
+EYE_MASK = (
+    "...YYY...",
+    "..YYYYY..",
+    ".YYYYYYY.",
+    ".YYYYYYY.",
+    "YYYYYYYYY",
+    "YYYYYYYYY",
+    "YYY...YYY",
+    "YYY...YYY",
+    "YYY...YYY",
+    "YYY...YYY",
+    "YYYYYYYYY",
+    "YYYYYYYYY",
+    ".YYYYYYY.",
+    ".YYYYYYY.",
+    "..YYYYY..",
+    "...YYY...",
 )
 
 
@@ -58,9 +81,23 @@ def serpentine_index(column, row):
     return column * config.MODULE_HEIGHT + physical_row
 
 
+def bender_eye(channels):
+    print("PATTERN 1: centered Bender eye")
+    clear(channels)
+    for row, pixels in enumerate(EYE_MASK):
+        for column, pixel in enumerate(pixels):
+            if pixel == "Y":
+                set_identical_pixel(
+                    channels, serpentine_index(column, row), EYE_COLOR
+                )
+    show(channels)
+    time.sleep(config.EYEBALL_SECONDS)
+    clear(channels, 0.5)
+
+
 def path_chase(channels):
     print(
-        "PATTERN 1: sequential",
+        "PATTERN 2: sequential",
         config.PIXELS_PER_CHANNEL,
         "pixel path chase",
     )
@@ -84,7 +121,7 @@ def path_chase(channels):
 
 
 def column_sweep(channels):
-    print("PATTERN 2:", config.MODULE_WIDTH, "column sweep, left to right")
+    print("PATTERN 3:", config.MODULE_WIDTH, "column sweep, left to right")
     for column in range(config.MODULE_WIDTH):
         clear(channels)
         for row in range(config.MODULE_HEIGHT):
@@ -98,7 +135,7 @@ def column_sweep(channels):
 
 
 def row_sweep(channels):
-    print("PATTERN 3:", config.MODULE_HEIGHT, "row sweep, top to bottom")
+    print("PATTERN 4:", config.MODULE_HEIGHT, "row sweep, top to bottom")
     for row in range(config.MODULE_HEIGHT):
         clear(channels)
         for column in range(config.MODULE_WIDTH):
@@ -110,7 +147,7 @@ def row_sweep(channels):
 
 
 def all_on(channels):
-    print("PATTERN 4: conservative all-on colors")
+    print("PATTERN 5: conservative all-on colors")
     for name, color in ALL_ON_COLORS:
         for channel in channels:
             channel.fill(color)
@@ -135,7 +172,7 @@ def render_performance_frame(channels, frame):
 
 def timed_animation(channels):
     print(
-        "PATTERN 5:",
+        "PATTERN 6:",
         config.PERFORMANCE_FRAMES,
         "frame six-channel animation at",
         config.TARGET_FPS,
@@ -169,7 +206,7 @@ def timed_animation(channels):
 
 def maximum_rate(channels):
     print(
-        "PATTERN 6:",
+        "PATTERN 7:",
         config.PERFORMANCE_FRAMES,
         "frame unrestricted six-channel benchmark",
     )
@@ -206,6 +243,7 @@ clear(channels, 0.5)
 print("AHCT outputs: ENABLED after black frame")
 
 while True:
+    bender_eye(channels)
     path_chase(channels)
     column_sweep(channels)
     row_sweep(channels)
