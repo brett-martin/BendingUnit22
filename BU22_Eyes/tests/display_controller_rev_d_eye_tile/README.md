@@ -14,6 +14,10 @@ columns run downward and odd columns run upward. It repeatedly displays:
 4. Conservative red, green, blue, and dim-white fills
 5. A commanded blackout
 
+The chase changes only the previous and current pixels between frames and
+prints once per physical column, avoiding the extra frame transmissions and
+serial output that would unnecessarily slow a 144-pixel test.
+
 The controller keeps its AHCT outputs disabled for five seconds at startup,
 prepares a black frame, and only then enables the buffers.
 

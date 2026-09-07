@@ -64,12 +64,17 @@ def path_chase(channels):
         config.PIXELS_PER_CHANNEL,
         "pixel path chase",
     )
+    clear(channels)
+    previous_index = None
     for index in range(config.PIXELS_PER_CHANNEL):
-        clear(channels)
+        if previous_index is not None:
+            set_identical_pixel(channels, previous_index, BLACK)
         set_identical_pixel(channels, index, CHASE_COLOR)
         show(channels)
-        print(" Path pixel", index + 1)
+        if index % config.MODULE_HEIGHT == 0:
+            print(" Starting physical column", index // config.MODULE_HEIGHT + 1)
         time.sleep(config.CHASE_SECONDS)
+        previous_index = index
     clear(channels, 0.5)
 
 
