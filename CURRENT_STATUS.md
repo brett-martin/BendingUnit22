@@ -1,6 +1,6 @@
 # BU-22 current project status
 
-Last updated: 2026-08-29
+Last updated: 2026-09-06
 
 ## Active hardware
 
@@ -12,7 +12,10 @@ Last updated: 2026-08-29
   CH3/CH4 despite slow/static voltage checks passing. Do not attach additional
   LED arrays until U1 and U2 are corrected. See
   `hardware/bringup/CTRL-RD-01.md`.
-- `CTRL-RD-02`: PCB and parts available; assembly has not been recorded yet.
+- `CTRL-RD-02`: second Display Controller Rev D assembled and connected to one
+  `9 x 16` eye tile. The dedicated eye-tile visual test has been deployed;
+  physical visual results remain pending. See
+  `hardware/bringup/CTRL-RD-02.md`.
 - `BRAIN-PERF-01`: prototype Brain perfboard assembled. I2C discovery, RTC
   read/set, configured 1 Hz SQW heartbeat, and Audio FX UART/list/play-command
   tests have passed. Physical NeoPixel, button, and audible Audio FX tests also
@@ -31,6 +34,8 @@ Last updated: 2026-08-29
   `BU22_Eyes/tests/display_controller_rev_d_output_exerciser/`
 - Rev D 5x11 tooth-module visual test:
   `BU22_Mouth/tests/display_controller_rev_d_tooth_module/`
+- Rev D 9x16 eye-tile visual test:
+  `BU22_Eyes/tests/display_controller_rev_d_eye_tile/`
 - Brain perfboard bring-up test:
   `BU22_Brain/tests/brain_board_bringup/`
 
@@ -44,7 +49,8 @@ Confirm that this corrected source is deployed before interpreting the LED.
 2. Deploy the corrected controller test to its KB2040.
 3. Test one known-good four-pixel strip sequentially on CH1 through CH6.
 4. Record channel identity, RGB order, direction, brightness, and current.
-5. Assemble and repeat the same bring-up on `CTRL-RD-02`.
+5. Observe the `9 x 16` eye-tile test on `CTRL-RD-02` and record the connected
+   channel, chase direction, row/column mapping, RGB order, and any bad pixels.
 6. Optionally measure Brain I2C pull-up strength. Sensor interrupt integration
    is intentionally deferred.
 7. Connect Brain and both display controllers only after standalone tests pass.
