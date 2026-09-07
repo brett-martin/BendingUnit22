@@ -70,3 +70,39 @@ path:
 One implementation is to connect pads 1 and 2 to `ADDRESS`, pad 3 to one
 address pull-down, and pad 4 to the other. Confirm the final footprint
 orientation and pad numbering against the physical board before release.
+
+## E3: Original firmware reversed CH1–CH4 clock and data assignments
+
+Confirmed on `CTRL-RD-01` during bring-up on 2026-09-06.
+
+The original Rev D CircuitPython configurations treated D3/D5/D7/D9 as clock
+and D2/D4/D6/D8 as data. With that mapping, a known-good 55-pixel mouth tile
+worked only on U3/CH5 and CH6. All six channels nevertheless passed a slow
+static 0 V/4.7 V output exerciser.
+
+A deliberately slow valid-DotStar test at approximately 1 kHz still operated
+only CH5/CH6. Reversing clock and data in firmware only for CH1–CH4 made the
+same mouth tile work on all six channels. The observed functional mapping is:
+
+| Channel | Clock | Data |
+|---|---|---|
+| CH1 | D2 | D3 |
+| CH2 | D4 | D5 |
+| CH3 | D6 | D7 |
+| CH4 | D8 | D9 |
+| CH5 | A0 | SCK |
+| CH6 | A2 | A1 |
+
+This result identifies a firmware-to-physical-pin mapping error; it does not
+show defective U1/U2 buffers or failed PCB traces. All repository Rev D
+firmware configurations have been updated to the observed functional mapping.
+Repeat the dynamic test on `CTRL-RD-02` before marking the correction validated
+on both assemblies.
+
+### Required next-revision correction
+
+- Preserve the validated functional mapping in controller firmware.
+- Annotate the KB2040 socket symbols with their actual board pin names.
+- Audit MCU1B socket pad numbering/orientation against the installed KB2040.
+- Ensure the schematic, PCB net names, firmware mapping, and connector labels
+  all describe the same clock/data signals before the next fabrication release.

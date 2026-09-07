@@ -56,8 +56,10 @@ It bypasses `adafruit_dotstar`, sends identical valid 55-pixel frames to all
 six channels at a nominal 1 kHz clock, and cycles red, green, blue, dim white,
 and black. Only U3/CH5–6 operated; CH1–4 still failed, ruling out excessive
 clock rate as the sole cause. Version `0.2-swap-ch1-4` was then prepared and
-deployed with clock/data intentionally reversed only on CH1–4; its physical
-result remains pending.
+deployed with clock/data intentionally reversed only on CH1–4. The same mouth
+tile then worked on all six channels, confirming the original CH1–4 firmware
+clock/data assignments were reversed. The corrected Rev D mapping is now
+standardized in repository configurations; see ERRATA E3.
 
 5x11 tooth-module visual test previously deployed:
 `BU22_Mouth/tests/display_controller_rev_d_tooth_module/`
@@ -114,11 +116,9 @@ shunts. See `hardware/display-controller-rev-d/ERRATA.md` E2.
 
 ## Next test
 
-1. Move the known-good mouth tile through CH1–CH6 using slow-test version
-   `0.2-swap-ch1-4`. Determine whether reversing clock/data makes CH1–4 work;
-   CH5–6 remain normal controls.
-2. Reconcile the result against physical connector pin identities and the
-   KB2040 socket-row routing before changing the design.
+1. Repeat the corrected slow valid-DotStar test across CH1–CH6 on CTRL-RD-02.
+2. Audit MCU1B socket pad numbering/orientation against actual KB2040 pin names
+   before releasing the next PCB revision.
 3. Do not treat the 0/4.7 V static pass as a dynamic LED-array pass.
 4. Record the target test's remaining A1/both-shunts ADC levels.
 5. With independently powered boards and shared GND/SDA/SCL only, scan for the

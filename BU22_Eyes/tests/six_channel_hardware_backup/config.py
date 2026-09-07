@@ -4,10 +4,10 @@ import board
 
 # Six independent four-pixel strings. Each tuple is (clock, data).
 CHANNEL_PINS = (
-    (board.D3, board.D2),
-    (board.D5, board.D4),
-    (board.D7, board.D6),
-    (board.D9, board.D8),
+    (board.D2, board.D3),
+    (board.D4, board.D5),
+    (board.D6, board.D7),
+    (board.D8, board.D9),
     (board.A0, board.D10),
     (board.A2, board.A1),
 )

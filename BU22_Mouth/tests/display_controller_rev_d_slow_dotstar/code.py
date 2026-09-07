@@ -6,7 +6,7 @@ import digitalio
 import config
 
 
-VERSION = "0.2-swap-ch1-4"
+VERSION = "0.3-rev-d-map"
 COLORS = (
     ("RED", (160, 0, 0)),
     ("GREEN", (0, 160, 0)),
@@ -64,7 +64,7 @@ def send_frame(clocks, data, color):
 
 print("\nBU-22 REV D SLOW 55-PIXEL DOTSTAR TEST", VERSION)
 print("Identical valid frames on CH1 through CH6")
-print("DIAGNOSTIC: CH1-CH4 clock/data swapped; CH5-CH6 normal")
+print("Rev D functional map: CH1-CH4 use corrected clock/data assignments")
 print("Nominal clock:", int(1 / (2 * config.BIT_HALF_PERIOD_SECONDS)), "Hz")
 print("Move the same known-good mouth tile between channel connectors.")
 

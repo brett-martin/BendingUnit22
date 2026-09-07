@@ -7,10 +7,10 @@ I2C_ADDRESS = 0x30
 
 # Each tuple is (clock, data). This is the proven KB2040 breadboard mapping.
 CHANNEL_PINS = (
-    (board.D3, board.D2),
-    (board.D5, board.D4),
-    (board.D7, board.D6),
-    (board.D9, board.D8),
+    (board.D2, board.D3),
+    (board.D4, board.D5),
+    (board.D6, board.D7),
+    (board.D8, board.D9),
     (board.A0, board.D10),
     (board.A2, board.A1),
 )

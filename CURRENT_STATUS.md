@@ -10,9 +10,10 @@ Last updated: 2026-09-06
   supply voltage, but CH1/CH2 outputs swing only from about 0 to 1.5 V. A 5x11
   module visually passes CH5/CH6 but produces no output on the U2-driven
   CH3/CH4 despite slow/static voltage checks passing. Microscope inspection
-  and reflow found no remaining obvious flaw, but only U3/CH5–6 drive LED
-  arrays. Its KB2040 UID is `DF63CC284F66402B`, its current development role is
-  Mouth, and all six outputs now pass the slow 0/4.7 V static exerciser. See
+  and reflow found no remaining obvious flaw. All six channels pass both the
+  slow 0/4.7 V static exerciser and valid 1 kHz mouth-tile traffic after
+  correcting the reversed CH1–4 firmware clock/data mapping. Its KB2040 UID is
+  `DF63CC284F66402B` and its current development role is Mouth. See
   `hardware/bringup/CTRL-RD-01.md`.
 - `CTRL-RD-02`: second Display Controller Rev D assembled and connected to one
   `9 x 16` eye tile. Its static eye display passed. As on CTRL-RD-01, only
@@ -53,9 +54,8 @@ Confirm that this corrected source is deployed before interpreting the LED.
 
 ## Immediate next steps
 
-1. Test the mouth tile with deliberately slow DotStar diagnostic version
-   `0.2-swap-ch1-4`, which swaps clock/data only on CH1–4 while retaining
-   normal CH5–6 controls.
+1. Deploy the corrected Rev D mapping to CTRL-RD-02 and repeat dynamic
+   LED-array testing across CH1–CH6.
 2. Deploy the corrected controller test to its KB2040.
 3. Test one known-good four-pixel strip sequentially on CH1 through CH6.
 4. Record channel identity, RGB order, direction, brightness, and current.

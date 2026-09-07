@@ -3,9 +3,8 @@
 import board
 
 
-# Clock/data reversal diagnostic. CH1-CH4 are intentionally swapped from the
-# documented Rev D mapping; known-good CH5-CH6 remain normal as controls.
-# Each tuple is (clock, data).
+# Observed functional Rev D mapping. Each tuple is (clock, data). CH1-CH4 are
+# reversed from the original schematic labels; see the Rev D errata.
 CHANNEL_PINS = (
     (board.D2, board.D3),
     (board.D4, board.D5),
