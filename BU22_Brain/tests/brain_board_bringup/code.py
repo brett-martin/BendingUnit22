@@ -15,7 +15,7 @@ import supervisor
 import config
 
 
-VERSION = "0.9"
+VERSION = "0.10"
 RTC_CONTROL_REGISTER = 0x0E
 RTC_SQW_1HZ_MASK = 0x1C
 
@@ -161,14 +161,13 @@ def set_rtc_from_text(i2c, value):
         return False
 
 
-def heartbeat_test(sqw, pixel=None, seconds=4.5):
+def heartbeat_test(sqw, seconds=4.5):
     print("Heartbeat: watching D13 for %.1f seconds" % seconds)
     edges = []
     previous = sqw.value
     started = time.monotonic()
     while time.monotonic() - started < seconds:
         value = sqw.value
-        set_pixel(pixel, (25, 0, 0) if value else (0, 0, 0))
         if value != previous:
             edges.append(time.monotonic())
             previous = value
@@ -412,19 +411,12 @@ if config.RTC_ADDRESS in addresses:
         except Exception as error:
             print("RTC SQW CONFIG ERROR:", repr(error))
 print_inputs(button_states, audio_act, sensor)
-heartbeat_ok = heartbeat_test(sqw, pixel) if rtc_ok else False
-
-if rtc_ok and heartbeat_ok:
-    set_pixel(pixel, (25, 0, 0))
-else:
-    set_pixel(pixel, (30, 0, 0))
+heartbeat_ok = heartbeat_test(sqw) if rtc_ok else False
+set_pixel(pixel, (0, 0, 0))
 
 print_help()
 
 while True:
-    if rtc_ok:
-        set_pixel(pixel, (25, 0, 0) if sqw.value else (0, 0, 0))
-
     event = buttons.events.get()
     if event is not None:
         button_states[event.key_number] = event.pressed
@@ -447,7 +439,7 @@ while True:
         elif command == "t":
             set_rtc_from_text(i2c, read_command_tail())
         elif command == "h":
-            heartbeat_test(sqw, pixel)
+            heartbeat_test(sqw)
         elif command == "i":
             print_inputs(button_states, audio_act, sensor)
         elif command == "v":

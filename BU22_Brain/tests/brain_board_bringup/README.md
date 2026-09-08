@@ -10,8 +10,9 @@ The automatic startup sequence is intentionally non-destructive:
 4. Configure the RTC SQW output for 1 Hz and measure it for 4.5 seconds.
 5. Leave antenna outputs low and Audio FX reset released.
 
-After the RTC is found, the Feather NeoPixel mirrors the SQW level in red so
-it blinks in sync with the RTC heartbeat.
+The Feather NeoPixel is amber during startup and then turns off. The external
+heartbeat LED provides the visible 1 Hz indication without lighting the
+onboard NeoPixel continuously.
 
 Use the USB serial console for output tests:
 
@@ -36,8 +37,7 @@ drives the attached speakers. Track numbers from 0 through 99 map directly to
 the corresponding two-digit filename, `T00.WAV` through `T99.WAV`.
 
 Each button press/release is printed automatically. The onboard NeoPixel is
-amber during startup and then blinks red in sync with the RTC SQW heartbeat.
-It remains solid red when the RTC is unavailable.
+amber during startup and then remains off.
 
 The antenna command accepts full names or first letters, such as `a red` or
 `a r`. It holds all unrequested antenna outputs low, drives the requested 3.3 V

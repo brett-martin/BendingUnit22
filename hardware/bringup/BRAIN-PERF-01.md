@@ -1,6 +1,6 @@
 # BRAIN-PERF-01 bring-up record
 
-Last updated: 2026-08-29
+Last updated: 2026-09-08
 
 ## Identity
 
@@ -34,10 +34,11 @@ Last updated: 2026-08-29
   subsequently reported as passing.
 - Pulsing Audio FX reset with the `x` command while a track was playing stopped
   playback as expected, confirming the reset-control path.
-- The test firmware now mirrors the RTC SQW level in red on the Feather
-  NeoPixel.
-  Visible synchronized blinking has been confirmed at the bench.
-- The heartbeat output has been reported as working.
+- Visible synchronized RTC SQW blinking on the Feather NeoPixel was previously
+  confirmed at the bench. The v0.10 test firmware now turns the onboard
+  NeoPixel off after startup because a separate physical Brain heartbeat LED
+  is connected.
+- The physical Brain heartbeat LED has been reported as working.
 - Button operation, named-button reporting, numbered Audio FX playback, and
   audible speaker output have been reported as passing. Specific functions
   for the remaining unnamed button inputs have not been recorded.
