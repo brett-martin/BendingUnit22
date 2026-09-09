@@ -1,6 +1,6 @@
 # CTRL-RD-02 bring-up record
 
-Last updated: 2026-09-08
+Last updated: 2026-09-09
 
 ## Identity
 
@@ -70,6 +70,13 @@ dynamic CH1–CH6 results remain pending.
   same symmetric eight-column image starting at the local left edge, leave the
   ninth/rightmost column unused, and use a centered two-column-by-four-row dark
   pupil. Normal and Angry appearance were accepted at the bench.
+- The full-capacity mixed automatic-SPI benchmark transmitted 144 pixels on
+  CH3–CH6 (576 total). Adafruit DotStar selected hardware SPI for CH3 and
+  software SPI for CH4–CH6. The completed runs measured approximately 315–318
+  ms per controller frame (about 3.1 FPS maximum; about 2.5 FPS at the 80%
+  budget), missed every scheduled deadline from 10 through 60 FPS, and measured
+  a 2.0× clear-then-show penalty. The attached CH5/CH6 panels visibly showed
+  moving colored pixels; no visual frame-rate measurement is inferred.
 
 ## Open issues
 

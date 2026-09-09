@@ -1,6 +1,6 @@
 # CTRL-RD-01 bring-up record
 
-Last updated: 2026-09-08
+Last updated: 2026-09-09
 
 ## Identity
 
@@ -105,6 +105,13 @@ all four U1 outputs swing only from approximately 0 to 1.5 V.
   through CH1, CH2, CH3, and CH4 then produced correct output on all four
   channels. Initializing/transmitting all six channels is correlated with the
   recovery, but the cause of the earlier selective failure is not established.
+- The full-capacity mixed automatic-SPI benchmark transmitted 55 pixels on all
+  six channels (330 total). Adafruit DotStar selected hardware SPI for CH1 and
+  software SPI for CH2–CH6. The completed run measured approximately 204.7 ms
+  per rendered controller frame (4.89 FPS maximum; 3.91 FPS at the 80% budget),
+  missed every scheduled deadline from 10 through 60 FPS, and measured a 1.99×
+  clear-then-show penalty. The attached CH4–CH6 panels visibly showed moving
+  colored pixels; no visual frame-rate measurement is inferred.
 
 The scan-only target test remains available at:
 `BU22_Eyes/tests/display_controller_rev_d_i2c_target/`

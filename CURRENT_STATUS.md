@@ -1,6 +1,6 @@
 # BU-22 current project status
 
-Last updated: 2026-09-08
+Last updated: 2026-09-09
 
 ## Active hardware
 
@@ -57,14 +57,17 @@ Confirm that this corrected source is deployed before interpreting the LED.
 
 ## Immediate next steps
 
-1. Continue integrating the accepted static Eyes Normal/Angry and Mouth
+1. Run the planned dual-hardware-SPI single-panel and daisy-chain benchmarks;
+   the full-capacity current-driver baseline measured about 3.1 FPS for Eyes
+   and 4.9 FPS for Mouth, with all 10–60 FPS deadlines missed.
+2. Continue integrating the accepted static Eyes Normal/Angry and Mouth
    Normal/Open states into higher-level Brain behavior. The all-six-channel
    Mouth diagnostic passes CH1 through CH4 with the same tile; continue
    watching for recurrence of the earlier selective-output behavior.
-2. Develop compiled or hardware-assisted controller output to meet the
+3. Develop compiled or hardware-assisted controller output to meet the
    six-channel 10 FPS animation target; this is separate from hardware
    validation.
-3. Optionally measure Brain I2C pull-up strength. Sensor interrupt integration
+4. Optionally measure Brain I2C pull-up strength. Sensor interrupt integration
    is intentionally deferred.
 
 ## Two-Mac workflow
