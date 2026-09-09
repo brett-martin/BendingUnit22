@@ -1,6 +1,6 @@
 # CTRL-RD-02 bring-up record
 
-Last updated: 2026-09-06
+Last updated: 2026-09-08
 
 ## Identity
 
@@ -59,6 +59,9 @@ dynamic CH1–CH6 results remain pending.
 - With the corrected Rev D clock/data mapping, the known-good `9 x 16` eye tile
   visually operates across CH1 through CH6. This confirms dynamic LED-array
   operation through U1, U2, and U3 on the second assembly.
+- With CTRL-RD-02 selected as Eyes and running the scan-only I2C target
+  firmware, the Brain discovered it at `0x30` in a complete four-device scan
+  alongside Mouth `0x31`, VCNL4200 `0x51`, and DS3231 `0x68`.
 
 ## Open issues
 
@@ -78,6 +81,7 @@ dynamic CH1–CH6 results remain pending.
 
 ## Next test
 
-Proceed to controller/Brain I2C integration when desired. Address the
-six-channel animation-rate requirement separately with compiled or
+Exercise a basic Eyes command and status read from the Brain after the
+scan-only target is extended or replaced with protocol-capable firmware.
+Address the six-channel animation-rate requirement separately with compiled or
 hardware-assisted LED output firmware.

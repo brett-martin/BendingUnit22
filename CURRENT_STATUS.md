@@ -1,6 +1,6 @@
 # BU-22 current project status
 
-Last updated: 2026-09-06
+Last updated: 2026-09-08
 
 ## Active hardware
 
@@ -21,7 +21,9 @@ Last updated: 2026-09-06
   tests have passed. Physical NeoPixel, button, and audible Audio FX tests also
   pass. Raw sensor response, close interrupt assertion, and the physical red
   antenna outputs and USB/external-5 V isolation also pass. Sensor interrupt
-  integration is intentionally deferred. See
+  integration is intentionally deferred. An integrated scan with both Rev D
+  targets also passed, finding Eyes `0x30`, Mouth `0x31`, VCNL4200 `0x51`, and
+  DS3231 `0x68`. See
   `hardware/bringup/BRAIN-PERF-01.md`.
 
 ## Active firmware
@@ -51,13 +53,13 @@ Confirm that this corrected source is deployed before interpreting the LED.
 
 ## Immediate next steps
 
-1. Proceed to Brain/controller I2C integration when desired.
+1. Move from controller discovery to basic Eyes and Mouth command/status
+   integration.
 2. Develop compiled or hardware-assisted controller output to meet the
    six-channel 10 FPS animation target; this is separate from hardware
    validation.
 3. Optionally measure Brain I2C pull-up strength. Sensor interrupt integration
    is intentionally deferred.
-4. Connect Brain and both display controllers for integrated testing.
 
 ## Two-Mac workflow
 

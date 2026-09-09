@@ -14,7 +14,10 @@ Last updated: 2026-09-08
 - Basic continuity checks have been reported as passing.
 - The Feather identifies as `adafruit_feather_rp2040`, UID
   `DF6548405F63432D`, under CircuitPython 10.2.1.
-- The powered I2C scan found the VCNL4200 at `0x51` and DS3231 at `0x68`.
+- The initial powered I2C scan found the VCNL4200 at `0x51` and DS3231 at
+  `0x68`. With both Rev D controllers connected and running the scan-only
+  target firmware, a later Brain scan found all four expected devices: Eyes at
+  `0x30`, Mouth at `0x31`, VCNL4200 at `0x51`, and DS3231 at `0x68`.
 - Configuring the DS3231 SQW output for 1 Hz produced nine transitions in 4.5
   seconds, with measured edge intervals of approximately 0.498–0.501 seconds.
 - The RTC was set once from the Mac's local wall clock to
@@ -69,4 +72,4 @@ Last updated: 2026-09-08
 
 - I2C pull-up electrical measurements
 - Sensor INT-to-A3 integration and away-event handling are deferred
-- Eyes and Mouth controller discovery after their standalone tests pass
+- Exercise basic commands and status reads with both display-controller targets

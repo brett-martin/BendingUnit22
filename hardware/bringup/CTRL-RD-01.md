@@ -1,6 +1,6 @@
 # CTRL-RD-01 bring-up record
 
-Last updated: 2026-09-06
+Last updated: 2026-09-08
 
 ## Identity
 
@@ -105,8 +105,9 @@ unconfirmed.
 
 Target test v0.2 changes the intended state mapping: one A1/left-role shunt is
 Eyes `0x30`, one A0/right-role shunt is Mouth `0x31`, no shunts is Development
-`0x33`, and both shunts is Spare `0x32`. These v0.2 selections have not yet
-been observed on the physical board.
+`0x33`, and both shunts is Spare `0x32`. With CTRL-RD-01 selected as Mouth and
+running this target firmware, the Brain discovered it at `0x31` in a complete
+four-device scan. The Development, Spare, and raw ADC levels remain unobserved.
 
 JP1 was confirmed to have a Rev D copper/label orientation error. The intended
 interface is one vertical left-column shunt for Eyes and one vertical
@@ -121,7 +122,7 @@ shunts. See `hardware/display-controller-rev-d/ERRATA.md` E2.
    before releasing the next PCB revision.
 3. Do not treat the 0/4.7 V static pass as a dynamic LED-array pass.
 4. Record the target test's remaining A1/both-shunts ADC levels.
-5. With independently powered boards and shared GND/SDA/SCL only, scan for the
-   selected controller address from the Brain.
+5. Exercise a basic Mouth command and status read from the Brain after the
+   scan-only target is extended or replaced with protocol-capable firmware.
 6. Redeploy the corrected standalone heartbeat-input firmware.
 7. Connect additional LED modules only after all channel faults pass.
