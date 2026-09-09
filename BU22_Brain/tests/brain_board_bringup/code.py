@@ -15,9 +15,17 @@ import supervisor
 import config
 
 
-VERSION = "0.10"
+VERSION = "0.11"
 RTC_CONTROL_REGISTER = 0x0E
 RTC_SQW_1HZ_MASK = 0x1C
+SHOW_NORMAL = 0x10
+SHOW_EXPRESSION = 0x11
+SET_OFF = 0x15
+EYES_NORMAL = 0
+EYES_ANGRY = 5
+MOUTH_NORMAL = 0
+MOUTH_OPEN = 1
+display_tag = 0
 
 
 def status_pixel():
@@ -63,6 +71,91 @@ def print_scan(i2c):
     for address in addresses:
         print("  0x%02X  %s" % (address, address_name(address)))
     return addresses
+
+
+def next_display_tag():
+    global display_tag
+    display_tag = (display_tag + 1) & 0xFF
+    return display_tag
+
+
+def display_write(i2c, address, command, content_id=None):
+    tag = next_display_tag()
+    if content_id is None:
+        payload = bytes((command, tag))
+    else:
+        payload = bytes((command, tag, content_id >> 8, content_id & 0xFF))
+    while not i2c.try_lock():
+        time.sleep(0.001)
+    try:
+        i2c.writeto(address, payload)
+    except OSError as error:
+        print("Display 0x%02X write ERROR:" % address, repr(error))
+        return False
+    finally:
+        i2c.unlock()
+    print("Display 0x%02X command sent; tag=%d" % (address, tag))
+    return True
+
+
+def display_status(i2c, address):
+    response = bytearray(20)
+    while not i2c.try_lock():
+        time.sleep(0.001)
+    try:
+        i2c.readfrom_into(address, response)
+    except OSError as error:
+        print("Display 0x%02X status ERROR:" % address, repr(error))
+        return False
+    finally:
+        i2c.unlock()
+    if response[0] != 0x22:
+        print("Display 0x%02X invalid status:" % address, tuple(response))
+        return False
+    print(
+        "Display 0x%02X status: module=%d state=%d activity=%d tag=%d "
+        "command=0x%02X error=%d content=%d address=0x%02X"
+        % (
+            address, response[3], response[7], response[8], response[9],
+            response[10], response[11], (response[12] << 8) | response[13],
+            response[17],
+        )
+    )
+    return True
+
+
+def eyes_command(i2c, value):
+    value = value.lower()
+    if value == "normal":
+        return display_write(i2c, config.EYES_ADDRESS, SHOW_NORMAL)
+    if value == "angry":
+        return display_write(i2c, config.EYES_ADDRESS, SHOW_EXPRESSION, EYES_ANGRY)
+    if value == "off":
+        return display_write(i2c, config.EYES_ADDRESS, SET_OFF)
+    print("Use: e normal, e angry, or e off")
+    return False
+
+
+def mouth_command(i2c, value):
+    value = value.lower()
+    if value == "normal":
+        return display_write(i2c, config.MOUTH_ADDRESS, SHOW_NORMAL)
+    if value == "open":
+        return display_write(i2c, config.MOUTH_ADDRESS, SHOW_EXPRESSION, MOUTH_OPEN)
+    if value == "off":
+        return display_write(i2c, config.MOUTH_ADDRESS, SET_OFF)
+    print("Use: m normal, m open, or m off")
+    return False
+
+
+def display_query(i2c, value):
+    value = value.lower()
+    if value in ("eyes", "eye", "e"):
+        return display_status(i2c, config.EYES_ADDRESS)
+    if value in ("mouth", "m"):
+        return display_status(i2c, config.MOUTH_ADDRESS)
+    print("Use: q eyes or q mouth")
+    return False
 
 
 def print_rtc(i2c):
@@ -360,6 +453,9 @@ def print_help():
     print("  l  request Audio FX track list")
     print("  p NUMBER  play Txx.WAV (for example, p 3 plays T03.WAV)")
     print("  x  reset Audio FX board")
+    print("  e normal|angry|off  set the static Eyes image")
+    print("  m normal|open|off   set the static Mouth image")
+    print("  q eyes|mouth        read display-controller status")
     print("  ?  show this help\n")
 
 
@@ -454,6 +550,12 @@ while True:
             audio_play_track(uart, read_command_tail())
         elif command == "x":
             audio_reset(audio_reset_pin)
+        elif command == "e":
+            eyes_command(i2c, read_command_tail())
+        elif command == "m":
+            mouth_command(i2c, read_command_tail())
+        elif command == "q":
+            display_query(i2c, read_command_tail())
         else:
             print_help()
 

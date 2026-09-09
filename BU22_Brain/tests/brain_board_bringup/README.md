@@ -29,6 +29,9 @@ Use the USB serial console for output tests:
 | `l` | Request the Audio FX track list without playing audio |
 | `p NUMBER` | Play `Txx.WAV`; for example, `p 3` plays `T03.WAV` |
 | `x` | Pulse the Audio FX reset line |
+| `e normal`, `e angry`, `e off` | Select the static Eyes image |
+| `m normal`, `m open`, `m off` | Select the static Mouth image |
+| `q eyes`, `q mouth` | Read the controller's 20-byte protocol status |
 | `?` | Print help |
 
 The `t` command stores the supplied fields exactly as entered. It performs no
