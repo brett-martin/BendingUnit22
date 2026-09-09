@@ -57,10 +57,10 @@ Confirm that this corrected source is deployed before interpreting the LED.
 
 ## Immediate next steps
 
-1. Confirm the final half-scale Eyes shape with the two-column-by-four-row
-   pupils. The all-six-channel Mouth diagnostic now passes CH1 through CH4
-   with the same tile; continue watching for recurrence of the earlier
-   selective-output behavior.
+1. Continue integrating the accepted static Eyes Normal/Angry and Mouth
+   Normal/Open states into higher-level Brain behavior. The all-six-channel
+   Mouth diagnostic passes CH1 through CH4 with the same tile; continue
+   watching for recurrence of the earlier selective-output behavior.
 2. Develop compiled or hardware-assisted controller output to meet the
    six-channel 10 FPS animation target; this is separate from hardware
    validation.

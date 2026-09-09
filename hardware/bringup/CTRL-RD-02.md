@@ -66,6 +66,10 @@ dynamic CH1–CH6 results remain pending.
   on CH6 and right eye on CH5. Brain commands selected Normal and static Angry
   images successfully. Keeping the first and last logical rows dark produced
   the desired less-open eye shape.
+- The final half-scale eye geometry was visually confirmed: both tiles use the
+  same symmetric eight-column image starting at the local left edge, leave the
+  ninth/rightmost column unused, and use a centered two-column-by-four-row dark
+  pupil. Normal and Angry appearance were accepted at the bench.
 
 ## Open issues
 

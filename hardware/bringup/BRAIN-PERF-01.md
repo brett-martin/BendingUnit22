@@ -78,4 +78,4 @@ Last updated: 2026-09-08
 
 - I2C pull-up electrical measurements
 - Sensor INT-to-A3 integration and away-event handling are deferred
-- Confirm the final two-column Eyes pupil appearance
+- Continue static Eyes/Mouth command integration into higher-level Brain states
