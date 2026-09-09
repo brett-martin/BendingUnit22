@@ -1,8 +1,9 @@
 # Rev D half-scale static Eyes I2C test
 
 Protocol-capable static test for two `9 x 16` serpentine eye tiles. The physical
-left eye is on CH6 and the physical right eye is on CH5. On startup it displays
-Normal; Brain commands select Normal, Angry, or Off. It uses the existing
+left eye is on CH6 and the physical right eye is on CH5. The first and last
+rows remain dark so the temporary tiles appear less vertically open. On startup
+it displays Normal; Brain commands select Normal, Angry, or Off. It uses the existing
 `SHOW_NORMAL`, `SHOW_EXPRESSION`, and `SET_OFF` protocol operations and returns
 the proven 20-byte status structure.
 

@@ -52,21 +52,20 @@ def serpentine_index(column, row):
 
 
 def is_lit(column, row, expression_id):
-    # Outer blackout and tooth separators make the three modules read as one
-    # 15x11 mouth rather than three solid panels.
-    if row in (0, config.MODULE_HEIGHT - 1) or column in (0, TOTAL_WIDTH - 1):
-        return False
-    if column in (5, 10):
+    # Repeat three lit columns and one dark separator across the full display.
+    # The logical grid deliberately crosses physical tile boundaries.
+    if column % 4 == 3:
         return False
     if expression_id == NORMAL:
-        return row not in (5,)
+        # Eleven rows: 3 lit, 1 dark, 3 lit, 1 dark, 3 lit.
+        return row % 4 != 3
 
-    # Open mouth: two dark boundaries bow away from each other at center.
+    # Open mouth: the two dark horizontal lines bow apart near the center.
     distance = abs(column - (TOTAL_WIDTH - 1) / 2)
-    curve = 2 if distance <= 2 else (1 if distance <= 5 else 0)
-    upper = 4 - curve
-    lower = 6 + curve
-    return row < upper or row > lower
+    curve = 2 if distance <= 1 else (1 if distance <= 4 else 0)
+    upper = 3 - curve
+    lower = 7 + curve
+    return row not in (upper, lower)
 
 
 def render(expression_id):

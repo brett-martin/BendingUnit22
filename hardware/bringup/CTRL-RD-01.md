@@ -91,6 +91,13 @@ all four U1 outputs swing only from approximately 0 to 1.5 V.
   C1-left-to-U1-pin-14-lead measurement was approximately 3 MOhm. This confirms
   an effectively open path to the U1 VCC lead; the distinction between an
   unsoldered lead and an open PCB pad/feed remains to be verified after reflow.
+- The half-scale static Mouth I2C test was run with three `5 x 11` tiles mapped
+  CH6, CH5, and CH4 from physical left to right. Brain-commanded Normal and
+  Open images looked correct on the illuminated tiles after shifting the grid
+  to repeat three lit rows/columns followed by one dark separator. CH4 produced
+  no visible output in this three-tile configuration. This conflicts with its
+  earlier successful duplicated-channel visual test; the current tile/cable
+  versus channel path has not yet been isolated.
 
 The scan-only target test remains available at:
 `BU22_Eyes/tests/display_controller_rev_d_i2c_target/`
@@ -117,12 +124,12 @@ shunts. See `hardware/display-controller-rev-d/ERRATA.md` E2.
 
 ## Next test
 
-1. Repeat the corrected slow valid-DotStar test across CH1–CH6 on CTRL-RD-02.
-2. Audit MCU1B socket pad numbering/orientation against actual KB2040 pin names
+1. Swap the current CH4 and CH5 mouth-tile connectors. Record whether darkness
+   follows the tile/cable or remains on CH4.
+2. Repeat the corrected slow valid-DotStar test across CH1–CH6 on CTRL-RD-02.
+3. Audit MCU1B socket pad numbering/orientation against actual KB2040 pin names
    before releasing the next PCB revision.
-3. Do not treat the 0/4.7 V static pass as a dynamic LED-array pass.
-4. Record the target test's remaining A1/both-shunts ADC levels.
-5. Exercise a basic Mouth command and status read from the Brain after the
-   scan-only target is extended or replaced with protocol-capable firmware.
+4. Do not treat the 0/4.7 V static pass as a dynamic LED-array pass.
+5. Record the target test's remaining A1/both-shunts ADC levels.
 6. Redeploy the corrected standalone heartbeat-input firmware.
 7. Connect additional LED modules only after all channel faults pass.

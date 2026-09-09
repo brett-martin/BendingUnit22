@@ -27,7 +27,7 @@ ERROR_UNKNOWN_CONTENT = 4
 BLACK = (0, 0, 0)
 
 EYE_MASK = (
-    "...YYY...",
+    ".........",
     "..YYYYY..",
     ".YYYYYYY.",
     ".YYYYYYY.",
@@ -42,7 +42,7 @@ EYE_MASK = (
     ".YYYYYYY.",
     ".YYYYYYY.",
     "..YYYYY..",
-    "...YYY...",
+    ".........",
 )
 
 

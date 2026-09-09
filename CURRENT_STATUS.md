@@ -46,6 +46,10 @@ Last updated: 2026-09-08
   `BU22_Eyes/tests/display_controller_rev_d_dotstar_benchmark/`
 - Brain perfboard bring-up test:
   `BU22_Brain/tests/brain_board_bringup/`
+- Rev D half-scale static Eyes I2C test:
+  `BU22_Eyes/tests/display_controller_rev_d_static_i2c/`
+- Rev D half-scale static Mouth I2C test:
+  `BU22_Mouth/tests/display_controller_rev_d_static_i2c/`
 
 The controller test source no longer enables the KB2040 heartbeat input's
 internal pull-up. A disconnected heartbeat LED should therefore remain off.
@@ -53,8 +57,9 @@ Confirm that this corrected source is deployed before interpreting the LED.
 
 ## Immediate next steps
 
-1. Move from controller discovery to basic Eyes and Mouth command/status
-   integration.
+1. Isolate the Mouth CH4 failure by swapping its current tile/cable with CH5;
+   CH4 passed an earlier duplicated-output test but is dark in the current
+   three-tile static test.
 2. Develop compiled or hardware-assisted controller output to meet the
    six-channel 10 FPS animation target; this is separate from hardware
    validation.

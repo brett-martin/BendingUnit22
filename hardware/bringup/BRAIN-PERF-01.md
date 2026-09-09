@@ -67,9 +67,12 @@ Last updated: 2026-09-08
 - The unpowered D1 direction check, USB-only isolation test, and external-5 V-
   only power test were reported as passing. Exact voltage, diode-drop, and
   supply-current measurements were not provided and are not inferred here.
+- Brain firmware v0.11 successfully commanded Eyes Normal/Angry at `0x30` and
+  Mouth Normal/Open at `0x31`. The requested image shapes looked correct; the
+  Mouth controller's CH4 tile remained dark and requires separate isolation.
 
 ## Planned checks
 
 - I2C pull-up electrical measurements
 - Sensor INT-to-A3 integration and away-event handling are deferred
-- Exercise basic commands and status reads with both display-controller targets
+- Isolate the Mouth CH4 failure by swapping its current tile/cable with CH5

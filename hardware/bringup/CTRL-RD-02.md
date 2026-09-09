@@ -62,6 +62,10 @@ dynamic CH1–CH6 results remain pending.
 - With CTRL-RD-02 selected as Eyes and running the scan-only I2C target
   firmware, the Brain discovered it at `0x30` in a complete four-device scan
   alongside Mouth `0x31`, VCNL4200 `0x51`, and DS3231 `0x68`.
+- The half-scale static Eyes I2C test passed visually with the physical left eye
+  on CH6 and right eye on CH5. Brain commands selected Normal and static Angry
+  images successfully. Keeping the first and last logical rows dark produced
+  the desired less-open eye shape.
 
 ## Open issues
 
@@ -81,7 +85,5 @@ dynamic CH1–CH6 results remain pending.
 
 ## Next test
 
-Exercise a basic Eyes command and status read from the Brain after the
-scan-only target is extended or replaced with protocol-capable firmware.
 Address the six-channel animation-rate requirement separately with compiled or
 hardware-assisted LED output firmware.
