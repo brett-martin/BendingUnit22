@@ -25,7 +25,7 @@ ERROR_UNKNOWN_COMMAND = 1
 ERROR_BAD_LENGTH = 2
 ERROR_UNKNOWN_CONTENT = 4
 BLACK = (0, 0, 0)
-TOTAL_WIDTH = config.MODULE_WIDTH * len(config.MOUTH_CHANNELS_LEFT_TO_RIGHT)
+TOTAL_WIDTH = config.MODULE_WIDTH * 3
 
 
 def read_address_adc(pin, samples=16):
@@ -69,22 +69,29 @@ def is_lit(column, row, expression_id):
 
 
 def render(expression_id):
-    for tile in tiles:
-        tile.fill(BLACK)
+    for channel in channels:
+        channel.fill(BLACK)
+    output_groups = (
+        (channels[config.LEFT_MOUTH_CHANNEL],),
+        (channels[config.CENTER_MOUTH_CHANNEL],),
+        tuple(channels[index] for index in config.RIGHT_PATTERN_CHANNELS),
+    )
     for column in range(TOTAL_WIDTH):
-        tile_index = column // config.MODULE_WIDTH
+        group_index = column // config.MODULE_WIDTH
         local_column = column % config.MODULE_WIDTH
         for row in range(config.MODULE_HEIGHT):
             if is_lit(column, row, expression_id):
-                tiles[tile_index][serpentine_index(local_column, row)] = config.MOUTH_COLOR
-    for tile in tiles:
-        tile.show()
+                index = serpentine_index(local_column, row)
+                for output in output_groups[group_index]:
+                    output[index] = config.MOUTH_COLOR
+    for channel in channels:
+        channel.show()
 
 
 def clear():
-    for tile in tiles:
-        tile.fill(BLACK)
-        tile.show()
+    for channel in channels:
+        channel.fill(BLACK)
+        channel.show()
 
 
 print("\nBU-22 REV D STATIC MOUTH I2C", VERSION)
@@ -98,26 +105,16 @@ address_pin.deinit()
 print("Address ADC raw:", address_raw)
 print("Selected role/address:", role, "0x%02X" % address)
 
-unused_outputs = []
-for channel_index, pins in enumerate(config.CHANNEL_PINS):
-    if channel_index in config.MOUTH_CHANNELS_LEFT_TO_RIGHT:
-        continue
-    for pin in pins:
-        output = digitalio.DigitalInOut(pin)
-        output.switch_to_output(value=False)
-        unused_outputs.append(output)
-
-tiles = []
-for channel_index in config.MOUTH_CHANNELS_LEFT_TO_RIGHT:
-    clock, data = config.CHANNEL_PINS[channel_index]
-    tiles.append(adafruit_dotstar.DotStar(
+channels = []
+for clock, data in config.CHANNEL_PINS:
+    channels.append(adafruit_dotstar.DotStar(
         clock, data, config.PIXELS_PER_CHANNEL,
         brightness=config.GLOBAL_BRIGHTNESS, auto_write=False
     ))
 clear()
 enable.value = True
 render(NORMAL)
-print("Mouth: NORMAL on CH6/CH5/CH4 left-to-right")
+print("Mouth: CH6 left, CH5 center, right pattern duplicated on CH1-CH4")
 
 target = i2ctarget.I2CTarget(config.I2C_SCL, config.I2C_SDA, (address,))
 display_state = DISPLAY_NORMAL

@@ -15,8 +15,11 @@ CHANNEL_PINS = (
     (board.A2, board.A1),
 )
 
-# The installed tiles run opposite numeric order: CH6, CH5, CH4 left-to-right.
-MOUTH_CHANNELS_LEFT_TO_RIGHT = (5, 4, 3)
+# CH6 and CH5 render the left and center tiles. The right-tile pattern is
+# duplicated on CH1 through CH4 so each of those paths can be tested directly.
+LEFT_MOUTH_CHANNEL = 5
+CENTER_MOUTH_CHANNEL = 4
+RIGHT_PATTERN_CHANNELS = (0, 1, 2, 3)
 MODULE_WIDTH = 5
 MODULE_HEIGHT = 11
 PIXELS_PER_CHANNEL = MODULE_WIDTH * MODULE_HEIGHT

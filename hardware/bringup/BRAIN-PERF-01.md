@@ -70,9 +70,12 @@ Last updated: 2026-09-08
 - Brain firmware v0.11 successfully commanded Eyes Normal/Angry at `0x30` and
   Mouth Normal/Open at `0x31`. The requested image shapes looked correct; the
   Mouth controller's CH4 tile remained dark and requires separate isolation.
+- In the later all-six-channel Mouth diagnostic firmware, the Brain continued
+  commanding the static Mouth states and CH1 through CH4 each passed with the
+  same moved tile. The earlier CH4 failure did not persist.
 
 ## Planned checks
 
 - I2C pull-up electrical measurements
 - Sensor INT-to-A3 integration and away-event handling are deferred
-- Isolate the Mouth CH4 failure by swapping its current tile/cable with CH5
+- Confirm the final two-column Eyes pupil appearance

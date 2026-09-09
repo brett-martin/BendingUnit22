@@ -27,23 +27,24 @@ ERROR_UNKNOWN_CONTENT = 4
 BLACK = (0, 0, 0)
 
 EYE_MASK = (
-    ".........",
-    "..YYYYY..",
-    ".YYYYYYY.",
-    ".YYYYYYY.",
-    "YYYYYYYYY",
-    "YYYYYYYYY",
-    "YYY...YYY",
-    "YYY...YYY",
-    "YYY...YYY",
-    "YYY...YYY",
-    "YYYYYYYYY",
-    "YYYYYYYYY",
-    ".YYYYYYY.",
-    ".YYYYYYY.",
-    "..YYYYY..",
-    ".........",
+    "........",
+    "..YYYY..",
+    ".YYYYYY.",
+    ".YYYYYY.",
+    "YYYYYYYY",
+    "YYYYYYYY",
+    "YYY..YYY",
+    "YYY..YYY",
+    "YYY..YYY",
+    "YYY..YYY",
+    "YYYYYYYY",
+    "YYYYYYYY",
+    ".YYYYYY.",
+    ".YYYYYY.",
+    "..YYYY..",
+    "........",
 )
+VISIBLE_EYE_WIDTH = 8
 
 
 def read_address_adc(pin, samples=16):
@@ -77,7 +78,7 @@ def render(expression_id):
             if pixel != "Y":
                 continue
             left_cutoff = (column + 1) // 2 if expression_id == ANGRY else 0
-            right_cutoff = (config.MODULE_WIDTH - column) // 2 if expression_id == ANGRY else 0
+            right_cutoff = (VISIBLE_EYE_WIDTH - column) // 2 if expression_id == ANGRY else 0
             index = serpentine_index(column, row)
             if row >= left_cutoff:
                 left[index] = config.EYE_COLOR

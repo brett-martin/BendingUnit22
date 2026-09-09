@@ -98,6 +98,13 @@ all four U1 outputs swing only from approximately 0 to 1.5 V.
   no visible output in this three-tile configuration. This conflicts with its
   earlier successful duplicated-channel visual test; the current tile/cable
   versus channel path has not yet been isolated.
+- A subsequent diagnostic version initialized all six DotStar channel objects,
+  kept CH6 as the left pattern and CH5 as the center pattern, and duplicated
+  the rightmost pattern on CH1 through CH4. Without moving the tile that was
+  already connected to CH3, Mouth output began working. Moving the same tile
+  through CH1, CH2, CH3, and CH4 then produced correct output on all four
+  channels. Initializing/transmitting all six channels is correlated with the
+  recovery, but the cause of the earlier selective failure is not established.
 
 The scan-only target test remains available at:
 `BU22_Eyes/tests/display_controller_rev_d_i2c_target/`
@@ -124,8 +131,8 @@ shunts. See `hardware/display-controller-rev-d/ERRATA.md` E2.
 
 ## Next test
 
-1. Swap the current CH4 and CH5 mouth-tile connectors. Record whether darkness
-   follows the tile/cable or remains on CH4.
+1. Preserve all-six-channel initialization while developing the integrated
+   controller firmware and watch for recurrence of selective output loss.
 2. Repeat the corrected slow valid-DotStar test across CH1–CH6 on CTRL-RD-02.
 3. Audit MCU1B socket pad numbering/orientation against actual KB2040 pin names
    before releasing the next PCB revision.
