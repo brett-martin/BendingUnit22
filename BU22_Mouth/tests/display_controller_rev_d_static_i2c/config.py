@@ -7,10 +7,10 @@ I2C_SDA = board.TX
 ADDRESS = board.A3
 BUFFER_ENABLE = board.MOSI
 CHANNEL_PINS = (
-    (board.D2, board.D3),
-    (board.D4, board.D5),
-    (board.D6, board.D7),
     (board.D8, board.D9),
+    (board.D6, board.D7),
+    (board.D4, board.D5),
+    (board.D2, board.D3),
     (board.A0, board.SCK),
     (board.A2, board.A1),
 )

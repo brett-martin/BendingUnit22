@@ -82,26 +82,29 @@ static 0 V/4.7 V output exerciser.
 
 A deliberately slow valid-DotStar test at approximately 1 kHz still operated
 only CH5/CH6. Reversing clock and data in firmware only for CH1–CH4 made the
-same mouth tile work on all six channels. The observed functional mapping is:
+same mouth tile work on all six channels. Because that test sent identical
+data to every output, it could confirm signal roles but not channel order. A
+later one-GPIO-at-a-time meter test established the complete physical mapping:
 
 | Channel | Clock | Data |
 |---|---|---|
-| CH1 | D2 | D3 |
-| CH2 | D4 | D5 |
-| CH3 | D6 | D7 |
-| CH4 | D8 | D9 |
+| CH1 | D8 | D9 |
+| CH2 | D6 | D7 |
+| CH3 | D4 | D5 |
+| CH4 | D2 | D3 |
 | CH5 | A0 | SCK |
 | CH6 | A2 | A1 |
 
-This result identifies a firmware-to-physical-pin mapping error; it does not
-show defective U1/U2 buffers or failed PCB traces. All repository Rev D
-firmware configurations have been updated to the observed functional mapping.
-Dynamic LED-array testing has now passed CH1 through CH6 on both `CTRL-RD-01`
-and `CTRL-RD-02` with this corrected mapping.
+For CH1 through CH4, the connector positions printed `C` and `D` carry the
+even and odd GPIOs shown above and operate as clock and data. This identifies
+both reversed channel ordering in the socket mapping and the earlier firmware
+clock/data error; it does not show defective U1/U2 buffers or failed PCB
+traces. Repository Rev D firmware now uses the fully observed mapping.
 
 ### Required next-revision correction
 
-- Preserve the validated functional mapping in controller firmware.
+- Preserve the validated functional mapping and reversed CH1–CH4 channel order
+  in controller firmware.
 - Annotate the KB2040 socket symbols with their actual board pin names.
 - Audit MCU1B socket pad numbering/orientation against the installed KB2040.
 - Ensure the schematic, PCB net names, firmware mapping, and connector labels

@@ -1,0 +1,7 @@
+"""Three daisy-chained 5x11 mouth tiles on CH6."""
+
+CONTROLLER_NAME = "MOUTH"
+PIXEL_COUNT = 165
+BRIGHTNESS = 0.08
+CHASE_DELAY = 0.015
+SOLID_SECONDS = 1.0

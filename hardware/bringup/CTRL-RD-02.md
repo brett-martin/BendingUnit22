@@ -77,6 +77,14 @@ dynamic CH1–CH6 results remain pending.
   budget), missed every scheduled deadline from 10 through 60 FPS, and measured
   a 2.0× clear-then-show penalty. The attached CH5/CH6 panels visibly showed
   moving colored pixels; no visual frame-rate measurement is inferred.
+- A one-GPIO-at-a-time meter test established the physical CH1–CH4 socket
+  mapping: CH1 `C/D` is `D8/D9`, CH2 is `D6/D7`, CH3 is `D4/D5`, and CH4 is
+  `D2/D3`. The earlier identical-all-channel tests could not reveal this
+  channel-order reversal.
+- Dual hardware SPI passed visually at both 500 kHz and 4 MHz with one eye on
+  CH4 (`D2` clock, `D3` data / SPI0) and the other using CH5 clock plus CH6
+  data (`A0` clock, `A1` data / SPI1). Both chains remained visually in sync
+  with an identical moving-pixel pattern at 4 MHz.
 
 ## Open issues
 
@@ -96,5 +104,5 @@ dynamic CH1–CH6 results remain pending.
 
 ## Next test
 
-Address the six-channel animation-rate requirement separately with compiled or
-hardware-assisted LED output firmware.
+Run the CH6 full-array test across two daisy-chained eye panels, then run the
+full daisy-chain hardware-SPI benchmark.

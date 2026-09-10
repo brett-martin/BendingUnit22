@@ -44,6 +44,10 @@ Last updated: 2026-09-09
   `BU22_Eyes/tests/display_controller_rev_d_eye_blink/`
 - Rev D six-channel CircuitPython DotStar performance benchmark:
   `BU22_Eyes/tests/display_controller_rev_d_dotstar_benchmark/`
+- Rev D one-GPIO-at-a-time physical output locator:
+  `BU22_Eyes/tests/display_controller_rev_d_gpio_locator/`
+- Rev D CH6 full-array LED validation:
+  `BU22_Eyes/tests/display_controller_rev_d_ch6_array_test/`
 - Brain perfboard bring-up test:
   `BU22_Brain/tests/brain_board_bringup/`
 - Rev D half-scale static Eyes I2C test:
@@ -57,9 +61,11 @@ Confirm that this corrected source is deployed before interpreting the LED.
 
 ## Immediate next steps
 
-1. Run the planned dual-hardware-SPI single-panel and daisy-chain benchmarks;
-   the full-capacity current-driver baseline measured about 3.1 FPS for Eyes
-   and 4.9 FPS for Mouth, with all 10–60 FPS deadlines missed.
+1. Run the CH6 validation across all LEDs in the two-panel Eyes and three-tile
+   Mouth arrays, then run the full daisy-chain hardware-SPI benchmark. The
+   single-panel dual-hardware-SPI tests passed visually at 4 MHz with the two
+   chains in sync. SPI0 is physically on CH4, not CH1; SPI1 uses CH5 clock and
+   CH6 data.
 2. Continue integrating the accepted static Eyes Normal/Angry and Mouth
    Normal/Open states into higher-level Brain behavior. The all-six-channel
    Mouth diagnostic passes CH1 through CH4 with the same tile; continue

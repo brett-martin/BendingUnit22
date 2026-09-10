@@ -112,6 +112,14 @@ all four U1 outputs swing only from approximately 0 to 1.5 V.
   missed every scheduled deadline from 10 through 60 FPS, and measured a 1.99×
   clear-then-show penalty. The attached CH4–CH6 panels visibly showed moving
   colored pixels; no visual frame-rate measurement is inferred.
+- The later one-GPIO-at-a-time mapping test on `CTRL-RD-02` established that
+  physical CH1–CH4 are reversed across the MCU socket: CH1 `C/D` is `D8/D9`,
+  CH2 is `D6/D7`, CH3 is `D4/D5`, and CH4 is `D2/D3`. This mapping applies to
+  both Rev D assemblies; the earlier identical-channel tests could not expose
+  the permutation.
+- The Mouth controller's two-chain hardware-SPI test passed visually at 4 MHz
+  using CH4 for SPI0 and CH5 clock plus CH6 data for SPI1. The two 55-pixel
+  chains remained visually in sync with the identical moving-pixel pattern.
 
 The scan-only target test remains available at:
 `BU22_Eyes/tests/display_controller_rev_d_i2c_target/`
@@ -140,8 +148,8 @@ shunts. See `hardware/display-controller-rev-d/ERRATA.md` E2.
 
 1. Preserve all-six-channel initialization while developing the integrated
    controller firmware and watch for recurrence of selective output loss.
-2. Repeat the corrected slow valid-DotStar test across CH1–CH6 on CTRL-RD-02.
-3. Audit MCU1B socket pad numbering/orientation against actual KB2040 pin names
+2. Run the CH6 full-array test across three daisy-chained mouth tiles.
+3. Correct MCU1B socket pad numbering/orientation against actual KB2040 pin names
    before releasing the next PCB revision.
 4. Do not treat the 0/4.7 V static pass as a dynamic LED-array pass.
 5. Record the target test's remaining A1/both-shunts ADC levels.
