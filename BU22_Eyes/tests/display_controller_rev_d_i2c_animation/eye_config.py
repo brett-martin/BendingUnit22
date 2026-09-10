@@ -1,0 +1,11 @@
+"""Half-size Eyes stored-frame receiver configuration."""
+
+CONTROLLER_NAME = "EYES"
+MODULE_TYPE = 1
+I2C_ADDRESS = 0x30
+MODULE_COUNT = 2
+MODULE_WIDTH = 9
+MODULE_HEIGHT = 16
+NORMAL_CONTENT_ID = 0
+BRIGHTNESS = 0.08
+COLOR = (255, 110, 0)

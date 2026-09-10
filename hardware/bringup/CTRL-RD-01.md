@@ -127,6 +127,10 @@ all four U1 outputs swing only from approximately 0 to 1.5 V.
   15x11 Mouth array. The horizontal line remained continuous across all three
   independently serpentine-wired tiles, and the vertical scan also looked
   correct.
+- The integrated I2C stored-frame receiver passed with Brain v0.12. The Brain
+  sent tagged frame commands at 10 FPS while this controller rendered five
+  distinct Mouth openness levels locally across the 165-pixel SPI1 chain at
+  4 MHz. The repeating eight-second performance was reported working.
 
 The scan-only target test remains available at:
 `BU22_Eyes/tests/display_controller_rev_d_i2c_target/`

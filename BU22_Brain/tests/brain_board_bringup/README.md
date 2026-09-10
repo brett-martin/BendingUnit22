@@ -32,6 +32,7 @@ Use the USB serial console for output tests:
 | `e normal`, `e angry`, `e off` | Select the static Eyes image |
 | `m normal`, `m open`, `m off` | Select the static Mouth image |
 | `q eyes`, `q mouth` | Read the controller's 20-byte protocol status |
+| `g` | Start or stop the repeating eight-second, 10 FPS Eyes/Mouth performance |
 | `?` | Print help |
 
 The `t` command stores the supplied fields exactly as entered. It performs no

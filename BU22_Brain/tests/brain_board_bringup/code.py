@@ -15,7 +15,7 @@ import supervisor
 import config
 
 
-VERSION = "0.11"
+VERSION = "0.12"
 RTC_CONTROL_REGISTER = 0x0E
 RTC_SQW_1HZ_MASK = 0x1C
 SHOW_NORMAL = 0x10
@@ -26,6 +26,21 @@ EYES_ANGRY = 5
 MOUTH_NORMAL = 0
 MOUTH_OPEN = 1
 display_tag = 0
+
+# Eight-second, 10 FPS stored-frame performance. Each tuple is
+# (Eyes content ID, Mouth openness 0..4).
+PERFORMANCE_FPS = 10
+PERFORMANCE_FRAMES = (
+    ((EYES_NORMAL, 0),) * 5
+    + ((2, 1),) * 5
+    + ((2, 2),) * 10
+    + ((EYES_NORMAL, 3),) * 5
+    + ((3, 4),) * 5
+    + ((3, 3),) * 10
+    + ((EYES_NORMAL, 2),) * 5
+    + ((EYES_NORMAL, 1),) * 5
+    + ((EYES_NORMAL, 0),) * 30
+)
 
 
 def status_pixel():
@@ -79,8 +94,9 @@ def next_display_tag():
     return display_tag
 
 
-def display_write(i2c, address, command, content_id=None):
-    tag = next_display_tag()
+def display_write(i2c, address, command, content_id=None, tag=None, verbose=True):
+    if tag is None:
+        tag = next_display_tag()
     if content_id is None:
         payload = bytes((command, tag))
     else:
@@ -94,7 +110,8 @@ def display_write(i2c, address, command, content_id=None):
         return False
     finally:
         i2c.unlock()
-    print("Display 0x%02X command sent; tag=%d" % (address, tag))
+    if verbose:
+        print("Display 0x%02X command sent; tag=%d" % (address, tag))
     return True
 
 
@@ -156,6 +173,25 @@ def display_query(i2c, value):
         return display_status(i2c, config.MOUTH_ADDRESS)
     print("Use: q eyes or q mouth")
     return False
+
+
+def performance_frame(i2c, frame_index):
+    eyes_content, mouth_content = PERFORMANCE_FRAMES[frame_index]
+    tag = next_display_tag()
+    eyes_ok = display_write(
+        i2c, config.EYES_ADDRESS, SHOW_EXPRESSION, eyes_content,
+        tag=tag, verbose=False
+    )
+    mouth_ok = display_write(
+        i2c, config.MOUTH_ADDRESS, SHOW_EXPRESSION, mouth_content,
+        tag=tag, verbose=False
+    )
+    if frame_index % PERFORMANCE_FPS == 0:
+        print(
+            "Performance %.1fs: eyes=%d mouth=%d tag=%d"
+            % (frame_index / PERFORMANCE_FPS, eyes_content, mouth_content, tag)
+        )
+    return eyes_ok and mouth_ok
 
 
 def print_rtc(i2c):
@@ -456,6 +492,7 @@ def print_help():
     print("  e normal|angry|off  set the static Eyes image")
     print("  m normal|open|off   set the static Mouth image")
     print("  q eyes|mouth        read display-controller status")
+    print("  g                    start/stop the stored 10 FPS performance loop")
     print("  ?  show this help\n")
 
 
@@ -512,6 +549,10 @@ set_pixel(pixel, (0, 0, 0))
 
 print_help()
 
+performance_running = False
+performance_index = 0
+performance_next_frame = time.monotonic()
+
 while True:
     event = buttons.events.get()
     if event is not None:
@@ -556,7 +597,24 @@ while True:
             mouth_command(i2c, read_command_tail())
         elif command == "q":
             display_query(i2c, read_command_tail())
+        elif command == "g":
+            performance_running = not performance_running
+            performance_index = 0
+            performance_next_frame = time.monotonic()
+            if performance_running:
+                print("Stored performance LOOP START: 8.0 seconds at 10 FPS")
+            else:
+                print("Stored performance STOP; returning displays to normal")
+                display_write(i2c, config.EYES_ADDRESS, SHOW_NORMAL)
+                display_write(i2c, config.MOUTH_ADDRESS, SHOW_NORMAL)
         else:
             print_help()
+
+    if performance_running and time.monotonic() >= performance_next_frame:
+        performance_frame(i2c, performance_index)
+        performance_index = (performance_index + 1) % len(PERFORMANCE_FRAMES)
+        performance_next_frame += 1.0 / PERFORMANCE_FPS
+        if time.monotonic() - performance_next_frame > 0.5:
+            performance_next_frame = time.monotonic()
 
     time.sleep(0.005)

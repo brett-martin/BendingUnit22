@@ -52,6 +52,8 @@ Last updated: 2026-09-09
   `BU22_Eyes/tests/display_controller_rev_d_spi1_array_test/`
 - Rev D geometry-aware 10 FPS tiled line scan:
   `BU22_Eyes/tests/display_controller_rev_d_tiled_line_scan/`
+- Rev D stored-frame I2C animation receiver:
+  `BU22_Eyes/tests/display_controller_rev_d_i2c_animation/`
 - Brain perfboard bring-up test:
   `BU22_Brain/tests/brain_board_bringup/`
 - Rev D half-scale static Eyes I2C test:
@@ -73,10 +75,11 @@ Confirm that this corrected source is deployed before interpreting the LED.
    clock plus CH6 data.
    Geometry-aware horizontal and vertical line scans also pass visually at
    10 FPS across the 18x16 Eyes and 15x11 Mouth layouts.
-2. Continue integrating the accepted static Eyes Normal/Angry and Mouth
-   Normal/Open states into higher-level Brain behavior. The all-six-channel
-   Mouth diagnostic passes CH1 through CH4 with the same tile; continue
-   watching for recurrence of the earlier selective-output behavior.
+2. Continue the successful stored-frame Eyes/Mouth command path into the
+   simulator export workflow and higher-level Brain behavior. Brain v0.12 now
+   loops an eight-second performance at 10 FPS, sends matching tagged I2C frame
+   commands to both controllers, and both render their complete half-size
+   arrays locally over 4 MHz SPI1.
 3. Develop compiled or hardware-assisted controller output to meet the
    six-channel 10 FPS animation target; this is separate from hardware
    validation.

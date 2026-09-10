@@ -73,9 +73,15 @@ Last updated: 2026-09-08
 - In the later all-six-channel Mouth diagnostic firmware, the Brain continued
   commanding the static Mouth states and CH1 through CH4 each passed with the
   same moved tile. The earlier CH4 failure did not persist.
+- Brain firmware v0.12 passed the integrated stored-performance test. The `g`
+  menu command looped an eight-second, 10 FPS timeline and sent matching frame
+  tags to Eyes `0x30` and Mouth `0x31`. Eyes looked left, held, looked right,
+  returned to center, and held; Mouth cycled through five stored openness
+  levels. The combined visual result was reported working successfully.
 
 ## Planned checks
 
 - I2C pull-up electrical measurements
 - Sensor INT-to-A3 integration and away-event handling are deferred
-- Continue static Eyes/Mouth command integration into higher-level Brain states
+- Continue the successful stored-frame Eyes/Mouth command path into simulator
+  export and higher-level Brain states

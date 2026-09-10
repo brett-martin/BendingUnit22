@@ -1,0 +1,11 @@
+"""Half-size Mouth stored-frame receiver configuration."""
+
+CONTROLLER_NAME = "MOUTH"
+MODULE_TYPE = 2
+I2C_ADDRESS = 0x31
+MODULE_COUNT = 3
+MODULE_WIDTH = 5
+MODULE_HEIGHT = 11
+NORMAL_CONTENT_ID = 0
+BRIGHTNESS = 0.08
+COLOR = (255, 110, 0)

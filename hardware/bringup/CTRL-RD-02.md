@@ -92,6 +92,10 @@ dynamic CH1–CH6 results remain pending.
   18x16 Eyes array. The horizontal line remained continuous across both
   independently serpentine-wired panels, and the vertical scan also looked
   correct.
+- The integrated I2C stored-frame receiver passed with Brain v0.12. The Brain
+  sent tagged frame commands at 10 FPS while this controller rendered stored
+  left, center, and right eye positions locally across the 288-pixel SPI1 chain
+  at 4 MHz. The repeating eight-second performance was reported working.
 
 ## Open issues
 
