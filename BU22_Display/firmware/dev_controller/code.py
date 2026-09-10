@@ -6,15 +6,19 @@ import adafruit_dotstar
 import analogio
 import digitalio
 import i2ctarget
+import random
 import supervisor
 
+import catalog
 import config
 from common.display_model import (
     DisplayGeometry,
     LocalModeState,
+    animation_sequence,
     blank_frame,
     clock_frame,
     local_mode_label,
+    retimed_frame_index,
     scrolling_frame_at,
     scrolling_frame_count,
     text_frame,
@@ -86,6 +90,16 @@ def show_color(color):
     pixels.show()
 
 
+def show_packed_frame(frame):
+    pixels.fill(BLACK)
+    for logical in range(geometry.pixel_count):
+        if frame[logical >> 3] & (1 << (7 - (logical & 7))):
+            x = logical % geometry.width
+            y = logical // geometry.width
+            pixels[geometry.pixel_index(x, y)] = config.BENDER_COLOR
+    pixels.show()
+
+
 def show_scrolling_text(text, seconds):
     frame_count = scrolling_frame_count(geometry, text)
     count = max(1, int(seconds * config.STARTUP_TEXT_FPS))
@@ -139,7 +153,7 @@ def update_message(now):
 
 def eye_lit(x, y, pupil_x=3):
     local_x = x % config.EYES_MODULE_WIDTH
-    if local_x >= 8 or y in (0, 15):
+    if local_x >= 8 or y < 2 or y >= 14:
         return False
     if y in (1, 14):
         outline = 2 <= local_x <= 5
@@ -184,8 +198,117 @@ def render_current_mode(now=None):
         update_test(time.monotonic() if now is None else now, force=True)
         display_state = protocol.DISPLAY_LOCAL_TEST
     else:
-        show_frame(bender_frame())
+        show_packed_frame(catalog_frames[catalog_normal_frame])
         display_state = protocol.DISPLAY_NORMAL
+
+
+def start_animation(animation_id, now, local=False):
+    global animation_frames, animation_index, next_animation_frame
+    global active_content_id, display_state, activity_state
+    animation_frames = animation_sequence(catalog_animations[animation_id])
+    animation_index = 0
+    next_animation_frame = now + 1.0 / catalog.DEFAULT_ANIMATION_FPS
+    active_content_id = animation_id
+    display_state = protocol.DISPLAY_ANIMATION
+    activity_state = protocol.ACTIVITY_RUNNING
+    show_packed_frame(catalog_frames[animation_frames[0]])
+    log("LOCAL" if local else "RX", "PLAY ANIMATION", animation_id,
+        catalog_animations[animation_id][0])
+
+
+def update_animation(now):
+    global animation_frames, animation_index, next_animation_frame
+    global display_state, activity_state, next_bender_animation
+    if animation_frames is None or now < next_animation_frame:
+        return
+    animation_index += 1
+    if animation_index < len(animation_frames):
+        show_packed_frame(catalog_frames[animation_frames[animation_index]])
+        next_animation_frame += 1.0 / catalog.DEFAULT_ANIMATION_FPS
+        return
+    animation_frames = None
+    animation_index = 0
+    next_animation_frame = None
+    show_packed_frame(catalog_frames[catalog_normal_frame])
+    display_state = protocol.DISPLAY_NORMAL
+    activity_state = protocol.ACTIVITY_COMPLETE
+    if modes.mode == protocol.LOCAL_BENDER:
+        next_bender_animation = now + random.uniform(
+            config.MIN_BENDER_PAUSE_SECONDS,
+            config.MAX_BENDER_PAUSE_SECONDS,
+        )
+
+
+def update_bender(now):
+    global next_bender_animation, last_bender_animation
+    if animation_frames is not None or now < next_bender_animation:
+        return
+    choices = tuple(catalog_animations)
+    animation_id = random.choice(choices)
+    if len(choices) > 1:
+        while animation_id == last_bender_animation:
+            animation_id = random.choice(choices)
+    last_bender_animation = animation_id
+    start_animation(animation_id, now, local=True)
+
+
+def start_timed_animation(animation_id, entry_ms, hold_ms, exit_ms, now):
+    global timed_entry, timed_exit, timed_phase, timed_phase_started
+    global timed_durations, next_timed_frame, timed_last_frame
+    global active_content_id, display_state, activity_state
+    animation = catalog_animations[animation_id]
+    timed_entry = animation[1]
+    timed_exit = (animation[2] if animation[3] == "custom"
+                  else tuple(reversed(timed_entry)))
+    timed_phase = 0
+    timed_phase_started = now
+    timed_durations = (entry_ms, hold_ms, exit_ms)
+    next_timed_frame = now
+    timed_last_frame = None
+    active_content_id = animation_id
+    display_state = protocol.DISPLAY_ANIMATION
+    activity_state = protocol.ACTIVITY_RUNNING
+    log("RX PLAY TIMED", animation_id, animation[0],
+        entry_ms, hold_ms, exit_ms)
+
+
+def complete_timed_animation():
+    global timed_phase, next_timed_frame, timed_last_frame
+    global display_state, activity_state
+    timed_phase = None
+    next_timed_frame = None
+    timed_last_frame = None
+    show_packed_frame(catalog_frames[catalog_normal_frame])
+    display_state = protocol.DISPLAY_NORMAL
+    activity_state = protocol.ACTIVITY_COMPLETE
+
+
+def update_timed_animation(now):
+    global timed_phase, timed_phase_started, next_timed_frame, timed_last_frame
+    while timed_phase is not None:
+        duration = timed_durations[timed_phase]
+        elapsed_ms = int((now - timed_phase_started) * 1000)
+        if timed_phase == 1:
+            if elapsed_ms < duration:
+                return
+        else:
+            sequence = timed_entry if timed_phase == 0 else timed_exit
+            if now >= next_timed_frame or elapsed_ms >= duration:
+                index = retimed_frame_index(elapsed_ms, duration, len(sequence))
+                frame_id = sequence[index]
+                if frame_id != timed_last_frame:
+                    show_packed_frame(catalog_frames[frame_id])
+                    timed_last_frame = frame_id
+                next_timed_frame = now + 1.0 / catalog.MAX_DISPLAY_FPS
+            if elapsed_ms < duration:
+                return
+        timed_phase_started += duration / 1000
+        timed_phase += 1
+        next_timed_frame = now
+        timed_last_frame = None
+        if timed_phase >= 3:
+            complete_timed_animation()
+            return
 
 
 def update_test(now, force=False):
@@ -226,8 +349,17 @@ def update_test(now, force=False):
 
 def change_mode():
     global test_step, next_test_frame, error_code, lifecycle_state, message_text
+    global animation_frames, next_animation_frame, activity_state
+    global next_bender_animation
+    global timed_phase, next_timed_frame
     modes.advance()
     message_text = None
+    animation_frames = None
+    next_animation_frame = None
+    timed_phase = None
+    next_timed_frame = None
+    activity_state = protocol.ACTIVITY_IDLE
+    next_bender_animation = time.monotonic()
     test_step = 0
     next_test_frame = time.monotonic()
     error_code = protocol.ERROR_NONE
@@ -243,7 +375,9 @@ def change_mode():
 
 
 def status_bytes():
-    flags = protocol.STATUS_FLAG_ACTIVITY_COMPLETE
+    flags = 0
+    if activity_state == protocol.ACTIVITY_COMPLETE:
+        flags |= protocol.STATUS_FLAG_ACTIVITY_COMPLETE
     if brain_seen:
         flags |= protocol.STATUS_FLAG_BRAIN_SEEN
     if modes.mode == protocol.LOCAL_TEST:
@@ -253,7 +387,7 @@ def status_bytes():
     return bytes((
         protocol.MAGIC, protocol.PROTOCOL_MAJOR, protocol.PROTOCOL_MINOR,
         module_type, 0, 2, lifecycle_state, display_state,
-        protocol.ACTIVITY_COMPLETE, active_tag, last_command, error_code,
+        activity_state, active_tag, last_command, error_code,
         active_content_id >> 8, active_content_id & 0xFF,
         int(config.BRIGHTNESS * 255), int(config.BRIGHTNESS * 255), flags,
         address, 0, 0,
@@ -263,7 +397,8 @@ def status_bytes():
 def accept(payload):
     global active_tag, last_command, error_code, active_content_id
     global display_state, lifecycle_state, clock_value, clock_flags, brain_seen
-    global message_text
+    global message_text, animation_frames, next_animation_frame, activity_state
+    global timed_phase, next_timed_frame
     if not payload:
         return
     brain_seen = True
@@ -274,6 +409,10 @@ def accept(payload):
         error_code = protocol.ERROR_LOCAL_MODE_BUSY
         return
     message_text = None
+    animation_frames = None
+    next_animation_frame = None
+    timed_phase = None
+    next_timed_frame = None
     error_code = protocol.ERROR_NONE
     if command in (protocol.SHOW_NORMAL, protocol.SET_OFF):
         if len(payload) != 2:
@@ -286,8 +425,9 @@ def accept(payload):
             show_frame(blank_frame(geometry))
             display_state = protocol.DISPLAY_OFF
         else:
-            show_frame(bender_frame())
+            show_packed_frame(catalog_frames[catalog_normal_frame])
             display_state = protocol.DISPLAY_NORMAL
+        activity_state = protocol.ACTIVITY_COMPLETE
     elif command == protocol.SHOW_EXPRESSION:
         if len(payload) != 4:
             error_code = protocol.ERROR_BAD_LENGTH
@@ -304,6 +444,33 @@ def accept(payload):
         active_content_id = content_id
         show_frame(bender_frame(content_id))
         display_state = protocol.DISPLAY_EXPRESSION
+        activity_state = protocol.ACTIVITY_COMPLETE
+    elif command == protocol.PLAY_ANIMATION:
+        if len(payload) != 4:
+            error_code = protocol.ERROR_BAD_LENGTH
+            return
+        content_id = (payload[2] << 8) | payload[3]
+        if content_id not in catalog_animations:
+            error_code = protocol.ERROR_UNKNOWN_CONTENT
+            return
+        active_tag = payload[1]
+        last_command = command
+        start_animation(content_id, time.monotonic())
+    elif command == protocol.PLAY_ANIMATION_TIMED:
+        if len(payload) != 10:
+            error_code = protocol.ERROR_BAD_LENGTH
+            return
+        content_id = (payload[2] << 8) | payload[3]
+        if content_id not in catalog_animations:
+            error_code = protocol.ERROR_UNKNOWN_CONTENT
+            return
+        entry_ms = (payload[4] << 8) | payload[5]
+        hold_ms = (payload[6] << 8) | payload[7]
+        exit_ms = (payload[8] << 8) | payload[9]
+        active_tag = payload[1]
+        last_command = command
+        start_timed_animation(content_id, entry_ms, hold_ms, exit_ms,
+                              time.monotonic())
     elif command == protocol.SHOW_CLOCK:
         if len(payload) != 5:
             error_code = protocol.ERROR_BAD_LENGTH
@@ -317,6 +484,7 @@ def accept(payload):
         clock_flags = payload[4]
         render_clock(time.monotonic(), force=True)
         display_state = protocol.DISPLAY_CLOCK
+        activity_state = protocol.ACTIVITY_COMPLETE
     elif command == protocol.SHOW_DEV_TEXT:
         if not 3 <= len(payload) <= 31:
             error_code = protocol.ERROR_BAD_LENGTH
@@ -331,6 +499,7 @@ def accept(payload):
         active_content_id = 0
         start_message(text)
         display_state = protocol.DISPLAY_MESSAGE
+        activity_state = protocol.ACTIVITY_COMPLETE
     else:
         error_code = protocol.ERROR_UNKNOWN_COMMAND
         return
@@ -368,6 +537,14 @@ if module_type is None:
     log("WARNING: unknown role; using Eyes geometry")
 
 geometry = geometry_for(module_type)
+if module_type == protocol.MODULE_EYES:
+    catalog_frames = catalog.EYES_FRAMES
+    catalog_animations = catalog.EYES_ANIMATIONS
+    catalog_normal_frame = catalog.EYES_NORMAL_FRAME
+else:
+    catalog_frames = catalog.MOUTH_FRAMES
+    catalog_animations = catalog.MOUTH_ANIMATIONS
+    catalog_normal_frame = catalog.MOUTH_NORMAL_FRAME
 pixels = adafruit_dotstar.DotStar(
     config.DISPLAY_CLOCK,
     config.DISPLAY_DATA,
@@ -396,6 +573,7 @@ active_tag = 0
 last_command = protocol.SET_OFF
 active_content_id = 0
 error_code = protocol.ERROR_NONE
+activity_state = protocol.ACTIVITY_IDLE
 brain_seen = False
 clock_value = None
 clock_flags = 0
@@ -407,6 +585,18 @@ message_is_mode_announcement = False
 next_message_frame = time.monotonic()
 test_step = 0
 next_test_frame = time.monotonic()
+animation_frames = None
+animation_index = 0
+next_animation_frame = None
+next_bender_animation = time.monotonic()
+last_bender_animation = None
+timed_entry = None
+timed_exit = None
+timed_phase = None
+timed_phase_started = None
+timed_durations = None
+next_timed_frame = None
+timed_last_frame = None
 render_current_mode()
 
 target = i2ctarget.I2CTarget(config.I2C_SCL, config.I2C_SDA, (address,))
@@ -424,8 +614,14 @@ while True:
 
     if message_text is not None:
         update_message(now)
+    elif timed_phase is not None:
+        update_timed_animation(now)
+    elif animation_frames is not None:
+        update_animation(now)
     elif modes.mode == protocol.LOCAL_TEST:
         update_test(now)
+    elif modes.mode == protocol.LOCAL_BENDER:
+        update_bender(now)
     elif modes.mode == protocol.LOCAL_TARGET and display_state == protocol.DISPLAY_CLOCK:
         render_clock(now)
 

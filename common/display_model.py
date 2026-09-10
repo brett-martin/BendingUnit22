@@ -76,3 +76,22 @@ def clock_frame(geometry, hour, minute, colon=True):
 
 def local_mode_label(mode):
     return ("TARGET", "TEST", "BENDER")[mode]
+
+
+def animation_sequence(animation):
+    """Expand an exported entry/exit definition without repeating its apex."""
+    _name, entry, custom_exit, exit_mode = animation
+    if exit_mode == "custom":
+        return entry + custom_exit
+    if exit_mode == "reverse":
+        return entry + tuple(reversed(entry[:-1]))
+    return entry
+
+
+def retimed_frame_index(elapsed_ms, duration_ms, frame_count):
+    if frame_count <= 1 or duration_ms <= 0:
+        return 0
+    if elapsed_ms >= duration_ms:
+        return frame_count - 1
+    return min(frame_count - 1,
+               max(0, elapsed_ms) * frame_count // duration_ms)

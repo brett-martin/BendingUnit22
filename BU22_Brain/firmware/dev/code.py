@@ -7,8 +7,10 @@ import busio
 import digitalio
 import keypad
 import microcontroller
+import random
 import supervisor
 
+import animation_catalog
 import config
 from common.brain_state import (
     AntennaSequence,
@@ -92,6 +94,14 @@ def send_visual(address, command, content_id=None):
     )
 
 
+def send_timed_animation(address, content_id, entry_ms, hold_ms, exit_ms):
+    return write_display(
+        address,
+        protocol.timed_animation_packet(
+            next_tag(), content_id, entry_ms, hold_ms, exit_ms),
+    )
+
+
 def send_clock(hour, minute, use_24_hour=False, flash_colon=True):
     flags = (1 if flash_colon else 0) | (2 if use_24_hour else 0)
     return write_display(
@@ -107,6 +117,118 @@ def send_label(text, eyes=True, mouth=True):
         write_display(config.EYES_ADDRESS, payload)
     if mouth:
         write_display(config.MOUTH_ADDRESS, payload)
+
+
+def play_item_count():
+    return len(animation_catalog.PERFORMANCES) + len(animation_catalog.ANIMATIONS)
+
+
+def selected_play_item():
+    index = state.play_selection
+    if index < len(animation_catalog.PERFORMANCES):
+        return "performance", animation_catalog.PERFORMANCES[index]
+    return "animation", animation_catalog.ANIMATIONS[
+        index - len(animation_catalog.PERFORMANCES)]
+
+
+def animation_address(target_name):
+    return (config.EYES_ADDRESS if target_name == "eyes"
+            else config.MOUTH_ADDRESS)
+
+
+def show_play_selection():
+    kind, item = selected_play_item()
+    if kind == "performance":
+        item_id, name, _duration, _events = item
+        send_label("P " + name)
+        log("PLAY SELECT PERFORMANCE", item_id, name)
+    else:
+        animation_id, target_name, name, _frame_count = item
+        prefix = "E " if target_name == "eyes" else "M "
+        send_label(prefix + name)
+        log("PLAY SELECT ANIMATION", animation_id, target_name, name)
+
+
+def play_selected_item():
+    kind, item = selected_play_item()
+    if kind == "performance":
+        start_performance(item, time.monotonic())
+    else:
+        animation_id, target_name, name, _frame_count = item
+        send_visual(animation_address(target_name), protocol.PLAY_ANIMATION,
+                    animation_id)
+        log("PLAY ANIMATION", animation_id, target_name, name)
+
+
+def audio_play_slot(slot):
+    filename = "T%02d     WAV" % slot
+    audio_uart.reset_input_buffer()
+    audio_uart.write(("P%s\n" % filename).encode("ascii"))
+    log("AUDIO PLAY T%02d.WAV" % slot)
+
+
+def stop_performance():
+    global performance_active, performance_events, performance_event_index
+    if performance_active:
+        audio_uart.write(b"q\n")
+    performance_active = False
+    performance_events = ()
+    performance_event_index = 0
+
+
+def start_performance(performance, now):
+    global performance_active, performance_started, performance_events
+    global performance_event_index, performance_ends
+    stop_performance()
+    performance_id, name, duration_ms, events = performance
+    send_visual(config.EYES_ADDRESS, protocol.SHOW_NORMAL)
+    send_visual(config.MOUTH_ADDRESS, protocol.SHOW_NORMAL)
+    performance_active = True
+    performance_started = now
+    performance_events = events
+    performance_event_index = 0
+    performance_ends = now + duration_ms / 1000
+    log("PERFORMANCE START", performance_id, name, duration_ms)
+
+
+def update_performance(now):
+    global performance_active, performance_event_index
+    elapsed_ms = int((now - performance_started) * 1000)
+    while (performance_event_index < len(performance_events)
+           and performance_events[performance_event_index][0] <= elapsed_ms):
+        event = performance_events[performance_event_index]
+        _start_ms, kind, target_or_audio, content_or_slot, entry, hold, exit_ms = event
+        if kind == 0:
+            address = (config.EYES_ADDRESS if target_or_audio == 1
+                       else config.MOUTH_ADDRESS)
+            send_timed_animation(address, content_or_slot, entry, hold, exit_ms)
+        else:
+            audio_play_slot(content_or_slot)
+        performance_event_index += 1
+    if now >= performance_ends:
+        performance_active = False
+        log("PERFORMANCE COMPLETE")
+
+
+def schedule_bender_animation(now):
+    global next_bender_animation, last_bender_animation
+    choices = animation_catalog.ANIMATIONS
+    selected = random.choice(choices)
+    if len(choices) > 1:
+        while selected[0] == last_bender_animation:
+            selected = random.choice(choices)
+    animation_id, target_name, name, frame_count = selected
+    send_visual(animation_address(target_name), protocol.PLAY_ANIMATION,
+                animation_id)
+    last_bender_animation = animation_id
+    playback_seconds = frame_count / animation_catalog.DEFAULT_ANIMATION_FPS
+    next_bender_animation = (
+        now + playback_seconds
+        + random.uniform(config.BENDER_MIN_PAUSE_SECONDS,
+                         config.BENDER_MAX_PAUSE_SECONDS)
+    )
+    log("BENDER", animation_id, target_name, name,
+        "next=%.2f" % next_bender_animation)
 
 
 def read_display_status(address):
@@ -184,7 +306,8 @@ def show_clock(force=False):
 
 def enter_mode(mode):
     global staged_time, setting_index, settings_last_activity
-    global last_clock_minute, rtc_test_active
+    global last_clock_minute, rtc_test_active, next_bender_animation
+    stop_performance()
     stop_active_test()
     rtc_test_active = False
     log("MODE", MODE_NAMES[mode])
@@ -208,9 +331,11 @@ def enter_mode(mode):
     elif mode == MODE_BENDER:
         send_visual(config.EYES_ADDRESS, protocol.SHOW_NORMAL)
         send_visual(config.MOUTH_ADDRESS, protocol.SHOW_NORMAL)
+        next_bender_animation = time.monotonic()
     elif mode == MODE_PLAY:
-        # Deliberate placeholder until the simulator-exported performance exists.
-        log("PLAY placeholder: no animation assigned")
+        send_visual(config.EYES_ADDRESS, protocol.SET_OFF)
+        send_visual(config.MOUTH_ADDRESS, protocol.SET_OFF)
+        show_play_selection()
     elif mode == MODE_TEST:
         log("TEST SELECT", TEST_NAMES[state.test_selection])
 
@@ -343,11 +468,28 @@ def button_pressed(key_number):
             log("TEST SELECT", TEST_NAMES[state.test_selection])
         elif key_number == config.ENTER_BUTTON:
             start_selected_test()
+    elif state.mode == MODE_PLAY:
+        if key_number == config.UP_BUTTON:
+            stop_performance()
+            state.select_next_play_item(play_item_count(), -1)
+            show_play_selection()
+        elif key_number == config.DOWN_BUTTON:
+            stop_performance()
+            state.select_next_play_item(play_item_count(), 1)
+            show_play_selection()
+        elif key_number == config.ENTER_BUTTON:
+            play_selected_item()
 
 
 log("BU-22 BRAIN DEVELOPMENT RUNTIME")
 i2c = busio.I2C(config.I2C_SCL, config.I2C_SDA,
                 frequency=config.I2C_FREQUENCY)
+audio_uart = busio.UART(
+    config.AUDIO_TX, config.AUDIO_RX,
+    baudrate=config.AUDIO_BAUDRATE,
+    timeout=0,
+    receiver_buffer_size=512,
+)
 buttons = keypad.Keys(config.BUTTON_PINS, value_when_pressed=False,
                       pull=True, interval=0.02)
 sqw = digitalio.DigitalInOut(config.RTC_SQW)
@@ -386,6 +528,13 @@ staged_time = None
 setting_index = SETTING_DST
 settings_last_activity = time.monotonic()
 display_tag = 0
+next_bender_animation = time.monotonic()
+last_bender_animation = None
+performance_active = False
+performance_started = None
+performance_events = ()
+performance_event_index = 0
+performance_ends = None
 enter_mode(state.mode)
 
 while True:
@@ -399,6 +548,12 @@ while True:
         state.mode == MODE_TEST and rtc_test_active
     ):
         show_clock()
+
+    if state.mode == MODE_BENDER and now >= next_bender_animation:
+        schedule_bender_animation(now)
+
+    if state.mode == MODE_PLAY and performance_active:
+        update_performance(now)
 
     if (state.mode == MODE_SETTINGS
             and now - settings_last_activity >= config.SETTINGS_TIMEOUT_SECONDS):

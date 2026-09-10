@@ -16,6 +16,7 @@ class BrainState:
     def __init__(self):
         self.mode = MODE_CLOCK
         self.test_selection = TEST_RTC
+        self.play_selection = 0
 
     def next_mode(self):
         self.mode = (self.mode + 1) % len(MODE_NAMES)
@@ -26,6 +27,14 @@ class BrainState:
             self.test_selection + direction
         ) % len(TEST_NAMES)
         return self.test_selection
+
+    def select_next_play_item(self, count, direction):
+        if count < 1:
+            raise ValueError("play catalog is empty")
+        self.play_selection = (
+            self.play_selection + direction
+        ) % count
+        return self.play_selection
 
 
 class AntennaSequence:

@@ -1,12 +1,34 @@
 # BU-22 Brain stable development runtime
 
 This button-driven runtime replaces serial commands for normal development.
-Copy `code.py` and `config.py` to the Brain `CIRCUITPY` root and copy the
+Copy `code.py`, `config.py`, and generated `animation_catalog.py` to the Brain
+`CIRCUITPY` root and copy the
 repository `common` directory to `CIRCUITPY/common`. Install `adafruit_ds3231`
 and its dependencies.
 
 The Brain waits ten seconds before scanning I2C. MODE cycles `CLOCK`,
-`SETTINGS`, `BENDER`, `PLAY`, and `TEST`. PLAY is intentionally empty.
+`SETTINGS`, `BENDER`, `PLAY`, and `TEST`.
+
+PLAY begins with exported performances, followed by every named Eye and Mouth
+animation. UP/DOWN browse the combined list and ENTER runs the selection. A
+performance uses its millisecond timeline to send locally retimed animation
+events to each controller and mapped `T00.WAV`-style commands to the Audio FX
+board. The selection persists while changing modes.
+
+BENDER selects non-repeating animations across both display catalogs. The
+Brain sends one animation at a time and uses its exported frame count and
+global FPS to wait for completion, followed by a random one-to-four-second
+pause. This keeps both controllers under one scheduler and leaves room for
+later coordinated expressions, audio, and antenna events.
+
+Both the controller data and this Brain index are regenerated from one
+simulator export with:
+
+```sh
+python3 tools/build_display_catalog.py \
+  '../Catalog Exports' BU22_Display/firmware/dev_controller/catalog.py \
+  --brain-output BU22_Brain/firmware/dev/animation_catalog.py
+```
 
 The current bench-verified development-board button mapping is `D5=MODE`,
 `D9=ENTER`, `D6=UP`, and `D10=DOWN`.

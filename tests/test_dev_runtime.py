@@ -3,7 +3,7 @@ import unittest
 from common import protocol
 from common.brain_state import AntennaSequence, BrainState, MODE_CLOCK, MODE_TEST, TEST_ANTENNA
 from common.brain_settings import ClockSettings, local_hour, utc_hour
-from common.display_model import DisplayGeometry, LocalModeState, clock_frame, scrolling_frame_at, scrolling_frame_count, scrolling_frames, text_frame
+from common.display_model import DisplayGeometry, LocalModeState, animation_sequence, clock_frame, retimed_frame_index, scrolling_frame_at, scrolling_frame_count, scrolling_frames, text_frame
 from common.font3x5 import text_width
 
 
@@ -52,12 +52,39 @@ class DisplayModelTests(unittest.TestCase):
         self.assertTrue(all(colon_on[index] and not colon_off[index]
                             for index in differing))
 
+    def test_reverse_animation_does_not_repeat_apex(self):
+        animation = ("Look", (0, 1, 2), (), "reverse")
+        self.assertEqual(animation_sequence(animation), (0, 1, 2, 1, 0))
+
+    def test_custom_animation_exit_is_used_as_authored(self):
+        animation = ("Look", (0, 1, 2), (3, 0), "custom")
+        self.assertEqual(animation_sequence(animation), (0, 1, 2, 3, 0))
+
+    def test_retiming_holds_or_skips_frames_deterministically(self):
+        self.assertEqual(retimed_frame_index(0, 2_000, 4), 0)
+        self.assertEqual(retimed_frame_index(1_000, 2_000, 4), 2)
+        self.assertEqual(retimed_frame_index(2_000, 2_000, 4), 3)
+
 
 class ProtocolTests(unittest.TestCase):
     def test_clock_packet_and_validation(self):
         self.assertEqual(protocol.clock_packet(7, 12, 34), bytes((0x20, 7, 12, 34, 1)))
         with self.assertRaises(ValueError):
             protocol.clock_packet(7, 24, 0)
+
+    def test_animation_packet_uses_global_sixteen_bit_id(self):
+        self.assertEqual(
+            protocol.visual_packet(protocol.PLAY_ANIMATION, 9, 167),
+            bytes((0x12, 9, 0, 167)),
+        )
+
+    def test_timed_animation_packet_contains_three_durations(self):
+        self.assertEqual(
+            protocol.timed_animation_packet(9, 167, 500, 100, 2_000),
+            bytes((0x18, 9, 0, 167, 1, 244, 0, 100, 7, 208)),
+        )
+        with self.assertRaises(ValueError):
+            protocol.timed_animation_packet(1, 0, 70_000, 0, 0)
 
     def test_development_text_packet(self):
         self.assertEqual(protocol.dev_text_packet(9, "test rtc"), b"\x75\x09TEST RTC")
@@ -78,6 +105,13 @@ class BrainStateTests(unittest.TestCase):
             state.next_mode()
         self.assertEqual(state.mode, MODE_TEST)
         self.assertEqual(state.select_next_test(1), TEST_ANTENNA)
+
+    def test_play_selection_wraps_in_both_directions(self):
+        state = BrainState()
+        self.assertEqual(state.select_next_play_item(3, -1), 2)
+        self.assertEqual(state.select_next_play_item(3, 1), 0)
+        with self.assertRaises(ValueError):
+            state.select_next_play_item(0, 1)
 
     def test_antenna_sequence_has_three_rgb_cycles_and_finishes_off(self):
         sequence = AntennaSequence(3)

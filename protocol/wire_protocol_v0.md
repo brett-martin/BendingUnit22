@@ -60,6 +60,7 @@ tag because they are applied immediately and are not timed visual activities.
 | `0x15` | `SET_OFF` | `tag` |
 | `0x16` | `PLAY_VISOR_DOWN` | `tag, step_ms:u16` |
 | `0x17` | `PLAY_VISOR_UP` | `tag, step_ms:u16` |
+| `0x18` | `PLAY_ANIMATION_TIMED` | `tag, animation_id:u16, entry_ms:u16, hold_ms:u16, exit_ms:u16` |
 
 Every command in this group immediately interrupts the current visual activity.
 There is no display-side command queue and interrupted activities do not resume.
@@ -67,6 +68,11 @@ There is no display-side command queue and interrupted activities do not resume.
 `SHOW_NORMAL` and `STOP` both finish at Normal. They remain separate semantic
 commands so status can distinguish a requested visual state from an emergency
 or mode-change cancellation.
+
+`PLAY_ANIMATION_TIMED` uses the animation's authored entry and exit sequences,
+but retimes each phase to the supplied millisecond duration. Controllers sample
+no faster than the catalog's global maximum display FPS, hold or skip authored
+frames deterministically, and always display each phase's final frame.
 
 ### Clock and message — `0x20..0x2F`
 
