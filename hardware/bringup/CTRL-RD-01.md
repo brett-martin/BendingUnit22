@@ -120,6 +120,9 @@ all four U1 outputs swing only from approximately 0 to 1.5 V.
 - The Mouth controller's two-chain hardware-SPI test passed visually at 4 MHz
   using CH4 for SPI0 and CH5 clock plus CH6 data for SPI1. The two 55-pixel
   chains remained visually in sync with the identical moving-pixel pattern.
+- The complete half-size Mouth array, three daisy-chained 5x11 tiles (165
+  pixels), passed the combined CH5-clock/CH6-data SPI1 test at 4 MHz. The full
+  chase and solid-color sequence were reported working well.
 
 The scan-only target test remains available at:
 `BU22_Eyes/tests/display_controller_rev_d_i2c_target/`
@@ -148,7 +151,8 @@ shunts. See `hardware/display-controller-rev-d/ERRATA.md` E2.
 
 1. Preserve all-six-channel initialization while developing the integrated
    controller firmware and watch for recurrence of selective output loss.
-2. Run the CH6 full-array test across three daisy-chained mouth tiles.
+2. Continue controller development using the complete 165-pixel Mouth array on
+   the combined CH5-clock/CH6-data SPI1 chain.
 3. Correct MCU1B socket pad numbering/orientation against actual KB2040 pin names
    before releasing the next PCB revision.
 4. Do not treat the 0/4.7 V static pass as a dynamic LED-array pass.

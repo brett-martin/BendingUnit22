@@ -109,3 +109,6 @@ traces. Repository Rev D firmware now uses the fully observed mapping.
 - Audit MCU1B socket pad numbering/orientation against the installed KB2040.
 - Ensure the schematic, PCB net names, firmware mapping, and connector labels
   all describe the same clock/data signals before the next fabrication release.
+- For Rev E, route each of the RP2040's two hardware SPI buses to a complete,
+  correctly labeled output connector. Rev D development may use CH4 for SPI0
+  and the combined CH5-clock/CH6-data path for SPI1.

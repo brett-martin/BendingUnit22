@@ -1,0 +1,7 @@
+"""Two daisy-chained 9x16 eye panels on combined CH5/CH6 SPI1."""
+
+CONTROLLER_NAME = "EYES"
+PIXEL_COUNT = 288
+BRIGHTNESS = 0.08
+CHASE_DELAY = 0.01
+SOLID_SECONDS = 1.0

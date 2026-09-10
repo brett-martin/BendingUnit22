@@ -85,6 +85,9 @@ dynamic CH1–CH6 results remain pending.
   CH4 (`D2` clock, `D3` data / SPI0) and the other using CH5 clock plus CH6
   data (`A0` clock, `A1` data / SPI1). Both chains remained visually in sync
   with an identical moving-pixel pattern at 4 MHz.
+- The complete half-size Eyes array, two daisy-chained 9x16 panels (288
+  pixels), passed the combined CH5-clock/CH6-data SPI1 test at 4 MHz. The full
+  chase and solid-color sequence were reported working well.
 
 ## Open issues
 
@@ -104,5 +107,5 @@ dynamic CH1–CH6 results remain pending.
 
 ## Next test
 
-Run the CH6 full-array test across two daisy-chained eye panels, then run the
-full daisy-chain hardware-SPI benchmark.
+Continue controller development using the complete 288-pixel Eyes array on the
+combined CH5-clock/CH6-data SPI1 chain.
