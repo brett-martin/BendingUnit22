@@ -50,6 +50,8 @@ Last updated: 2026-09-09
   `BU22_Eyes/tests/display_controller_rev_d_ch6_array_test/`
 - Rev D combined CH5/CH6 hardware-SPI full-array validation:
   `BU22_Eyes/tests/display_controller_rev_d_spi1_array_test/`
+- Rev D geometry-aware 10 FPS tiled line scan:
+  `BU22_Eyes/tests/display_controller_rev_d_tiled_line_scan/`
 - Brain perfboard bring-up test:
   `BU22_Brain/tests/brain_board_bringup/`
 - Rev D half-scale static Eyes I2C test:
@@ -69,6 +71,8 @@ Confirm that this corrected source is deployed before interpreting the LED.
    passed visually in sync at 4 MHz, supporting a two-hardware-SPI-channel
    target for Rev E. On Rev D, SPI0 is physically on CH4 and SPI1 uses CH5
    clock plus CH6 data.
+   Geometry-aware horizontal and vertical line scans also pass visually at
+   10 FPS across the 18x16 Eyes and 15x11 Mouth layouts.
 2. Continue integrating the accepted static Eyes Normal/Angry and Mouth
    Normal/Open states into higher-level Brain behavior. The all-six-channel
    Mouth diagnostic passes CH1 through CH4 with the same tile; continue

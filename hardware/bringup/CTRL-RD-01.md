@@ -123,6 +123,10 @@ all four U1 outputs swing only from approximately 0 to 1.5 V.
 - The complete half-size Mouth array, three daisy-chained 5x11 tiles (165
   pixels), passed the combined CH5-clock/CH6-data SPI1 test at 4 MHz. The full
   chase and solid-color sequence were reported working well.
+- The geometry-aware tiled line scan passed visually at 10 FPS across the same
+  15x11 Mouth array. The horizontal line remained continuous across all three
+  independently serpentine-wired tiles, and the vertical scan also looked
+  correct.
 
 The scan-only target test remains available at:
 `BU22_Eyes/tests/display_controller_rev_d_i2c_target/`

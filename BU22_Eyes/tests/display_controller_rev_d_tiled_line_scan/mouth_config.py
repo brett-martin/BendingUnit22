@@ -1,0 +1,8 @@
+"""Three horizontal 5x11 mouth tiles."""
+
+CONTROLLER_NAME = "MOUTH"
+MODULE_COUNT = 3
+MODULE_WIDTH = 5
+MODULE_HEIGHT = 11
+FRAME_RATE = 10
+BRIGHTNESS = 0.08

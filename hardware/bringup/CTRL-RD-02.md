@@ -88,6 +88,10 @@ dynamic CH1–CH6 results remain pending.
 - The complete half-size Eyes array, two daisy-chained 9x16 panels (288
   pixels), passed the combined CH5-clock/CH6-data SPI1 test at 4 MHz. The full
   chase and solid-color sequence were reported working well.
+- The geometry-aware tiled line scan passed visually at 10 FPS across the same
+  18x16 Eyes array. The horizontal line remained continuous across both
+  independently serpentine-wired panels, and the vertical scan also looked
+  correct.
 
 ## Open issues
 
