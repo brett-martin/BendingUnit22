@@ -142,11 +142,16 @@ global value.
 | `0x72` | `IDENTIFY` | none |
 | `0x73` | `EXIT_LOCAL_TEST` | none |
 | `0x74` | `CLEAR_ERROR` | none |
+| `0x75` | `SHOW_DEV_TEXT` | `tag, ASCII text:1..29 bytes` |
 | `0x7F` | `FACTORY_RESET_SETTINGS` | confirmation bytes `0x22, 0xA5` |
 
 Raw frames are for hardware validation, simulator preview, and development.
 Normal operation should request stored semantic content. The module keeps a
 temporary raw-frame buffer so a hardware-sized frame may exceed one packet.
+
+`SHOW_DEV_TEXT` is a volatile Rev D development aid for button-driven mode and
+test-selection feedback. It scrolls one centered line once and then clears the
+display. It does not replace or persist the normal message buffer.
 
 Factory reset restores safe brightness/color defaults and the message
 `Please Insert Girder`. The two confirmation bytes reduce accidental resets;
@@ -163,7 +168,7 @@ implementation needs a preparatory request, it may temporarily use an internal
 |---:|---|---:|---|
 | 0 | `magic` | 1 | `0x22` for a BU-22 module |
 | 1 | `protocol_major` | 1 | `0` for this draft |
-| 2 | `protocol_minor` | 1 | Initial value `1` |
+| 2 | `protocol_minor` | 1 | Initial value `2` for named local modes |
 | 3 | `module_type` | 1 | `1=Eyes`, `2=Mouth` |
 | 4 | `firmware_major` | 1 | Firmware version |
 | 5 | `firmware_minor` | 1 | Firmware version |
@@ -185,17 +190,32 @@ Status flags:
 | Bit | Meaning |
 |---:|---|
 | 0 | Brain communication has been observed within timeout |
-| 1 | Local test mode active |
+| 1 | Local `TEST` mode active |
 | 2 | Temporary brightness override active |
 | 3 | Temporary color override active |
 | 4 | Timed activity busy |
 | 5 | Most recent tagged activity completed normally |
-| 6 | Module is in standalone fallback Normal |
+| 6 | Local `BENDER` mode active |
 | 7 | Persistent settings passed integrity validation |
 
 The completion bit describes `active_tag`. A replacement command immediately
 changes `active_tag` and clears completion. This prevents the Brain from
 mistaking completion of an older activity for the current one.
+
+### Development local modes
+
+The Rev D controller button cycles three named local modes. They are derived
+from lifecycle and status flags without changing the fixed 20-byte record:
+
+| Name | Lifecycle | Status flags | Visual commands |
+|---|---|---|---|
+| `TARGET` | Waiting for Brain or Brain Controlled | Bits 1 and 6 clear | Accepted |
+| `TEST` | Local Test | Bit 1 set | Rejected with error 10 |
+| `BENDER` | Standalone Normal | Bit 6 set | Rejected with error 10 |
+
+Identity and status reads remain available in every mode. Software APIs expose
+`0=TARGET`, `1=TEST`, and `2=BENDER`; variable-length names are not placed in
+the status packet.
 
 ## Enumerations
 
@@ -256,7 +276,7 @@ mistaking completion of an older activity for the current one.
 | 7 | Persistent-settings integrity failure |
 | 8 | Rendering/data failure |
 | 9 | Hardware initialization failure |
-| 10 | Busy with local maintenance operation |
+| 10 | Busy in local `TEST` or `BENDER` mode |
 
 An unknown content identifier enters the visible Error Display during
 development. `active_content_id` contains the requested missing ID and
